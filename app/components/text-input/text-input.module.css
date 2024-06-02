@@ -1,0 +1,46 @@
+.container {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.5rem;
+}
+
+.label,
+.error {
+  font-size: 0.75rem;
+}
+
+.label {
+  color: var(--text-light);
+}
+
+.error {
+  color: red;
+}
+
+.input {
+  width: 100%;
+  min-width: 0;
+
+  padding: 0.85rem 1rem;
+
+  font-size: 0.85rem;
+  font-weight: 500;
+
+  border: solid 1px var(--border-default);
+  border-radius: 0.5rem;
+
+  outline: none;
+
+  transition: all 150ms ease-in-out;
+}
+
+.input::placeholder {
+  color: var(--text-light);
+}
+
+.input:focus {
+  border-color: var(--border-dark);
+}

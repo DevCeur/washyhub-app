@@ -1,0 +1,108 @@
+.base_button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 0.5rem;
+
+  font-weight: 500;
+
+  cursor: pointer;
+  border: solid 1px transparent;
+
+  background-color: transparent;
+
+  transition: all 150ms ease-in-out;
+}
+
+.base_button span,
+.base_button .spinner,
+.base_button svg {
+  color: inherit;
+  fill: inherit;
+  stroke: inherit;
+}
+
+@keyframes loadingAnimation {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  animation: loadingAnimation 1s linear infinite;
+}
+
+/* VARIANT AND COLOR_SCHEME COMBINATIONS */
+
+.button_brand.button_primary {
+  color: white;
+  fill: white;
+  stroke: white;
+  background-color: var(--brand-default);
+}
+
+.button_brand.button_primary:hover {
+  background-color: var(--brand-default-hover);
+}
+
+.button_brand.button_secondary {
+  color: var(--brand-default);
+  fill: var(--brand-default);
+  stroke: var(--brand-default);
+
+  border-color: var(--brand-default);
+}
+
+.button_brand.button_secondary:hover {
+  background-color: var(--brand-lightest);
+}
+
+.button_gray.button_primary {
+  color: white;
+  fill: white;
+  stroke: white;
+
+  background-color: var(--text-default);
+}
+
+.button_gray.button_secondary {
+  color: var(--text-default);
+  fill: var(--text-default);
+  stroke: var(--text-default);
+
+  border-color: var(--border-default);
+}
+
+/* SIZES */
+
+.button_small {
+  height: 2.25rem;
+
+  padding: 0 1rem;
+
+  font-size: 0.75rem;
+  border-radius: 0.5rem;
+}
+
+.button_medium {
+  height: 2.875rem;
+
+  padding: 0 1.25rem;
+
+  font-size: 0.85rem;
+  border-radius: 0.5rem;
+}
+
+.button_large {
+  height: 3.25rem;
+
+  padding: 0rem 1.25rem;
+
+  font-size: 1rem;
+  border-radius: 0.85rem;
+}
