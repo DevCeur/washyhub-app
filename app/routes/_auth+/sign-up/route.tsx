@@ -1,15 +1,60 @@
+import { z } from "zod";
+import { json } from "@remix-run/node";
 import { Form, Link, useActionData, useNavigation } from "@remix-run/react";
 
 import type { ActionFunction } from "@remix-run/node";
 
-import { ROUTE } from "~/utils/enum";
+import { ERROR_MESSAGE, ROUTE } from "~/utils/enum";
+
+import { hashPassword } from "~/utils/password";
+import { commitSession, getAuthSession } from "~/utils/auth-session-cookie";
+
+import { createNewUser } from "~/services/user";
 
 import { Button } from "~/components/button";
 import { TextInput } from "~/components/text-input";
 
 import styles from "./route.module.css";
 
-export const action: ActionFunction = async () => {};
+export const action: ActionFunction = async ({ request }) => {
+  const formData = Object.fromEntries(await request.formData());
+
+  const { authSession } = await getAuthSession({ request });
+
+  const formSchema = z.object({
+    email: z
+      .string({ message: ERROR_MESSAGE.REQUIRED_FIELD })
+      .email({ message: ERROR_MESSAGE.INVALID_EMAIL }),
+
+    password: z
+      .string({ message: ERROR_MESSAGE.REQUIRED_FIELD })
+      .min(6, { message: ERROR_MESSAGE.SHORT_PASSWORD }),
+  });
+
+  const { data: validatedFormData, error: formValidationError } =
+    formSchema.safeParse(formData);
+
+  if (formValidationError) {
+    return json({ errors: formValidationError.flatten().fieldErrors });
+  }
+
+  const { hashedPassword } = await hashPassword({ password: validatedFormData.password });
+
+  const { user, errors: creatingUserError } = await createNewUser({
+    data: { email: validatedFormData.email, password: hashedPassword },
+  });
+
+  if (creatingUserError) {
+    return json({ errors: creatingUserError });
+  }
+
+  authSession.set("userId", user?.id);
+
+  return json(
+    { success: true },
+    { headers: { "Set-Cookie": await commitSession(authSession) } }
+  );
+};
 
 export default function SignUpRoute() {
   const navigation = useNavigation();
