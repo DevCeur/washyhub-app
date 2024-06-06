@@ -12,20 +12,21 @@
   align-items: center;
 }
 
-.success_icon {
+.error_icon {
   margin-bottom: 1rem;
 
   font-size: 7rem;
 
   text-align: center;
 
-  fill: var(--brand-default);
+  color: red;
+  fill: red;
 }
 
 .heading {
   text-align: center;
 
-  gap: 0.25rem;
+  gap: 1rem;
 
   margin-bottom: 1.5rem;
 }

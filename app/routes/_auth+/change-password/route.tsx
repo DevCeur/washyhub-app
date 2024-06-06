@@ -1,50 +1,90 @@
-import { Form, useActionData, useNavigation } from "@remix-run/react";
-import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+import { json, redirect } from "@remix-run/node";
+import { RiErrorWarningLine } from "react-icons/ri";
+import {
+  Form,
+  Link,
+  useActionData,
+  useLoaderData,
+  useNavigation,
+} from "@remix-run/react";
 
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 
-import { TextInput } from "~/components/text-input";
+import { ROUTE } from "~/utils/enum";
+import { withAuthLoader } from "~/utils/with-auth-loader";
+
+import { verifyToken } from "~/services/password-reset-token";
 
 import { Button } from "~/components/button";
+import { TextInput } from "~/components/text-input";
 
 import styles from "./route.module.css";
 
-export const loader: LoaderFunction = async () => {};
+export const loader: LoaderFunction = async (loaderArgs) =>
+  withAuthLoader({
+    loaderArgs,
+    callback: async ({ request }) => {
+      const url = new URL(request.url);
+
+      const token = url.searchParams.get("token");
+
+      if (!token) {
+        return redirect(ROUTE.RECOVER_PASSWORD);
+      }
+
+      const verificationResult = await verifyToken({ token });
+
+      if (verificationResult.errors) {
+        return json({ errors: verificationResult.errors });
+      }
+
+      return verificationResult;
+    },
+  });
 
 export const action: ActionFunction = async () => {};
 
-export default function ResetPasswordRoute() {
+export default function ChangePasswordRoute() {
   const navigation = useNavigation();
+  const loaderData = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
 
-  const errors = actionData?.errors;
-  const isEmailSent = actionData?.success;
+  const loaderDataErrors = loaderData?.errors;
+  const actionDataErrors = actionData?.errors;
 
-  const isLoading = navigation.formAction === "/recover-password";
+  const isTokenValid = loaderData?.isValid;
+
+  const isLoading = navigation.formAction === "/change-password";
 
   return (
     <div className={styles.container}>
-      {isEmailSent && <IoIosCheckmarkCircleOutline className={styles.success_icon} />}
+      {!isTokenValid && <RiErrorWarningLine className={styles.error_icon} />}
 
       <div className={styles.heading}>
-        <h1>{isEmailSent ? "Password Updated!" : "Create New Password"}</h1>
+        <h1>{isTokenValid ? "Create New Password" : "Your token is invalid"}</h1>
+
+        {loaderDataErrors?.server && <span>{loaderDataErrors?.server}</span>}
       </div>
 
-      {!isEmailSent && (
+      {!isTokenValid && (
+        <Link to={ROUTE.RECOVER_PASSWORD}>Recover my password again</Link>
+      )}
+
+      {isTokenValid && (
         <Form action="/change-password" method="post" className={styles.form}>
           <fieldset disabled={isLoading} className={styles.fields_container}>
             <TextInput
               label="New Password"
               type="password"
               name="new_password"
-              error={errors?.new_password}
+              error={actionDataErrors?.new_password}
             />
 
             <TextInput
               label="Confirm Password"
               type="password"
               name="confirm_password"
-              error={errors?.confirm_password}
+              error={actionDataErrors?.confirm_password}
             />
           </fieldset>
 
@@ -52,7 +92,9 @@ export default function ResetPasswordRoute() {
             Reset Password
           </Button>
 
-          {errors?.server && <span className={styles.server_error}>{errors.server}</span>}
+          {actionDataErrors?.server && (
+            <span className={styles.server_error}>{actionDataErrors.server}</span>
+          )}
         </Form>
       )}
     </div>

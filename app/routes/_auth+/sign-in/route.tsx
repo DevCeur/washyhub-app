@@ -1,13 +1,16 @@
 import { Form, Link, useActionData, useNavigation } from "@remix-run/react";
 
-import type { ActionFunction } from "@remix-run/node";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 
 import { ROUTE } from "~/utils/enum";
+import { withAuthLoader } from "~/utils/with-auth-loader";
 
 import { Button } from "~/components/button";
 import { TextInput } from "~/components/text-input";
 
 import styles from "./route.module.css";
+
+export const loader: LoaderFunction = (loaderArgs) => withAuthLoader({ loaderArgs });
 
 export const action: ActionFunction = async () => {};
 

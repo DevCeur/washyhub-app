@@ -7,6 +7,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model PasswordResetToken {
+  id          String   @id @default(uuid())
+  token       String   @unique
+  user_id     String
+  user        User     @relation(fields: [user_id], references: [id])
+  expiry_date DateTime
+  updated_at  DateTime @updatedAt
+  created_at  DateTime @default(now())
+}
+
 model Profile {
   id         String   @id @default(uuid())
   first_name String   @db.VarChar(255)
@@ -18,11 +28,12 @@ model Profile {
 }
 
 model User {
-  id               String   @id @default(uuid())
-  email            String   @unique @db.VarChar(255)
-  password         String   @db.VarChar(255)
-  profile          Profile?
-  needs_onboarding Boolean  @default(true)
-  updated_at       DateTime @updatedAt
-  created_at       DateTime @default(now())
+  id                    String               @id @default(uuid())
+  email                 String               @unique @db.VarChar(255)
+  password              String               @db.VarChar(255)
+  needs_onboarding      Boolean              @default(true)
+  profile               Profile?
+  password_reset_tokens PasswordResetToken[]
+  updated_at            DateTime             @updatedAt
+  created_at            DateTime             @default(now())
 }

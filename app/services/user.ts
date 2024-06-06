@@ -29,3 +29,41 @@ export const createNewUser = async ({
     return { user: null, errors: { server: "There was an error creating user" } };
   }
 };
+
+interface GetUserByIdOptions {
+  id: string;
+}
+
+export const getUserById = async ({
+  id,
+}: GetUserByIdOptions): Promise<{
+  user: User | null;
+  errors: { [x: string]: string } | null;
+}> => {
+  try {
+    const user = await prisma.user.findUnique({ where: { id } });
+
+    return { user, errors: null };
+  } catch (err) {
+    return { user: null, errors: { server: "Error getting user by id" } };
+  }
+};
+
+interface GetUserByEmailOptions {
+  email: string;
+}
+
+export const getUserByEmail = async ({
+  email,
+}: GetUserByEmailOptions): Promise<{
+  user: User | null;
+  errors: { [x: string]: string } | null;
+}> => {
+  try {
+    const user = await prisma.user.findUnique({ where: { email } });
+
+    return { user, errors: null };
+  } catch (err) {
+    return { user: null, errors: { server: "Error getting user by email" } };
+  }
+};

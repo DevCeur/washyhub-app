@@ -2,12 +2,13 @@ import { z } from "zod";
 import { json } from "@remix-run/node";
 import { Form, Link, useActionData, useNavigation } from "@remix-run/react";
 
-import type { ActionFunction } from "@remix-run/node";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 
 import { ERROR_MESSAGE, ROUTE } from "~/utils/enum";
 
-import { hashPassword } from "~/utils/password";
-import { commitSession, getAuthSession } from "~/utils/auth-session-cookie";
+import { createHash } from "~/utils/hash";
+import { withAuthLoader } from "~/utils/with-auth-loader";
+import { commitSession, getAuthSession } from "~/utils/auth-session";
 
 import { createNewUser } from "~/services/user";
 
@@ -15,6 +16,8 @@ import { Button } from "~/components/button";
 import { TextInput } from "~/components/text-input";
 
 import styles from "./route.module.css";
+
+export const loader: LoaderFunction = (loaderArgs) => withAuthLoader({ loaderArgs });
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = Object.fromEntries(await request.formData());
@@ -38,7 +41,7 @@ export const action: ActionFunction = async ({ request }) => {
     return json({ errors: formValidationError.flatten().fieldErrors });
   }
 
-  const { hashedPassword } = await hashPassword({ password: validatedFormData.password });
+  const { hash: hashedPassword } = await createHash({ text: validatedFormData.password });
 
   const { user, errors: creatingUserError } = await createNewUser({
     data: { email: validatedFormData.email, password: hashedPassword },

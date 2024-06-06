@@ -25,13 +25,13 @@
 .heading {
   text-align: center;
 
-  gap: 0.25rem;
+  gap: 1rem;
 
   margin-bottom: 1.5rem;
 }
 
 .heading span {
-  font-size: 0.85rem;
+  font-size: 0.86rem;
 }
 
 .form {

@@ -7,6 +7,8 @@ export const ROUTE = {
 
   RECOVER_PASSWORD: "/recover-password",
   CHANGE_PASSWORD: "/change-password",
+
+  DASHBOARD: "/dashboard",
 };
 
 export const ERROR_MESSAGE = {
