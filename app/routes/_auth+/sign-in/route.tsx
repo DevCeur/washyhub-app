@@ -11,22 +11,21 @@ import styles from "./route.module.css";
 
 export const action: ActionFunction = async () => {};
 
-export default function SignUpRoute() {
+export default function SignInRoute() {
   const navigation = useNavigation();
   const actionData = useActionData<typeof action>();
 
   const errors = actionData?.errors;
 
-  const isLoading = navigation.formAction === "/sign-up";
+  const isLoading = navigation.formAction === "/sign-in";
 
   return (
     <div className={styles.container}>
       <div className={styles.heading}>
-        <h1>Create Account</h1>
-        <span>Create an account and start managing your carwash</span>
+        <h1>Sign In</h1>
       </div>
 
-      <Form action="/sign-up" method="post" className={styles.form}>
+      <Form action="/sign-in" method="post" className={styles.form}>
         <fieldset disabled={isLoading} className={styles.fields_container}>
           <TextInput label="Email" type="email" name="email" error={errors?.email} />
 
@@ -34,26 +33,23 @@ export default function SignUpRoute() {
             label="Password"
             type="password"
             name="password"
-            placeholder="+6 characters"
             error={errors?.password}
           />
+
+          <Link to={ROUTE.RECOVER_PASSWORD} className={styles.recover_password_link}>
+            Forgot my password
+          </Link>
         </fieldset>
 
-        <span className={styles.account_agreement}>
-          Your information is kept safe and confidential. By proceeding, you agree to
-          Carwash <Link to={ROUTE.HOME}>Terms of Service</Link> and{" "}
-          <Link to={ROUTE.HOME}>Privacy Policy.</Link>
-        </span>
-
         <Button colorScheme="brand" loading={isLoading}>
-          Create Account
+          Sign In
         </Button>
 
         {errors?.server && <span className={styles.server_error}>{errors.server}</span>}
       </Form>
 
-      <Link to={ROUTE.SIGN_IN} className={styles.sign_redirection_link}>
-        Already have an account? Sign in
+      <Link to={ROUTE.SIGN_UP} className={styles.sign_redirection_link}>
+        Don&apos; have an account? Create an account
       </Link>
     </div>
   );

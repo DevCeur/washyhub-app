@@ -3,6 +3,10 @@ export const ROUTE = {
 
   SIGN_IN: "/sign-in",
   SIGN_UP: "/sign-up",
+  ONBOARDING: "/onboarding",
+
+  RECOVER_PASSWORD: "/recover-password",
+  CHANGE_PASSWORD: "/change-password",
 };
 
 export const ERROR_MESSAGE = {

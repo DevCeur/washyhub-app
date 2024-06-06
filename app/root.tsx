@@ -1,3 +1,5 @@
+import "reflect-metadata";
+
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
 
 import type { LinksFunction } from "@remix-run/node";

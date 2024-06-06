@@ -12,12 +12,22 @@
   align-items: center;
 }
 
+.success_icon {
+  margin-bottom: 1rem;
+
+  font-size: 7rem;
+
+  text-align: center;
+
+  fill: var(--brand-default);
+}
+
 .heading {
   text-align: center;
 
   gap: 0.25rem;
 
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .heading span {
@@ -33,7 +43,7 @@
   display: flex;
   flex-direction: column;
 
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .fields_container {
@@ -41,23 +51,6 @@
 
   border: none;
   outline: none;
-}
-
-.account_agreement {
-  color: var(--text-light);
-
-  font-size: 0.75rem;
-  line-height: 1.5;
-}
-
-.account_agreement a {
-  color: var(--text-light);
-
-  transition: all 150ms ease-in-out;
-}
-
-.account_agreement a:hover {
-  color: var(--text-default);
 }
 
 .server_error {
@@ -68,6 +61,7 @@
   color: red;
 }
 
+.recover_password_link,
 .sign_redirection_link {
   color: var(--text-light);
 
@@ -78,6 +72,11 @@
   transition: all 200ms ease-in-out;
 }
 
-.sign_redirection_link:hover {
+.sign_redirection_link:hover,
+.recover_password_link:hover {
   color: var(--text-default);
+}
+
+.recover_password_link {
+  text-align: right;
 }

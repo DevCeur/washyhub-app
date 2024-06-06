@@ -55,9 +55,9 @@ export const Button = ({
 }: ButtonProps) => {
   return (
     <button className={buttonStyles({ variant, size, colorScheme })} {...buttonProps}>
-      {loading && <FiLoader className={styles.spinner} />}
-
       <span>{children}</span>
+
+      {loading && <FiLoader className={styles.spinner} />}
     </button>
   );
 };
