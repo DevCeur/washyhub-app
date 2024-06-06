@@ -66,7 +66,7 @@ export const action: ActionFunction = async ({ request }) => {
       });
 
       if (sendEmailError) {
-        console.error(sendEmailError);
+        throw new Error("Error seding reset password email.");
       }
     }
   }

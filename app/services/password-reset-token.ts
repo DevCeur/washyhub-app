@@ -21,7 +21,7 @@ export const saveToken = async ({ token, userId }: SaveTokenOptions) => {
 
     return { success: true, errors: null };
   } catch (err) {
-    return { success: false, errors: { server: "Error saving token in database" } };
+    throw new Error("Error creating token");
   }
 };
 
@@ -45,8 +45,8 @@ export const verifyToken = async ({ token }: VerifyTokenOptions) => {
       return { isValid: false, errors: { server: "This token has expired" } };
     }
 
-    return { isValid: true, errors: null };
+    return { isValid: true, userId: dbToken.user_id, errors: null };
   } catch (err) {
-    return { isValid: false, errors: { server: "Error getting token" } };
+    throw new Error("Error getting token");
   }
 };

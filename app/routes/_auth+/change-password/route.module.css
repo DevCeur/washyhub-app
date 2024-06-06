@@ -12,15 +12,23 @@
   align-items: center;
 }
 
-.error_icon {
+.error_icon,
+.success_icon {
   margin-bottom: 1rem;
 
   font-size: 7rem;
 
   text-align: center;
+}
 
+.error_icon {
   color: red;
   fill: red;
+}
+
+.success_icon {
+  color: var(--brand-default);
+  fill: var(--brand-default);
 }
 
 .heading {

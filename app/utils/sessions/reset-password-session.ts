@@ -6,25 +6,25 @@ if (!AUTH_SESSION_SECRET) throw new Error("AUTH_SESSION_SECRET env variable is r
 
 export const { getSession, commitSession, destroySession } = createCookieSessionStorage({
   cookie: {
-    name: "auth/carwash_app",
+    name: "reset-password-token/washyhub",
     httpOnly: true,
-    maxAge: 60 * 60 * 24 * 30,
+    maxAge: 60,
     sameSite: "lax",
     secrets: [AUTH_SESSION_SECRET],
     secure: process.env.NODE_ENV === "production",
   },
 });
 
-export const getAuthSession = async ({ request }: { request: Request }) => {
+export const getResetPasswordSession = async ({ request }: { request: Request }) => {
   const header = request.headers.get("Cookie");
 
-  return { authSession: await getSession(header) };
+  return { resetPasswordSession: await getSession(header) };
 };
 
 export const getUserId = async ({ request }: { request: Request }) => {
-  const { authSession } = await getAuthSession({ request });
+  const { resetPasswordSession } = await getResetPasswordSession({ request });
 
-  const userId = authSession.get("userId");
+  const userId = resetPasswordSession.get("userId");
 
   return { userId };
 };

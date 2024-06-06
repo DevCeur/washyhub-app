@@ -2,6 +2,7 @@ import { prisma } from "~/lib/database/database";
 
 import type { User } from "@prisma/client";
 import type { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { createHash } from "~/utils/hash";
 
 interface CreateNewUserOptions {
   data: { email: string; password: string };
@@ -26,7 +27,7 @@ export const createNewUser = async ({
       return { user: null, errors: { email: "This email is already registered" } };
     }
 
-    return { user: null, errors: { server: "There was an error creating user" } };
+    throw new Error("There was an error creating user");
   }
 };
 
@@ -45,7 +46,7 @@ export const getUserById = async ({
 
     return { user, errors: null };
   } catch (err) {
-    return { user: null, errors: { server: "Error getting user by id" } };
+    throw new Error("Error getting user by id");
   }
 };
 
@@ -64,6 +65,30 @@ export const getUserByEmail = async ({
 
     return { user, errors: null };
   } catch (err) {
-    return { user: null, errors: { server: "Error getting user by email" } };
+    throw new Error("Error getting user by email");
+  }
+};
+
+interface UpdateUserPasswordOptions {
+  userId: string;
+
+  data: {
+    newPassword: string;
+    confirmPassword: string;
+  };
+}
+
+export const updateUserPassword = async ({ userId, data }: UpdateUserPasswordOptions) => {
+  try {
+    const { hash: hashedPassword } = await createHash({ text: data.newPassword });
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: { password: hashedPassword },
+    });
+
+    return { success: true, errors: null };
+  } catch (err) {
+    throw new Error("Error updating user password");
   }
 };

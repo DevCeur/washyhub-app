@@ -8,7 +8,7 @@ import { ERROR_MESSAGE, ROUTE } from "~/utils/enum";
 
 import { createHash } from "~/utils/hash";
 import { withAuthLoader } from "~/utils/with-auth-loader";
-import { commitSession, getAuthSession } from "~/utils/auth-session";
+import { commitSession, getAuthSession } from "~/utils/sessions/auth-session";
 
 import { createNewUser } from "~/services/user";
 

@@ -6,7 +6,7 @@ import { getUserById } from "~/services/user";
 
 import { ROUTE } from "./enum";
 
-import { getAuthSession, getUserId } from "./auth-session";
+import { getAuthSession, getUserId } from "./sessions/auth-session";
 
 const PRIVATE_ROUTES = [ROUTE.DASHBOARD];
 const PUBLIC_ROUTES = [

@@ -1,18 +1,20 @@
-import { json, redirect } from "@remix-run/node";
+import { z } from "zod";
+import { Link, useFetcher, useLoaderData, useNavigate } from "@remix-run/react";
+import { json } from "@remix-run/node";
+import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { RiErrorWarningLine } from "react-icons/ri";
-import {
-  Form,
-  Link,
-  useActionData,
-  useLoaderData,
-  useNavigation,
-} from "@remix-run/react";
 
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 
-import { ROUTE } from "~/utils/enum";
+import {
+  commitSession,
+  getResetPasswordSession,
+  getUserId,
+} from "~/utils/sessions/reset-password-session";
+import { ERROR_MESSAGE, ROUTE } from "~/utils/enum";
 import { withAuthLoader } from "~/utils/with-auth-loader";
 
+import { updateUserPassword } from "~/services/user";
 import { verifyToken } from "~/services/password-reset-token";
 
 import { Button } from "~/components/button";
@@ -26,42 +28,115 @@ export const loader: LoaderFunction = async (loaderArgs) =>
     callback: async ({ request }) => {
       const url = new URL(request.url);
 
+      const { resetPasswordSession } = await getResetPasswordSession({ request });
+
       const token = url.searchParams.get("token");
 
       if (!token) {
-        return redirect(ROUTE.RECOVER_PASSWORD);
+        return json({ isValid: true, errors: { server: "Invalid token" } });
       }
 
-      const verificationResult = await verifyToken({ token });
+      const {
+        isValid,
+        userId,
+        errors: verificationErrors,
+      } = await verifyToken({ token });
 
-      if (verificationResult.errors) {
-        return json({ errors: verificationResult.errors });
+      if (verificationErrors) {
+        return json({ errors: verificationErrors });
       }
 
-      return verificationResult;
+      resetPasswordSession.set("userId", userId);
+
+      return json(
+        { isValid, userId },
+        { headers: { "Set-Cookie": await commitSession(resetPasswordSession) } }
+      );
     },
   });
 
-export const action: ActionFunction = async () => {};
+export const action: ActionFunction = async ({ request }) => {
+  const formData = Object.fromEntries(await request.formData());
+
+  const { resetPasswordSession } = await getResetPasswordSession({ request });
+
+  const { userId } = await getUserId({ request });
+
+  const formSchema = z.object({
+    new_password: z
+      .string({ message: ERROR_MESSAGE.REQUIRED_FIELD })
+      .min(6, { message: ERROR_MESSAGE.SHORT_PASSWORD }),
+
+    confirm_password: z
+      .string({ message: ERROR_MESSAGE.REQUIRED_FIELD })
+      .min(6, { message: ERROR_MESSAGE.SHORT_PASSWORD }),
+  });
+
+  const { data: validatedFormData, error: formValidationError } =
+    formSchema.safeParse(formData);
+
+  if (formValidationError) {
+    return json({ errors: formValidationError.flatten().fieldErrors });
+  }
+
+  if (validatedFormData.new_password !== validatedFormData.confirm_password) {
+    return {
+      errors: {
+        new_password: "Password doesn't match",
+        confirm_password: "Password doesn't match",
+      },
+    };
+  }
+
+  const { errors: updateUserPasswordError } = await updateUserPassword({
+    userId,
+    data: {
+      newPassword: validatedFormData.new_password,
+      confirmPassword: validatedFormData.confirm_password,
+    },
+  });
+
+  if (updateUserPasswordError) {
+    return json({ errors: updateUserPasswordError });
+  }
+
+  resetPasswordSession.unset("userId");
+
+  return json(
+    { success: true },
+    { headers: { "Set-Cookie": await commitSession(resetPasswordSession) } }
+  );
+};
 
 export default function ChangePasswordRoute() {
-  const navigation = useNavigation();
+  const fetcher = useFetcher<typeof action>();
+
+  const navigate = useNavigate();
+
   const loaderData = useLoaderData<typeof loader>();
-  const actionData = useActionData<typeof action>();
 
   const loaderDataErrors = loaderData?.errors;
-  const actionDataErrors = actionData?.errors;
+  const actionDataErrors = fetcher.data?.errors;
 
   const isTokenValid = loaderData?.isValid;
+  const isPasswordUpdated = fetcher.data?.success;
 
-  const isLoading = navigation.formAction === "/change-password";
+  const isLoading = fetcher.formAction === "/change-password";
 
   return (
     <div className={styles.container}>
       {!isTokenValid && <RiErrorWarningLine className={styles.error_icon} />}
 
+      {isPasswordUpdated && (
+        <IoIosCheckmarkCircleOutline className={styles.success_icon} />
+      )}
+
       <div className={styles.heading}>
-        <h1>{isTokenValid ? "Create New Password" : "Your token is invalid"}</h1>
+        {isTokenValid && !isPasswordUpdated && (
+          <h1>{isTokenValid ? "Create New Password" : "Your token is invalid"}</h1>
+        )}
+
+        {isPasswordUpdated && <h1>Your Password Has Been Updated!</h1>}
 
         {loaderDataErrors?.server && <span>{loaderDataErrors?.server}</span>}
       </div>
@@ -70,8 +145,8 @@ export default function ChangePasswordRoute() {
         <Link to={ROUTE.RECOVER_PASSWORD}>Recover my password again</Link>
       )}
 
-      {isTokenValid && (
-        <Form action="/change-password" method="post" className={styles.form}>
+      {isTokenValid && !isPasswordUpdated && (
+        <fetcher.Form action="/change-password" method="post" className={styles.form}>
           <fieldset disabled={isLoading} className={styles.fields_container}>
             <TextInput
               label="New Password"
@@ -95,7 +170,11 @@ export default function ChangePasswordRoute() {
           {actionDataErrors?.server && (
             <span className={styles.server_error}>{actionDataErrors.server}</span>
           )}
-        </Form>
+        </fetcher.Form>
+      )}
+
+      {isPasswordUpdated && (
+        <Button onClick={() => navigate(ROUTE.SIGN_IN)}>Return to Sign In</Button>
       )}
     </div>
   );
