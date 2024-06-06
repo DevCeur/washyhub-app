@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { Link, useFetcher, useLoaderData, useNavigate } from "@remix-run/react";
-import { json } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { RiErrorWarningLine } from "react-icons/ri";
 
@@ -8,6 +8,7 @@ import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 
 import {
   commitSession,
+  destroySession,
   getResetPasswordSession,
   getUserId,
 } from "~/utils/sessions/reset-password-session";
@@ -33,7 +34,9 @@ export const loader: LoaderFunction = async (loaderArgs) =>
       const token = url.searchParams.get("token");
 
       if (!token) {
-        return json({ isValid: true, errors: { server: "Invalid token" } });
+        return redirect(ROUTE.SIGN_IN, {
+          headers: { "Set-Cookie": await destroySession(resetPasswordSession) },
+        });
       }
 
       const {
@@ -43,7 +46,10 @@ export const loader: LoaderFunction = async (loaderArgs) =>
       } = await verifyToken({ token });
 
       if (verificationErrors) {
-        return json({ errors: verificationErrors });
+        return json(
+          { errors: verificationErrors },
+          { headers: { "Set-Cookie": await destroySession(resetPasswordSession) } }
+        );
       }
 
       resetPasswordSession.set("userId", userId);
@@ -100,11 +106,9 @@ export const action: ActionFunction = async ({ request }) => {
     return json({ errors: updateUserPasswordError });
   }
 
-  resetPasswordSession.unset("userId");
-
   return json(
     { success: true },
-    { headers: { "Set-Cookie": await commitSession(resetPasswordSession) } }
+    { headers: { "Set-Cookie": await destroySession(resetPasswordSession) } }
   );
 };
 
@@ -115,7 +119,6 @@ export default function ChangePasswordRoute() {
 
   const loaderData = useLoaderData<typeof loader>();
 
-  const loaderDataErrors = loaderData?.errors;
   const actionDataErrors = fetcher.data?.errors;
 
   const isTokenValid = loaderData?.isValid;
@@ -123,9 +126,13 @@ export default function ChangePasswordRoute() {
 
   const isLoading = fetcher.formAction === "/change-password";
 
+  console.log({ loaderData, actionDataErrors });
+
   return (
     <div className={styles.container}>
-      {!isTokenValid && <RiErrorWarningLine className={styles.error_icon} />}
+      {!isTokenValid && !isPasswordUpdated && (
+        <RiErrorWarningLine className={styles.error_icon} />
+      )}
 
       {isPasswordUpdated && (
         <IoIosCheckmarkCircleOutline className={styles.success_icon} />
@@ -133,16 +140,18 @@ export default function ChangePasswordRoute() {
 
       <div className={styles.heading}>
         {isTokenValid && !isPasswordUpdated && (
-          <h1>{isTokenValid ? "Create New Password" : "Your token is invalid"}</h1>
+          <h1>
+            {isTokenValid && !isPasswordUpdated
+              ? "Create New Password"
+              : "Your token is invalid"}
+          </h1>
         )}
 
         {isPasswordUpdated && <h1>Your Password Has Been Updated!</h1>}
-
-        {loaderDataErrors?.server && <span>{loaderDataErrors?.server}</span>}
       </div>
 
-      {!isTokenValid && (
-        <Link to={ROUTE.RECOVER_PASSWORD}>Recover my password again</Link>
+      {!isTokenValid && !isPasswordUpdated && (
+        <Link to={ROUTE.RECOVER_PASSWORD}>Return to Sign In</Link>
       )}
 
       {isTokenValid && !isPasswordUpdated && (

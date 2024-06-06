@@ -82,10 +82,12 @@ export const updateUserPassword = async ({ userId, data }: UpdateUserPasswordOpt
   try {
     const { hash: hashedPassword } = await createHash({ text: data.newPassword });
 
-    await prisma.user.update({
+    const updatedUser = await prisma.user.update({
       where: { id: userId },
       data: { password: hashedPassword },
     });
+
+    await prisma.passwordResetToken.deleteMany({ where: { user_id: updatedUser.id } });
 
     return { success: true, errors: null };
   } catch (err) {
