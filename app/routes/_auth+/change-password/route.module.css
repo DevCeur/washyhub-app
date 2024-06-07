@@ -12,40 +12,8 @@
   align-items: center;
 }
 
-.error_icon,
-.success_icon {
-  margin-bottom: 1rem;
-
-  font-size: 7rem;
-
-  text-align: center;
-}
-
-.error_icon {
-  color: red;
-  fill: red;
-}
-
-.success_icon {
-  color: var(--brand-default);
-  fill: var(--brand-default);
-}
-
-.heading {
-  text-align: center;
-
-  gap: 0.5rem;
-
-  margin-bottom: 1.5rem;
-}
-
-.heading span {
-  font-size: 0.85rem;
-}
-
 .form {
   width: 100%;
-  max-width: 350px;
 
   margin-bottom: 1rem;
 
@@ -70,22 +38,133 @@
   color: red;
 }
 
-.recover_password_link,
-.sign_redirection_link {
-  color: var(--text-light);
+.invalid_token_container {
+  width: 100%;
 
-  font-size: 0.75rem;
+  display: flex;
+  flex-direction: column;
+
+  gap: 1.5rem;
+}
+
+.redirection_link {
+  display: flex;
+  align-items: center;
+
+  gap: 0.5rem;
+
+  font-size: 0.85rem;
+  font-weight: 500;
+
+  color: var(--text-light);
 
   text-decoration: none;
 
-  transition: all 200ms ease-in-out;
+  transition: all 150ms ease-in-out;
 }
 
-.sign_redirection_link:hover,
-.recover_password_link:hover {
+.redirection_link svg {
+  fill: var(--text-light);
+
+  transition: all 150ms ease-in-out;
+}
+
+.redirection_link:hover {
   color: var(--text-default);
 }
 
-.recover_password_link {
-  text-align: right;
+.redirection_link:hover svg {
+  fill: var(--text-default);
+}
+
+.invalid_token_message {
+  width: 100%;
+
+  padding: 1rem 1.5rem;
+
+  display: flex;
+  align-items: center;
+
+  gap: 0.85rem;
+
+  background-color: #fef2f2;
+
+  border: solid 2px #fca5a5;
+  border-radius: 0.5rem;
+}
+
+.invalid_token_message a {
+  color: #ef4444;
+
+  font-weight: 500;
+}
+
+.invalid_token_message span {
+  color: #ef4444;
+
+  font-size: 0.9rem;
+
+  line-height: 1.5;
+}
+
+.success_message_container {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 1.5rem;
+}
+
+.success_message_container a,
+.success_message_container svg {
+  color: var(--text-light);
+  fill: var(--text-light);
+}
+
+.success_message_container a {
+  display: flex;
+  align-items: center;
+
+  gap: 0.5rem;
+
+  font-size: 0.85rem;
+  font-weight: 500;
+
+  text-decoration: none;
+
+  transition: all 150ms ease-in-out;
+}
+
+.success_message_container a:hover,
+.success_message_container svg:hover {
+  color: var(--text-default);
+}
+
+.success_message {
+  width: 100%;
+
+  padding: 1rem 1.5rem;
+
+  display: flex;
+  align-items: center;
+
+  gap: 0.85rem;
+
+  background-color: #f0fdf4;
+
+  border: solid 2px #bbf7d0;
+  border-radius: 0.5rem;
+}
+
+.success_message svg {
+  font-size: 1.25rem;
+
+  fill: #22c55e;
+}
+
+.success_message span {
+  color: #22c55e;
+
+  font-size: 0.9rem;
 }
