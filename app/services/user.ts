@@ -2,7 +2,9 @@ import { prisma } from "~/lib/database/database";
 
 import type { User } from "@prisma/client";
 import type { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+
 import { createHash } from "~/utils/hash";
+import { ERROR_MESSAGE } from "~/utils/enum";
 
 interface CreateNewUserOptions {
   data: { email: string; password: string };
@@ -62,6 +64,13 @@ export const getUserByEmail = async ({
 }> => {
   try {
     const user = await prisma.user.findUnique({ where: { email } });
+
+    if (!user) {
+      return {
+        user: null,
+        errors: { credentials: ERROR_MESSAGE.INVALID_CREDENTIALS },
+      };
+    }
 
     return { user, errors: null };
   } catch (err) {
