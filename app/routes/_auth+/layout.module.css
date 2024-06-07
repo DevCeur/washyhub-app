@@ -1,23 +1,43 @@
-.container {
-  width: 100%;
-  height: 100dvh;
-
+.container,
+.content_container,
+.heading {
   display: flex;
   flex-direction: column;
+}
+
+.container {
+  width: 100%;
+  height: 80dvh;
+
   justify-content: space-between;
+  align-items: center;
 }
 
 .header {
   width: 100%;
-  height: 3.5rem;
 
-  margin-bottom: 7rem;
+  padding: 1rem 2rem;
 
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+}
 
-  border-bottom: solid 1px var(--border-default);
+.header a {
+  text-decoration: none;
+
+  font-size: 0.85rem;
+  font-weight: 500;
+
+  padding: 0.5rem 1rem;
+
+  border-radius: 4rem;
+
+  transition: all 150ms ease-in-out;
+}
+
+.header a:hover {
+  background-color: #eaeaea;
 }
 
 .logo {
@@ -29,8 +49,65 @@
   text-decoration: none;
 }
 
-.content {
+.content_container {
+  width: 100%;
+  max-width: 450px;
+
+  margin: 0 auto;
+
   flex: 1;
 
-  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  gap: 1.5rem;
+}
+
+.heading {
+  gap: 0.5rem;
+}
+
+.heading h1 {
+  font-size: 1.25rem;
+}
+
+.heading span {
+  font-size: 0.85rem;
+
+  line-height: 1.5;
+
+  color: var(--text-default);
+}
+
+.heading span a {
+  font-weight: 500;
+
+  text-decoration: none;
+
+  transition: all 150ms ease-in-out;
+}
+
+.heading span a:hover {
+  color: var(--brand-default);
+}
+
+.content {
+  width: 100%;
+}
+
+.account_agreement {
+  color: var(--text-light);
+
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.account_agreement a {
+  color: var(--text-light);
+
+  transition: all 150ms ease-in-out;
+}
+
+.account_agreement a:hover {
+  color: var(--text-default);
 }

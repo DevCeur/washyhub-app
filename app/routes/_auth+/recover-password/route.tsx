@@ -2,8 +2,9 @@ import crypto from "node:crypto";
 
 import { z } from "zod";
 import { json } from "@remix-run/node";
-import { Link, Form, useActionData, useNavigation } from "@remix-run/react";
+import { Form, Link, useActionData, useNavigation } from "@remix-run/react";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+import { HiArrowSmallLeft } from "react-icons/hi2";
 
 import type { ActionFunction } from "@remix-run/node";
 
@@ -71,7 +72,7 @@ export const action: ActionFunction = async ({ request }) => {
     }
   }
 
-  return json({ success: true });
+  return json({ success: true, userEmail: user?.email });
 };
 
 export default function RecoverPasswordRoute() {
@@ -79,27 +80,36 @@ export default function RecoverPasswordRoute() {
   const actionData = useActionData<typeof action>();
 
   const errors = actionData?.errors;
-  const isEmailSent = actionData?.success;
 
+  const isEmailSent = actionData?.success;
+  const userEmail = actionData?.userEmail;
   const isLoading = navigation.formAction === "/recover-password";
 
   return (
     <div className={styles.container}>
-      {isEmailSent && <IoIosCheckmarkCircleOutline className={styles.success_icon} />}
+      {isEmailSent ? (
+        <div className={styles.success_message_container}>
+          <div className={styles.success_message}>
+            <IoIosCheckmarkCircleOutline />
 
-      <div className={styles.heading}>
-        <h1>{isEmailSent ? "Check your Email" : "Recover Password"}</h1>
-        <span>
-          {isEmailSent
-            ? "Check your email inbox and reset your password"
-            : "Provide a registred email to reset your password"}
-        </span>
-      </div>
+            <span>We&apos;ve sent an email to: {userEmail}</span>
+          </div>
 
-      {!isEmailSent && (
+          <Link to={ROUTE.SIGN_IN}>
+            <HiArrowSmallLeft />
+            Return to Sign In
+          </Link>
+        </div>
+      ) : (
         <Form action="/recover-password" method="post" className={styles.form}>
           <fieldset disabled={isLoading} className={styles.fields_container}>
-            <TextInput label="Email" type="email" name="email" error={errors?.email} />
+            <TextInput
+              label="Email"
+              type="email"
+              name="email"
+              placeholder="mariecurie@email.com"
+              error={errors?.email}
+            />
           </fieldset>
 
           <Button colorScheme="brand" loading={isLoading}>
@@ -109,10 +119,6 @@ export default function RecoverPasswordRoute() {
           {errors?.server && <span className={styles.server_error}>{errors.server}</span>}
         </Form>
       )}
-
-      <Link to={ROUTE.SIGN_IN} className={styles.sign_redirection_link}>
-        Go Back
-      </Link>
     </div>
   );
 }

@@ -74,13 +74,15 @@ export default function SignInRoute() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.heading}>
-        <h1>Sign In</h1>
-      </div>
-
       <Form action="/sign-in" method="post" className={styles.form}>
         <fieldset disabled={isLoading} className={styles.fields_container}>
-          <TextInput label="Email" type="email" name="email" error={errors?.email} />
+          <TextInput
+            label="Email"
+            type="email"
+            name="email"
+            placeholder="mariecurie@email.com"
+            error={errors?.email}
+          />
 
           <TextInput
             label="Password"
@@ -95,15 +97,11 @@ export default function SignInRoute() {
         </fieldset>
 
         <Button colorScheme="brand" loading={isLoading}>
-          Sign In
+          Continue
         </Button>
 
         {errors?.server && <span className={styles.server_error}>{errors.server}</span>}
       </Form>
-
-      <Link to={ROUTE.SIGN_UP} className={styles.sign_redirection_link}>
-        Don&apos; have an account? Create an account
-      </Link>
     </div>
   );
 }
