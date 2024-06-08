@@ -45,3 +45,9 @@
 .input:focus {
   border-color: var(--border-dark);
 }
+
+.input[type="password"] {
+  font-size: 1rem;
+
+  letter-spacing: 0.25rem;
+}

@@ -8,7 +8,8 @@ import { ROUTE } from "./enum";
 
 import { getAuthSession, getUserId } from "./sessions/auth-session";
 
-const PRIVATE_ROUTES = [ROUTE.DASHBOARD];
+const PRIVATE_ROUTES = [ROUTE.DASHBOARD, ROUTE.ONBOARDING];
+
 const PUBLIC_ROUTES = [
   ROUTE.HOME,
   ROUTE.SIGN_UP,
@@ -39,13 +40,13 @@ export const withAuthLoader = async ({ callback, loaderArgs }: WithAuthLoaderOpt
       return json({ errors });
     }
 
-    if (user?.needs_onboarding && pathname !== ROUTE.ONBOARDING) {
-      throw redirect(ROUTE.ONBOARDING);
+    if (user?.needs_onboarding) {
+      return redirect(ROUTE.ONBOARDING);
     }
+  }
 
-    if (PUBLIC_ROUTES.includes(pathname)) {
-      throw redirect(ROUTE.DASHBOARD);
-    }
+  if (isAuth && PUBLIC_ROUTES.includes(pathname)) {
+    return redirect(ROUTE.DASHBOARD);
   }
 
   if (!isAuth && PRIVATE_ROUTES.includes(pathname)) {
