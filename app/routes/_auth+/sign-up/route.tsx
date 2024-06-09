@@ -17,7 +17,8 @@ import { TextInput } from "~/components/text-input";
 
 import styles from "./route.module.css";
 
-export const loader: LoaderFunction = (loaderArgs) => withAuthLoader({ loaderArgs });
+export const loader: LoaderFunction = (loaderArgs) =>
+  withAuthLoader({ loaderArgs });
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = Object.fromEntries(await request.formData());
@@ -41,7 +42,9 @@ export const action: ActionFunction = async ({ request }) => {
     return json({ errors: formValidationError.flatten().fieldErrors });
   }
 
-  const { hash: hashedPassword } = await createHash({ text: validatedFormData.password });
+  const { hash: hashedPassword } = await createHash({
+    text: validatedFormData.password,
+  });
 
   const { user, errors: creatingUserError } = await createNewUser({
     data: { email: validatedFormData.email, password: hashedPassword },
@@ -68,32 +71,32 @@ export default function SignUpRoute() {
   const isLoading = navigation.formAction === "/sign-up";
 
   return (
-    <div className={styles.container}>
-      <Form action="/sign-up" method="post" className={styles.form}>
-        <fieldset disabled={isLoading} className={styles.fields_container}>
-          <TextInput
-            label="Email"
-            type="email"
-            name="email"
-            placeholder="mariecurie@email.com"
-            error={errors?.email}
-          />
+    <Form action="/sign-up" method="post" className={styles.form}>
+      <fieldset disabled={isLoading} className={styles.fields_container}>
+        <TextInput
+          label="Email"
+          type="email"
+          name="email"
+          placeholder="mariecurie@email.com"
+          error={errors?.email}
+        />
 
-          <TextInput
-            label="Password"
-            type="password"
-            name="password"
-            placeholder="+6 characters"
-            error={errors?.password}
-          />
-        </fieldset>
+        <TextInput
+          label="Password"
+          type="password"
+          name="password"
+          placeholder="+6 characters"
+          error={errors?.password}
+        />
+      </fieldset>
 
-        <Button colorScheme="brand" loading={isLoading}>
-          Create Account
-        </Button>
+      <Button variant="brand" loading={isLoading}>
+        Create Account
+      </Button>
 
-        {errors?.server && <span className={styles.server_error}>{errors.server}</span>}
-      </Form>
-    </div>
+      {errors?.server && (
+        <span className={styles.server_error}>{errors.server}</span>
+      )}
+    </Form>
   );
 }

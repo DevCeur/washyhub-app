@@ -15,27 +15,23 @@
 .form {
   width: 100%;
 
-  margin-bottom: 1rem;
-
   display: flex;
   flex-direction: column;
 
-  gap: 1.5rem;
+  gap: 24px;
 }
 
 .fields_container {
-  gap: 0.75rem;
-
   border: none;
   outline: none;
 }
 
 .server_error {
-  font-size: 0.75rem;
+  font-size: 12px;
 
   text-align: center;
 
-  color: red;
+  color: var(--error-default);
 }
 
 .success_message_container {
@@ -44,22 +40,22 @@
   display: flex;
   flex-direction: column;
 
-  gap: 1.5rem;
+  gap: 24px;
 }
 
-.success_message_container a,
-.success_message_container svg {
-  color: var(--text-light);
-  fill: var(--text-light);
+.redirection_link,
+.redirection_link svg {
+  color: var(--fg-body-primary);
+  fill: var(--fg-body-primary);
 }
 
-.success_message_container a {
+.redirection_link {
   display: flex;
   align-items: center;
 
-  gap: 0.5rem;
+  gap: 12px;
 
-  font-size: 0.85rem;
+  font-size: 14px;
   font-weight: 500;
 
   text-decoration: none;
@@ -67,35 +63,8 @@
   transition: all 150ms ease-in-out;
 }
 
-.success_message_container a:hover,
-.success_message_container svg:hover {
-  color: var(--text-default);
-}
-
-.success_message {
-  width: 100%;
-
-  padding: 1rem 1.5rem;
-
-  display: flex;
-  align-items: center;
-
-  gap: 0.85rem;
-
-  background-color: #f0fdf4;
-
-  border: solid 2px #bbf7d0;
-  border-radius: 0.5rem;
-}
-
-.success_message svg {
-  font-size: 1.25rem;
-
-  fill: #22c55e;
-}
-
-.success_message span {
-  color: #22c55e;
-
-  font-size: 0.9rem;
+.redirection_link:hover,
+.redirection_link:hover svg {
+  color: var(--fg-heading);
+  fill: var(--fg-heading);
 }

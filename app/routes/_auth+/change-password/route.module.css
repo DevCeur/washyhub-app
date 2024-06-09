@@ -15,27 +15,25 @@
 .form {
   width: 100%;
 
-  margin-bottom: 1rem;
-
   display: flex;
   flex-direction: column;
 
-  gap: 1.5rem;
+  gap: 24px;
 }
 
 .fields_container {
-  gap: 0.75rem;
+  gap: 16px;
 
   border: none;
   outline: none;
 }
 
 .server_error {
-  font-size: 0.75rem;
+  font-size: 12px;
 
   text-align: center;
 
-  color: red;
+  color: var(--error-default);
 }
 
 .invalid_token_container {
@@ -44,65 +42,61 @@
   display: flex;
   flex-direction: column;
 
-  gap: 1.5rem;
+  gap: 24px;
+}
+
+.redirection_link,
+.redirection_link svg {
+  color: var(--fg-body-primary);
+  fill: var(--fg-body-primary);
 }
 
 .redirection_link {
   display: flex;
   align-items: center;
 
-  gap: 0.5rem;
+  gap: 12px;
 
-  font-size: 0.85rem;
+  font-size: 14px;
   font-weight: 500;
-
-  color: var(--text-light);
 
   text-decoration: none;
 
   transition: all 150ms ease-in-out;
 }
 
-.redirection_link svg {
-  fill: var(--text-light);
-
-  transition: all 150ms ease-in-out;
-}
-
-.redirection_link:hover {
-  color: var(--text-default);
-}
-
+.redirection_link:hover,
 .redirection_link:hover svg {
-  fill: var(--text-default);
+  color: var(--fg-heading);
+  fill: var(--fg-heading);
 }
 
 .invalid_token_message {
   width: 100%;
 
-  padding: 1rem 1.5rem;
+  padding: 16px 20px;
 
   display: flex;
   align-items: center;
 
-  gap: 0.85rem;
+  gap: 12px;
 
-  background-color: #fef2f2;
+  background-color: var(--error-overlay);
 
-  border: solid 2px #fca5a5;
+  border: solid 2px var(--error-default);
   border-radius: 0.5rem;
 }
 
 .invalid_token_message a {
-  color: #ef4444;
+  color: var(--error-default);
 
   font-weight: 500;
 }
 
 .invalid_token_message span {
-  color: #ef4444;
+  color: var(--error-default);
 
-  font-size: 0.9rem;
+  font-size: 15px;
 
   line-height: 1.5;
 }
@@ -113,58 +107,5 @@
   display: flex;
   flex-direction: column;
 
-  gap: 1.5rem;
-}
-
-.success_message_container a,
-.success_message_container svg {
-  color: var(--text-light);
-  fill: var(--text-light);
-}
-
-.success_message_container a {
-  display: flex;
-  align-items: center;
-
-  gap: 0.5rem;
-
-  font-size: 0.85rem;
-  font-weight: 500;
-
-  text-decoration: none;
-
-  transition: all 150ms ease-in-out;
-}
-
-.success_message_container a:hover,
-.success_message_container svg:hover {
-  color: var(--text-default);
-}
-
-.success_message {
-  width: 100%;
-
-  padding: 1rem 1.5rem;
-
-  display: flex;
-  align-items: center;
-
-  gap: 0.85rem;
-
-  background-color: #f0fdf4;
-
-  border: solid 2px #bbf7d0;
-  border-radius: 0.5rem;
-}
-
-.success_message svg {
-  font-size: 1.25rem;
-
-  fill: #22c55e;
-}
-
-.success_message span {
-  color: #22c55e;
-
-  font-size: 0.9rem;
+  gap: 24px;
 }

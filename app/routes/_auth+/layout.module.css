@@ -1,5 +1,6 @@
 .container,
 .content_container,
+.content,
 .heading {
   display: flex;
   flex-direction: column;
@@ -16,37 +17,42 @@
 .header {
   width: 100%;
 
-  padding: 1rem 2rem;
+  padding: 24px 32px;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.header a {
-  text-decoration: none;
+.logo {
+  width: 60px;
+}
 
-  font-size: 0.85rem;
+.redirection_link {
+  height: 44px;
+
+  padding: 0 24px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--fg-body-primary);
+
+  font-size: 14px;
   font-weight: 500;
 
-  padding: 0.65rem 1rem;
+  background-color: var(--bg-primary-hover);
 
-  border-radius: 4rem;
+  text-decoration: none;
+
+  border-radius: 100px;
 
   transition: all 150ms ease-in-out;
 }
 
-.header a:hover {
-  background-color: #eaeaea;
-}
-
-.logo {
-  color: black;
-
-  font-size: 1rem;
-  font-weight: 600;
-
-  text-decoration: none;
+.redirection_link:hover {
+  color: var(--fg-heading);
 }
 
 .content_container {
@@ -60,27 +66,30 @@
   justify-content: center;
   align-items: flex-start;
 
-  gap: 1.5rem;
+  gap: 32px;
 }
 
 .heading {
-  gap: 0.5rem;
+  gap: 16px;
 }
 
 .heading h1 {
-  font-size: 1.25rem;
+  font-size: 24px;
+  font-weight: 600;
 }
 
 .heading span {
-  font-size: 0.85rem;
+  font-size: 15px;
 
   line-height: 1.5;
 
-  color: var(--text-default);
+  color: var(--fg-body-primary);
 }
 
 .heading span a {
   font-weight: 500;
+
+  color: var(--accent-default);
 
   text-decoration: none;
 
@@ -88,26 +97,27 @@
 }
 
 .heading span a:hover {
-  color: var(--brand-default);
+  color: var(--accent-hover);
 }
 
 .content {
   width: 100%;
+
+  gap: 32px;
 }
 
 .account_agreement {
-  color: var(--text-light);
+  color: var(--fg-body-primary);
 
-  font-size: 0.75rem;
+  font-size: 12px;
+
   line-height: 1.5;
 }
 
 .account_agreement a {
-  color: var(--text-light);
-
   transition: all 150ms ease-in-out;
 }
 
 .account_agreement a:hover {
-  color: var(--text-default);
+  color: var(--accent-default);
 }

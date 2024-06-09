@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { json, redirect } from "@remix-run/node";
-import { Form, Link, useActionData, useNavigation } from "@remix-run/react";
+import { Form, useActionData, useNavigation } from "@remix-run/react";
 
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 
@@ -16,7 +16,8 @@ import { TextInput } from "~/components/text-input";
 
 import styles from "./route.module.css";
 
-export const loader: LoaderFunction = (loaderArgs) => withAuthLoader({ loaderArgs });
+export const loader: LoaderFunction = (loaderArgs) =>
+  withAuthLoader({ loaderArgs });
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = Object.fromEntries(await request.formData());
@@ -73,35 +74,32 @@ export default function SignInRoute() {
   const isLoading = navigation.formAction === "/sign-in";
 
   return (
-    <div className={styles.container}>
-      <Form action="/sign-in" method="post" className={styles.form}>
-        <fieldset disabled={isLoading} className={styles.fields_container}>
-          <TextInput
-            label="Email"
-            type="email"
-            name="email"
-            placeholder="mariecurie@email.com"
-            error={errors?.email}
-          />
+    <Form action="/sign-in" method="post" className={styles.form}>
+      <fieldset disabled={isLoading} className={styles.fields_container}>
+        <TextInput
+          label="Email"
+          type="email"
+          name="email"
+          placeholder="mariecurie@email.com"
+          error={errors?.email}
+        />
 
-          <TextInput
-            label="Password"
-            type="password"
-            name="password"
-            error={errors?.password || errors?.credentials}
-          />
+        <TextInput
+          label="Password"
+          type="password"
+          name="password"
+          showForgotPassword
+          error={errors?.password || errors?.credentials}
+        />
+      </fieldset>
 
-          <Link to={ROUTE.RECOVER_PASSWORD} className={styles.recover_password_link}>
-            Forgot my password
-          </Link>
-        </fieldset>
+      <Button variant="brand" loading={isLoading}>
+        Continue
+      </Button>
 
-        <Button colorScheme="brand" loading={isLoading}>
-          Continue
-        </Button>
-
-        {errors?.server && <span className={styles.server_error}>{errors.server}</span>}
-      </Form>
-    </div>
+      {errors?.server && (
+        <span className={styles.server_error}>{errors.server}</span>
+      )}
+    </Form>
   );
 }

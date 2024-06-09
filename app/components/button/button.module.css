@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
 
-  gap: 0.5rem;
+  gap: 12px;
 
   font-weight: 500;
 
@@ -39,73 +39,112 @@
 
 /* VARIANT AND COLOR_SCHEME COMBINATIONS */
 
+/* BRAND BUTTON */
+
 .button_brand.button_primary {
   color: white;
   fill: white;
   stroke: white;
-  background-color: var(--brand-default);
+
+  background-color: var(--accent-default);
 }
 
 .button_brand.button_primary:hover {
-  background-color: var(--brand-default-hover);
+  background-color: var(--accent-hover);
 }
 
 .button_brand.button_secondary {
-  color: var(--brand-default);
-  fill: var(--brand-default);
-  stroke: var(--brand-default);
+  color: var(--accent-default);
+  fill: var(--accent-default);
+  stroke: var(--accent-default);
 
-  border-color: var(--brand-default);
+  border-color: var(--accent-default);
 }
+
+/* DEFAULT BUTTON */
 
 .button_brand.button_secondary:hover {
-  background-color: var(--brand-lightest);
+  background-color: var(--accent-overlay);
 }
 
-.button_gray.button_primary {
-  color: white;
+.button_default.button_primary {
+  color: var(--bg-primary-default);
   fill: white;
   stroke: white;
 
-  background-color: var(--text-default);
+  background-color: var(--fg-heading);
 }
 
-.button_gray.button_secondary {
-  color: var(--text-default);
-  fill: var(--text-default);
-  stroke: var(--text-default);
+.button_default.button_primary:hover {
+  background-color: var(--fg-body-primary);
+}
+
+.button_default.button_secondary {
+  color: var(--fg-body-primary);
+  fill: var(--fg-body-primary);
+  stroke: var(--fg-body-primary);
 
   border-color: var(--border-default);
+}
+
+.button_default.button_secondary:hover {
+  background-color: var(--bg-primary-hover);
+}
+
+/* ERROR BUTTON */
+
+.button_error.button_primary {
+  color: var(--bg-primary-default);
+  fill: white;
+  stroke: white;
+
+  background-color: var(--fg-heading);
+}
+
+.button_error.button_primary:hover {
+  background-color: var(--fg-body-primary);
+}
+
+.button_error.button_secondary {
+  color: var(--fg-body-primary);
+  fill: var(--fg-body-primary);
+  stroke: var(--fg-body-primary);
+
+  border-color: var(--border-default);
+}
+
+.button_error.button_secondary:hover {
+  background-color: var(--bg-primary-hover);
 }
 
 /* SIZES */
 
 .button_small {
-  height: 2rem;
+  height: 36px;
 
-  padding: 0 1rem;
+  padding: 0 16px;
 
-  font-size: 0.75rem;
+  font-size: 15px;
 
-  border-radius: 0.5rem;
+  border-radius: 8px;
 }
 
 .button_medium {
-  height: 2.5rem;
+  height: 44px;
 
-  padding: 0 1.25rem;
+  padding: 0 20px;
 
-  font-size: 0.85rem;
+  font-size: 15px;
 
-  border-radius: 0.5rem;
+  border-radius: 8px;
 }
 
 .button_large {
-  height: 3rem;
+  height: 56px;
 
-  padding: 0rem 1.25rem;
+  padding: 0rem 24px;
 
-  font-size: 1rem;
+  font-size: 18px;
 
-  border-radius: 0.85rem;
+  border-radius: 12px;
 }

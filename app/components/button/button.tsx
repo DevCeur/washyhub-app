@@ -8,33 +8,35 @@ import styles from "./button.module.css";
 
 const buttonStyles = cva(styles.base_button, {
   variants: {
-    variant: {
+    hierarchy: {
       primary: styles.button_primary,
 
       secondary: styles.button_secondary,
 
-      ghost: styles.button_ghost,
+      tertiary: styles.button_tertiary,
     },
 
-    colorScheme: {
+    variant: {
       brand: styles.button_brand,
 
-      gray: styles.button_gray,
+      default: styles.button_default,
+
+      error: styles.button_error,
     },
 
     size: {
       small: styles.button_small,
 
-      medium: styles.button_medium,
+      default: styles.button_medium,
 
       large: styles.button_large,
     },
   },
 
   defaultVariants: {
-    variant: "primary",
-    colorScheme: "brand",
-    size: "medium",
+    hierarchy: "primary",
+    variant: "default",
+    size: "default",
   },
 });
 
@@ -48,13 +50,16 @@ interface ButtonProps
 export const Button = ({
   children,
   variant,
-  colorScheme,
+  hierarchy,
   size,
   loading,
   ...buttonProps
 }: ButtonProps) => {
   return (
-    <button className={buttonStyles({ variant, size, colorScheme })} {...buttonProps}>
+    <button
+      className={buttonStyles({ variant, size, hierarchy })}
+      {...buttonProps}
+    >
       <span>{children}</span>
 
       {loading && <FiLoader className={styles.spinner} />}

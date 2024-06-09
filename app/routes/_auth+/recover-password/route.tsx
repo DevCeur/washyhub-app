@@ -3,7 +3,6 @@ import crypto from "node:crypto";
 import { z } from "zod";
 import { json } from "@remix-run/node";
 import { Form, Link, useActionData, useNavigation } from "@remix-run/react";
-import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { HiArrowSmallLeft } from "react-icons/hi2";
 
 import type { ActionFunction } from "@remix-run/node";
@@ -20,6 +19,7 @@ import { Button } from "~/components/button";
 import { TextInput } from "~/components/text-input";
 
 import styles from "./route.module.css";
+import { SuccessMessage } from "~/components/success-message/success-message";
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = Object.fromEntries(await request.formData());
@@ -89,13 +89,9 @@ export default function RecoverPasswordRoute() {
     <div className={styles.container}>
       {isEmailSent ? (
         <div className={styles.success_message_container}>
-          <div className={styles.success_message}>
-            <IoIosCheckmarkCircleOutline />
+          <SuccessMessage message={`We've sent an email to ${userEmail}`} />
 
-            <span>We&apos;ve sent an email to: {userEmail}</span>
-          </div>
-
-          <Link to={ROUTE.SIGN_IN}>
+          <Link to={ROUTE.SIGN_IN} className={styles.redirection_link}>
             <HiArrowSmallLeft />
             Return to Sign In
           </Link>
@@ -112,11 +108,11 @@ export default function RecoverPasswordRoute() {
             />
           </fieldset>
 
-          <Button colorScheme="brand" loading={isLoading}>
-            Recover Password
-          </Button>
+          <Button loading={isLoading}>Recover Password</Button>
 
-          {errors?.server && <span className={styles.server_error}>{errors.server}</span>}
+          {errors?.server && (
+            <span className={styles.server_error}>{errors.server}</span>
+          )}
         </Form>
       )}
     </div>

@@ -3,6 +3,7 @@ import { Link, Outlet, useLocation } from "@remix-run/react";
 import { ROUTE } from "~/utils/enum";
 
 import styles from "./layout.module.css";
+import { Logo } from "~/components/logo";
 
 const COPIES_BY_LOCATION = {
   [ROUTE.SIGN_IN]: {
@@ -20,7 +21,7 @@ const COPIES_BY_LOCATION = {
       url: ROUTE.SIGN_IN,
     },
 
-    heading: "Create a WashyHub Account",
+    heading: "Create an Account",
   },
 
   [ROUTE.RECOVER_PASSWORD]: {
@@ -48,24 +49,26 @@ export default function AuthLayout() {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <Link to={ROUTE.HOME}>Home</Link>
+        <Link to={ROUTE.HOME} className={styles.logo}>
+          <Logo />
+        </Link>
 
-        <Link to={COPIES_BY_LOCATION[location.pathname].redirectionShortLink.url}>
+        <Link
+          className={styles.redirection_link}
+          to={COPIES_BY_LOCATION[location.pathname].redirectionShortLink.url}
+        >
           {COPIES_BY_LOCATION[location.pathname].redirectionShortLink.text}
         </Link>
       </header>
 
       <div className={styles.content_container}>
-        <Link to={ROUTE.HOME} className={styles.logo}>
-          WashyHub
-        </Link>
-
         <div className={styles.heading}>
           <h1>{COPIES_BY_LOCATION[location.pathname].heading}</h1>
 
           {location.pathname === ROUTE.SIGN_IN && (
             <span>
-              Don&apos;t have an account? <Link to={ROUTE.SIGN_UP}>Sign Up</Link>
+              Don&apos;t have an account?{" "}
+              <Link to={ROUTE.SIGN_UP}>Sign Up</Link>
             </span>
           )}
 
@@ -77,8 +80,9 @@ export default function AuthLayout() {
 
           {location.pathname === ROUTE.RECOVER_PASSWORD && (
             <span>
-              Include the email address associated with your account and we&apos;ll send
-              you an email with instructions to reset your password.
+              Include the email address associated with your account and
+              we&apos;ll send you an email with instructions to reset your
+              password.
             </span>
           )}
         </div>
