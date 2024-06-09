@@ -57,6 +57,7 @@ export const Button = ({
 }: ButtonProps) => {
   return (
     <button
+      disabled={loading}
       className={buttonStyles({ variant, size, hierarchy })}
       {...buttonProps}
     >

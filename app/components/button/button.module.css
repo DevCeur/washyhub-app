@@ -15,6 +15,10 @@
   transition: all 150ms ease-in-out;
 }
 
+.base_button:disabled {
+  pointer-events: none;
+}
+
 .base_button span,
 .base_button .spinner,
 .base_button svg {
@@ -69,8 +73,8 @@
 
 .button_default.button_primary {
   color: var(--bg-primary-default);
-  fill: white;
-  stroke: white;
+  fill: var(--bg-primary-default);
+  stroke: var(--bg-primary-default);
 
   background-color: var(--fg-heading);
 }
@@ -94,27 +98,27 @@
 /* ERROR BUTTON */
 
 .button_error.button_primary {
-  color: var(--bg-primary-default);
-  fill: white;
-  stroke: white;
+  color: var(--fg-heading);
+  fill: var(--fg-heading);
+  stroke: var(--fg-heading);
 
-  background-color: var(--fg-heading);
+  background-color: var(--error-default);
 }
 
 .button_error.button_primary:hover {
-  background-color: var(--fg-body-primary);
+  background-color: var(--error-hover);
 }
 
 .button_error.button_secondary {
-  color: var(--fg-body-primary);
-  fill: var(--fg-body-primary);
-  stroke: var(--fg-body-primary);
+  color: var(--error-default);
+  fill: var(--error-default);
+  stroke: var(--error-default);
 
-  border-color: var(--border-default);
+  border-color: var(--error-default);
 }
 
 .button_error.button_secondary:hover {
-  background-color: var(--bg-primary-hover);
+  background-color: var(--error-overlay);
 }
 
 /* SIZES */
