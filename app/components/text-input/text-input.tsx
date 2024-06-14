@@ -9,9 +9,9 @@ import { ROUTE } from "~/utils/enum";
 import styles from "./text-input.module.css";
 
 interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label: string;
+  label?: string;
   error?: string;
-  showLabel?: boolean;
+  hint?: string;
   showForgotPassword?: boolean;
 }
 
@@ -19,7 +19,7 @@ export const TextInput = ({
   type,
   error,
   label,
-  showLabel = true,
+  hint,
   showForgotPassword,
   ...inputProps
 }: TextInputProps) => {
@@ -34,13 +34,10 @@ export const TextInput = ({
   return (
     <label className={styles.container}>
       <div className={styles.labels_container}>
-        {showLabel && <span className={styles.label}>{label}</span>}
+        {label && <span className={styles.label}>{label}</span>}
 
         {showForgotPassword && (
-          <Link
-            to={ROUTE.RECOVER_PASSWORD}
-            className={styles.recover_password_link}
-          >
+          <Link to={ROUTE.RECOVER_PASSWORD} className={styles.recover_password_link}>
             Forgot your password?
           </Link>
         )}
@@ -48,25 +45,22 @@ export const TextInput = ({
 
       <div className={styles.input_container} data-error={!!error}>
         <input
-          type={
-            type === "password" && showPassword ? "password" : "text" || type
-          }
+          type={type === "password" && showPassword ? "password" : "text" || type}
           autoComplete="off"
           className={styles.input}
           {...inputProps}
         />
 
         {type === "password" && (
-          <button
-            className={styles.show_password_button}
-            onClick={handleShowPassword}
-          >
+          <button className={styles.show_password_button} onClick={handleShowPassword}>
             {showPassword ? <HiOutlineEye /> : <HiOutlineEyeOff />}
           </button>
         )}
       </div>
 
       {error && <span className={styles.error}>{error}</span>}
+
+      {!error && hint && <span className={styles.hint}>{hint}</span>}
     </label>
   );
 };

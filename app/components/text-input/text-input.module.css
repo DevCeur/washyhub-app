@@ -15,6 +15,7 @@
 
 .label,
 .recover_password_link,
+.hint,
 .error {
   font-size: 12px;
 }
@@ -36,6 +37,12 @@
 
 .error {
   color: var(--error-default);
+}
+
+.hint {
+  color: var(--fg-body-secondary);
+
+  font-weight: 500;
 }
 
 .input_container {

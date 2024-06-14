@@ -1,5 +1,10 @@
 {
-  "name": "carwash-app",
+  "name": "washyhub-webapp",
+  "author": {
+    "name": "Carlos Umaña",
+    "email": "dev.carlos.umana@gmail.com",
+    "url": "https://github.com/DevCeur"
+  },
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -11,6 +16,8 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@headlessui/react": "^2.0.4",
+    "@hookform/resolvers": "^3.6.0",
     "@prisma/client": "^5.15.0",
     "@remix-run/node": "^2.9.2",
     "@remix-run/react": "^2.9.2",

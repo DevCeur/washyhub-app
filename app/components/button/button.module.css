@@ -65,11 +65,23 @@
   border-color: var(--accent-default);
 }
 
-/* DEFAULT BUTTON */
-
 .button_brand.button_secondary:hover {
   background-color: var(--accent-overlay);
 }
+
+.button_brand.button_tertiaty {
+  color: var(--accent-default);
+  fill: var(--accent-default);
+  stroke: var(--accent-default);
+
+  border-color: transparent;
+}
+
+.button_brand.button_tertiary:hover {
+  background-color: var(--accent-overlay);
+}
+
+/* DEFAULT BUTTON */
 
 .button_default.button_primary {
   color: var(--bg-primary-default);
@@ -92,6 +104,18 @@
 }
 
 .button_default.button_secondary:hover {
+  background-color: var(--bg-primary-hover);
+}
+
+.button_default.button_tertiary {
+  color: var(--fg-body-primary);
+  fill: var(--fg-body-primary);
+  stroke: var(--fg-body-primary);
+
+  border-color: transparent;
+}
+
+.button_default.button_tertiary:hover {
   background-color: var(--bg-primary-hover);
 }
 
@@ -118,6 +142,18 @@
 }
 
 .button_error.button_secondary:hover {
+  background-color: var(--error-overlay);
+}
+
+.button_error.button_tertiary {
+  color: var(--error-default);
+  fill: var(--error-default);
+  stroke: var(--error-default);
+
+  border-color: var(--error-default);
+}
+
+.button_error.button_tertiary:hover {
   background-color: var(--error-overlay);
 }
 

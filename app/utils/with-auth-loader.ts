@@ -33,14 +33,14 @@ export const withAuthLoader = async ({ callback, loaderArgs }: WithAuthLoaderOpt
 
   const isAuth = authSession.has("userId");
 
-  if (isAuth) {
+  if (userId) {
     const { user, errors } = await getUserById({ id: userId });
 
     if (errors) {
       return json({ errors });
     }
 
-    if (user?.needs_onboarding) {
+    if (user?.needs_onboarding && pathname !== ROUTE.ONBOARDING) {
       return redirect(ROUTE.ONBOARDING);
     }
   }

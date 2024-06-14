@@ -130,18 +130,16 @@ export default function ChangePasswordRoute() {
 
   const isLoading = fetcher.formAction === "/change-password";
 
-  console.log({ loaderData, actionDataErrors });
-
   return (
     <div className={styles.container}>
       {!isTokenValid && !isPasswordUpdated && (
         <div className={styles.invalid_token_container}>
           <div className={styles.invalid_token_message}>
             <span>
-              Your reset password token is not valid anymore, it could be
-              expired or already used. to generate a new token go back to{" "}
-              <Link to={ROUTE.RECOVER_PASSWORD}>recover your password</Link> and
-              resend an instruction email.
+              Your reset password token is not valid anymore, it could be expired or
+              already used. to generate a new token go back to{" "}
+              <Link to={ROUTE.RECOVER_PASSWORD}>recover your password</Link> and resend an
+              instruction email.
             </span>
           </div>
 
@@ -164,11 +162,7 @@ export default function ChangePasswordRoute() {
       )}
 
       {isTokenValid && !isPasswordUpdated && (
-        <fetcher.Form
-          action="/change-password"
-          method="post"
-          className={styles.form}
-        >
+        <fetcher.Form action="/change-password" method="post" className={styles.form}>
           <fieldset disabled={isLoading} className={styles.fields_container}>
             <TextInput
               label="New Password"
@@ -188,9 +182,7 @@ export default function ChangePasswordRoute() {
           <Button loading={isLoading}>Reset Password</Button>
 
           {actionDataErrors?.server && (
-            <span className={styles.server_error}>
-              {actionDataErrors.server}
-            </span>
+            <span className={styles.server_error}>{actionDataErrors.server}</span>
           )}
         </fetcher.Form>
       )}

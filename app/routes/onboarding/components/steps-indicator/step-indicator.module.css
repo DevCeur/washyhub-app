@@ -1,0 +1,73 @@
+.container,
+.indicator_container {
+  width: 100%;
+
+  display: flex;
+}
+
+.container {
+  width: 100%;
+
+  align-items: center;
+  justify-content: space-between;
+}
+
+.indicator_container {
+  width: 100%;
+
+  align-items: center;
+}
+
+.indicator_container:last-child {
+  width: max-content;
+}
+
+.indicator {
+  width: 36px;
+  height: 36px;
+
+  font-size: 12px;
+
+  cursor: default;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: solid 1px var(--border-default);
+  border-radius: 100%;
+
+  transition: all 150ms ease-in-out;
+}
+
+.indicator_active {
+  border-color: var(--accent-default);
+
+  color: var(--accent-default);
+}
+
+.indicator_completed {
+  color: var(--fg-heading);
+
+  background-color: var(--accent-default);
+
+  border-color: var(--accent-default);
+}
+
+.completed_icon {
+  font-size: 20px;
+}
+
+.separator {
+  flex: 1;
+
+  height: 1px;
+
+  border-color: var(--border-default);
+
+  transition: all 150ms ease-in-out;
+}
+
+.separator_completed {
+  border-color: var(--accent-default);
+}
