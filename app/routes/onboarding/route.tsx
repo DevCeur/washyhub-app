@@ -16,6 +16,7 @@ import { ONBOARDING_STEPS } from "./utils/enum";
 import { Wizard } from "./components/wizard";
 
 import styles from "./route.module.css";
+import { getUserById } from "~/services/user";
 
 export const loader: LoaderFunction = (loaderArgs) =>
   withAuthLoader({
@@ -24,6 +25,16 @@ export const loader: LoaderFunction = (loaderArgs) =>
       const url = new URL(request.url);
 
       const { userId } = await getUserId({ request });
+
+      if (!userId) {
+        return redirect(ROUTE.HOME);
+      }
+
+      const { user } = await getUserById({ id: userId });
+
+      if (user && !user.needs_onboarding) {
+        return redirect(ROUTE.DASHBOARD);
+      }
 
       const currentStep = url.searchParams.get("step");
 

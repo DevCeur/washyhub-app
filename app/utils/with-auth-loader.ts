@@ -8,11 +8,11 @@ import { ROUTE } from "./enum";
 
 import { getAuthSession, getUserId } from "./sessions/auth-session";
 
-const PRIVATE_ROUTES = [ROUTE.DASHBOARD, ROUTE.ONBOARDING];
+const PRIVATE_ROUTES = [ROUTE.DASHBOARD];
 
 const PUBLIC_ROUTES = [
   ROUTE.HOME,
-  ROUTE.SIGN_UP,
+  ROUTE.SIGN_IN,
   ROUTE.SIGN_UP,
   ROUTE.RECOVER_PASSWORD,
   ROUTE.CHANGE_PASSWORD,

@@ -30,8 +30,6 @@ export const createUserProfile = async ({ data, userId }: CreateUserProfileOptio
 
     return { profile };
   } catch (error) {
-    console.log(error);
-
     throw new Error("Error creating a new profile");
   }
 };

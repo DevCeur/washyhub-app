@@ -63,12 +63,8 @@ export const createUserOrganization = async ({
       data: { name: data.organization_name, owner_id: userId },
     });
 
-    console.log(organization);
-
     return { organization };
   } catch (error) {
-    console.log(error);
-
     throw new Error("Error creating a new organization");
   }
 };

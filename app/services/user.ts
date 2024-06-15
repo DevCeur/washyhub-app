@@ -103,3 +103,22 @@ export const updateUserPassword = async ({ userId, data }: UpdateUserPasswordOpt
     throw new Error("Error updating user password");
   }
 };
+
+interface UpdateUserOptions {
+  userId: string;
+
+  data: Partial<User>;
+}
+
+export const updateUser = async ({ userId, data }: UpdateUserOptions) => {
+  try {
+    await prisma.user.update({
+      where: { id: userId },
+      data,
+    });
+
+    return { success: true, errors: null };
+  } catch (err) {
+    throw new Error("Error updating user password");
+  }
+};

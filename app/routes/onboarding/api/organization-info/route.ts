@@ -39,7 +39,7 @@ export const action: ActionFunction = async ({ request }) => {
 
   const { organization } = await getOrganizationById({
     userId,
-    organizationId: (formData.organization_id as string) || "",
+    organizationId: (formData.organizationId as string) || "",
   });
 
   if (organization) {
@@ -51,8 +51,6 @@ export const action: ActionFunction = async ({ request }) => {
   }
 
   if (!organization) {
-    console.log("create");
-
     await createUserOrganization({ userId, data: validatedFormData });
   }
 

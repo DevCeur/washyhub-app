@@ -12,7 +12,7 @@ import { ONBOARDING_STEPS } from "../../utils/enum";
 
 import styles from "./step-wrapper.module.css";
 
-type StepIdentifier = "organization-owner-info" | "organization-info";
+type StepIdentifier = "organization-owner-info" | "organization-info" | "resume";
 
 interface StepWrapperProps {
   title?: string;
@@ -30,7 +30,7 @@ export const StepWrapper = ({
   const navigate = useNavigate();
   const fetcher = useFetcher({ key: identifier });
 
-  const { currentStep, organization } = useLoaderData<typeof loader>();
+  const { currentStep, profile, organization } = useLoaderData<typeof loader>();
 
   const isFirstStep = currentStep == 0;
   const isLastStep = currentStep === ONBOARDING_STEPS.length - 1;
@@ -60,23 +60,23 @@ export const StepWrapper = ({
         <div className={styles.fields_container}>{children}</div>
 
         <input type="hidden" name="currentStep" value={currentStep + 1} />
-        <input type="hidden" name="organization_id" value={organization?.id || ""} />
+        <input type="hidden" name="organizationId" value={organization?.id || ""} />
 
         <div className={styles.buttons_container}>
-          {!isFirstStep && (
-            <Button hierarchy="tertiary" onClick={handleGoBack}>
-              Go Back
-            </Button>
-          )}
-
           <Button
             type="submit"
             data-fullwidth={isFirstStep || isLastStep}
             variant={isLastStep ? "brand" : "default"}
             loading={isLoading}
           >
-            {isLastStep ? "Finish" : "Continue"}
+            {isLastStep ? "Finish" : profile || organization ? "Save" : "Continue"}
           </Button>
+
+          {!isFirstStep && (
+            <Button hierarchy="tertiary" onClick={handleGoBack}>
+              Go Back
+            </Button>
+          )}
         </div>
       </fetcher.Form>
     </div>
