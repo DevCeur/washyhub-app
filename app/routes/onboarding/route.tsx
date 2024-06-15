@@ -7,6 +7,7 @@ import { withAuthLoader } from "~/utils/with-auth-loader";
 import { getUserId } from "~/utils/sessions/auth-session";
 
 import { getUserProfileById } from "~/services/profile";
+import { getAllUserOrganizations } from "~/services/organization";
 
 import { Logo } from "~/components/logo";
 
@@ -36,7 +37,13 @@ export const loader: LoaderFunction = (loaderArgs) =>
 
       const { profile } = await getUserProfileById({ userId });
 
-      return json({ profile, currentStep: parseInt(currentStep) - 1 });
+      const { organizations } = await getAllUserOrganizations({ userId });
+
+      return json({
+        profile,
+        organization: organizations[0],
+        currentStep: parseInt(currentStep) - 1,
+      });
     },
   });
 

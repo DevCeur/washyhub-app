@@ -30,7 +30,7 @@ export const StepWrapper = ({
   const navigate = useNavigate();
   const fetcher = useFetcher({ key: identifier });
 
-  const { currentStep } = useLoaderData<typeof loader>();
+  const { currentStep, organization } = useLoaderData<typeof loader>();
 
   const isFirstStep = currentStep == 0;
   const isLastStep = currentStep === ONBOARDING_STEPS.length - 1;
@@ -60,6 +60,7 @@ export const StepWrapper = ({
         <div className={styles.fields_container}>{children}</div>
 
         <input type="hidden" name="currentStep" value={currentStep + 1} />
+        <input type="hidden" name="organization_id" value={organization?.id || ""} />
 
         <div className={styles.buttons_container}>
           {!isFirstStep && (

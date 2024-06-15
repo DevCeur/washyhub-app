@@ -8,10 +8,10 @@ import { ERROR_MESSAGE, ROUTE } from "~/utils/enum";
 import { getUserId } from "~/utils/sessions/auth-session";
 
 import {
-  createUserProfile,
-  getUserProfileById,
-  updateUserProfile,
-} from "~/services/profile";
+  createUserOrganization,
+  getOrganizationById,
+  updateUserOrganization,
+} from "~/services/organization";
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = Object.fromEntries(await request.formData());
@@ -19,8 +19,7 @@ export const action: ActionFunction = async ({ request }) => {
   const { userId } = await getUserId({ request });
 
   const formSchema = z.object({
-    first_name: z.string().min(1, { message: ERROR_MESSAGE.REQUIRED_FIELD }),
-    last_name: z.string().min(1, { message: ERROR_MESSAGE.REQUIRED_FIELD }),
+    organization_name: z.string().min(1, { message: ERROR_MESSAGE.REQUIRED_FIELD }),
 
     currentStep: z.string(),
   });
@@ -38,14 +37,23 @@ export const action: ActionFunction = async ({ request }) => {
 
   const currentStep = parseInt(validatedFormData.currentStep);
 
-  const { profile } = await getUserProfileById({ userId });
+  const { organization } = await getOrganizationById({
+    userId,
+    organizationId: (formData.organization_id as string) || "",
+  });
 
-  if (profile) {
-    await updateUserProfile({ userId, data: validatedFormData });
+  if (organization) {
+    await updateUserOrganization({
+      userId,
+      organizationId: organization.id,
+      data: validatedFormData,
+    });
   }
 
-  if (!profile) {
-    await createUserProfile({ userId, data: validatedFormData });
+  if (!organization) {
+    console.log("create");
+
+    await createUserOrganization({ userId, data: validatedFormData });
   }
 
   return redirect(`${ROUTE.ONBOARDING}?step=${currentStep + 1}`);
