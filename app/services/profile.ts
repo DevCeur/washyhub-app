@@ -1,11 +1,37 @@
 import { prisma } from "~/lib/database/database";
 
+import { getUserId } from "~/utils/sessions/auth-session";
+
 interface GetUserProfileByIdOptions {
   userId: string;
 }
 
 export const getUserProfileById = async ({ userId }: GetUserProfileByIdOptions) => {
   try {
+    const profile = await prisma.profile.findUnique({ where: { user_id: userId } });
+
+    return { profile };
+  } catch (error) {
+    throw new Error("Error getting user profile by id");
+  }
+};
+
+interface CreateUserProfileOptions {
+  userId: string;
+  data: {
+    first_name: string;
+    last_name: string;
+  };
+}
+
+interface GetAuthUserProfileOptions {
+  request: Request;
+}
+
+export const getAuthUserProfile = async ({ request }: GetAuthUserProfileOptions) => {
+  try {
+    const { userId } = await getUserId({ request });
+
     const profile = await prisma.profile.findUnique({ where: { user_id: userId } });
 
     return { profile };

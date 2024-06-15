@@ -6,6 +6,8 @@ import type { PrismaClientKnownRequestError } from "@prisma/client/runtime/libra
 import { createHash } from "~/utils/hash";
 import { ERROR_MESSAGE } from "~/utils/enum";
 
+import { getUserId } from "~/utils/sessions/auth-session";
+
 interface CreateNewUserOptions {
   data: { email: string; password: string };
 }
@@ -120,5 +122,21 @@ export const updateUser = async ({ userId, data }: UpdateUserOptions) => {
     return { success: true, errors: null };
   } catch (err) {
     throw new Error("Error updating user password");
+  }
+};
+
+interface GetAuthUserOptions {
+  request: Request;
+}
+
+export const getAuthUser = async ({ request }: GetAuthUserOptions) => {
+  try {
+    const { userId } = await getUserId({ request });
+
+    const { user } = await getUserById({ id: userId });
+
+    return { user };
+  } catch (error) {
+    throw new Error("Error getting auth user");
   }
 };

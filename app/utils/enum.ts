@@ -9,6 +9,10 @@ export const ROUTE = {
   CHANGE_PASSWORD: "/change-password",
 
   DASHBOARD: "/dashboard",
+  ORDERS: "/orders",
+  ORGANIZATIONS: "/organizations",
+  INVOICES: "/invoices",
+  ACCOUNT: "/account",
 };
 
 export const ERROR_MESSAGE = {

@@ -7,7 +7,7 @@ export const loader: LoaderFunction = async (loaderArgs) =>
 
 export default function DashboardRoute() {
   return (
-    <div>
+    <div style={{ height: 2000 }}>
       <h1>Dashboard</h1>
     </div>
   );

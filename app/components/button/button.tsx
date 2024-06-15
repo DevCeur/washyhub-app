@@ -61,7 +61,7 @@ export const Button = ({
       className={buttonStyles({ variant, size, hierarchy })}
       {...buttonProps}
     >
-      <span>{children}</span>
+      {children}
 
       {loading && <FiLoader className={styles.spinner} />}
     </button>
