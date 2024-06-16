@@ -9,7 +9,7 @@ import { StepsIndicator } from "../steps-indicator";
 import styles from "./wizard.module.css";
 
 export const Wizard = () => {
-  const { currentStep } = useLoaderData<typeof loader>();
+  const { current_step } = useLoaderData<typeof loader>();
 
   return (
     <div className={styles.container}>
@@ -17,7 +17,7 @@ export const Wizard = () => {
 
       <div>
         {ONBOARDING_STEPS.map(({ identifier, component: Component }, index) => {
-          return currentStep === index && <Component key={identifier} />;
+          return current_step === index && <Component key={identifier} />;
         })}
       </div>
     </div>

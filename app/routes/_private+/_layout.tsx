@@ -14,7 +14,7 @@ import type { IconType } from "react-icons";
 
 import { ROUTE } from "~/utils/enum";
 
-import { getAuthUserProfile } from "~/services/profile";
+import { getUserProfile } from "~/services/profile";
 
 import { Logo } from "~/components/logo";
 import { Button } from "~/components/button";
@@ -30,7 +30,7 @@ const SIDE_MAIN_LINKS: { href: string; text: string; icon: IconType }[] = [
 ];
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const { profile } = await getAuthUserProfile({ request });
+  const { profile } = await getUserProfile({ request });
 
   return json({ profile });
 };

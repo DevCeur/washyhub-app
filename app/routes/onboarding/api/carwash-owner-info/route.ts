@@ -5,24 +5,16 @@ import type { ActionFunction } from "@remix-run/node";
 
 import { ERROR_MESSAGE, ROUTE } from "~/utils/enum";
 
-import { getUserId } from "~/utils/sessions/auth-session";
-
-import {
-  createUserProfile,
-  getUserProfileById,
-  updateUserProfile,
-} from "~/services/profile";
+import { createUserProfile, getUserProfile, updateUserProfile } from "~/services/profile";
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = Object.fromEntries(await request.formData());
-
-  const { userId } = await getUserId({ request });
 
   const formSchema = z.object({
     first_name: z.string().min(1, { message: ERROR_MESSAGE.REQUIRED_FIELD }),
     last_name: z.string().min(1, { message: ERROR_MESSAGE.REQUIRED_FIELD }),
 
-    currentStep: z.string(),
+    current_step: z.string(),
   });
 
   const { data: validatedFormData, error: formValidationError } =
@@ -32,20 +24,20 @@ export const action: ActionFunction = async ({ request }) => {
     return json({ errors: formValidationError.flatten().fieldErrors });
   }
 
-  if (!validatedFormData || !validatedFormData.currentStep) {
+  if (!validatedFormData || !validatedFormData.current_step) {
     return redirect(ROUTE.ONBOARDING);
   }
 
-  const currentStep = parseInt(validatedFormData.currentStep);
+  const currentStep = parseInt(validatedFormData.current_step);
 
-  const { profile } = await getUserProfileById({ userId });
+  const { profile } = await getUserProfile({ request });
 
   if (profile) {
-    await updateUserProfile({ userId, data: validatedFormData });
+    await updateUserProfile({ request, data: validatedFormData });
   }
 
   if (!profile) {
-    await createUserProfile({ userId, data: validatedFormData });
+    await createUserProfile({ request, data: validatedFormData });
   }
 
   return redirect(`${ROUTE.ONBOARDING}?step=${currentStep + 1}`);

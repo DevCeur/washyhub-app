@@ -1,12 +1,13 @@
+import clsx from "clsx";
+
 import { cva } from "class-variance-authority";
 import { FiLoader } from "react-icons/fi";
 import { Link } from "@remix-run/react";
 
-import type { VariantProps } from "class-variance-authority";
 import type { IconType } from "react-icons";
+import type { VariantProps } from "class-variance-authority";
 
 import styles from "./button.module.css";
-import clsx from "clsx";
 
 const buttonStyles = cva(styles.base_button, {
   variants: {
@@ -64,6 +65,7 @@ export const Button = <T extends React.ElementType = "button">({
   variant,
   hierarchy,
   href,
+  className,
   ...elementProps
 }: ButtonProps<T>) => {
   const Component = as === "link" ? Link : "button";
@@ -76,7 +78,8 @@ export const Button = <T extends React.ElementType = "button">({
         className={clsx(
           buttonStyles({ variant, size, hierarchy }),
           Icon && !children && styles.icon_button,
-          Icon && children && styles.with_icon
+          Icon && children && styles.with_icon,
+          className
         )}
         {...elementProps}
       >

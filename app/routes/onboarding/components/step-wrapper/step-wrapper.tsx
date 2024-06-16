@@ -12,7 +12,7 @@ import { ONBOARDING_STEPS } from "../../utils/enum";
 
 import styles from "./step-wrapper.module.css";
 
-type StepIdentifier = "organization-owner-info" | "organization-info" | "resume";
+type StepIdentifier = "carwash-owner-info" | "carwash-info" | "resume";
 
 interface StepWrapperProps {
   title?: string;
@@ -30,15 +30,15 @@ export const StepWrapper = ({
   const navigate = useNavigate();
   const fetcher = useFetcher({ key: identifier });
 
-  const { currentStep, profile, organization } = useLoaderData<typeof loader>();
+  const { current_step, carwash } = useLoaderData<typeof loader>();
 
-  const isFirstStep = currentStep == 0;
-  const isLastStep = currentStep === ONBOARDING_STEPS.length - 1;
+  const isFirstStep = current_step == 0;
+  const isLastStep = current_step === ONBOARDING_STEPS.length - 1;
 
   const handleGoBack = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    navigate(`${ROUTE.ONBOARDING}?step=${currentStep}`);
+    navigate(`${ROUTE.ONBOARDING}?step=${current_step}`);
   };
 
   const isLoading = fetcher.state === "submitting";
@@ -47,20 +47,20 @@ export const StepWrapper = ({
     <div className={styles.container}>
       <div className={styles.heading}>
         <h2>
-          {currentStep + 1}. {title}
+          {current_step + 1}. {title}
         </h2>
         <p>{caption}</p>
       </div>
 
       <fetcher.Form
-        action={`${ROUTE.ONBOARDING}/api/${identifier}`}
         method="post"
+        action={`${ROUTE.ONBOARDING}/api/${identifier}`}
         className={styles.form}
       >
         <div className={styles.fields_container}>{children}</div>
 
-        <input type="hidden" name="currentStep" value={currentStep + 1} />
-        <input type="hidden" name="organizationId" value={organization?.id || ""} />
+        <input type="hidden" name="current_step" value={current_step + 1} />
+        <input type="hidden" name="carwash_id" value={carwash?.id || ""} />
 
         <div className={styles.buttons_container}>
           <Button
@@ -69,7 +69,7 @@ export const StepWrapper = ({
             variant={isLastStep ? "brand" : "default"}
             loading={isLoading}
           >
-            {isLastStep ? "Finish" : profile || organization ? "Save" : "Continue"}
+            {isLastStep ? "Finish" : "Continue"}
           </Button>
 
           {!isFirstStep && (

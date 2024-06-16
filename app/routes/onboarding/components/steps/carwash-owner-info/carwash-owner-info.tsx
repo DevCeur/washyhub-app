@@ -6,13 +6,13 @@ import { loader } from "~/routes/onboarding/route";
 
 import { StepWrapper } from "../../step-wrapper";
 
-import styles from "./organization-owner-step.module.css";
+import styles from "./carwash-owner-info.module.css";
 
-export const OrganizationOwnerStep = () => {
+export const CarwashOwnerInfo = () => {
   const { profile } = useLoaderData<typeof loader>();
 
   const { data } = useFetcher<{ errors: { [x: string]: string } }>({
-    key: "organization-owner-info",
+    key: "carwash-owner-info",
   });
 
   const errors = data?.errors;
@@ -20,8 +20,8 @@ export const OrganizationOwnerStep = () => {
   return (
     <StepWrapper
       title="Owner Information"
-      caption="complete your information to use it for your owner role"
-      identifier="organization-owner-info"
+      caption="Complete your information to use it in your Carwash info"
+      identifier="carwash-owner-info"
     >
       <div className={styles.names_container}>
         <TextInput

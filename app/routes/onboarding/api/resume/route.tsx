@@ -12,7 +12,7 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = Object.fromEntries(await request.formData());
 
   const formSchema = z.object({
-    currentStep: z.string(),
+    current_step: z.string(),
   });
 
   const { userId } = await getUserId({ request });
@@ -24,7 +24,7 @@ export const action: ActionFunction = async ({ request }) => {
     return json({ errors: formValidationError.flatten().fieldErrors });
   }
 
-  if (!validatedFormData || !validatedFormData.currentStep) {
+  if (!validatedFormData || !validatedFormData.current_step) {
     return redirect(ROUTE.ONBOARDING);
   }
 

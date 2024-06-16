@@ -10,13 +10,13 @@ import { ONBOARDING_STEPS } from "../../utils/enum";
 import styles from "./step-indicator.module.css";
 
 export const StepsIndicator = () => {
-  const { currentStep } = useLoaderData<typeof loader>();
+  const { current_step } = useLoaderData<typeof loader>();
 
   return (
     <div className={styles.container}>
       {ONBOARDING_STEPS.map(({ identifier }, index) => {
-        const isActiveStep = currentStep === index;
-        const isCompleted = index < currentStep;
+        const isActiveStep = current_step === index;
+        const isCompleted = index < current_step;
 
         return (
           <div key={identifier} className={styles.indicator_container}>

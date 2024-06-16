@@ -1,1 +1,1 @@
-export * from "./resume-step";
+export * from "./resume";

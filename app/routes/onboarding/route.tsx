@@ -4,10 +4,10 @@ import type { LoaderFunction } from "@remix-run/node";
 
 import { ROUTE } from "~/utils/enum";
 import { withAuthLoader } from "~/utils/with-auth-loader";
-import { getUserId } from "~/utils/sessions/auth-session";
 
-import { getUserProfileById } from "~/services/profile";
-import { getAllUserOrganizations } from "~/services/organization";
+import { getAuthUser } from "~/services/user";
+import { getUserProfile } from "~/services/profile";
+import { getAllUserCarwashes } from "~/services/carwash";
 
 import { Logo } from "~/components/logo";
 
@@ -16,7 +16,6 @@ import { ONBOARDING_STEPS } from "./utils/enum";
 import { Wizard } from "./components/wizard";
 
 import styles from "./route.module.css";
-import { getUserById } from "~/services/user";
 
 export const loader: LoaderFunction = (loaderArgs) =>
   withAuthLoader({
@@ -24,13 +23,11 @@ export const loader: LoaderFunction = (loaderArgs) =>
     callback: async ({ request }) => {
       const url = new URL(request.url);
 
-      const { userId } = await getUserId({ request });
+      const { user } = await getAuthUser({ request });
 
-      if (!userId) {
+      if (!user) {
         return redirect(ROUTE.HOME);
       }
-
-      const { user } = await getUserById({ id: userId });
 
       if (user && !user.needs_onboarding) {
         return redirect(ROUTE.DASHBOARD);
@@ -46,14 +43,14 @@ export const loader: LoaderFunction = (loaderArgs) =>
         return redirect(`${ROUTE.ONBOARDING}?step=1`);
       }
 
-      const { profile } = await getUserProfileById({ userId });
+      const { profile } = await getUserProfile({ request });
 
-      const { organizations } = await getAllUserOrganizations({ userId });
+      const { carwashes } = await getAllUserCarwashes({ request });
 
       return json({
         profile,
-        organization: organizations[0],
-        currentStep: parseInt(currentStep) - 1,
+        carwash: carwashes[0],
+        current_step: parseInt(currentStep) - 1,
       });
     },
   });

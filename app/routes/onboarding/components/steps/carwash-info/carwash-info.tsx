@@ -6,11 +6,11 @@ import { TextInput } from "~/components/text-input";
 
 import { StepWrapper } from "../../step-wrapper";
 
-export const OrganizationStep = () => {
-  const { organization } = useLoaderData<typeof loader>();
+export const CarwashInfo = () => {
+  const { carwash } = useLoaderData<typeof loader>();
 
   const { data } = useFetcher<{ errors: { [x: string]: string } }>({
-    key: "organization-info",
+    key: "carwash-info",
   });
 
   const errors = data?.errors;
@@ -18,15 +18,15 @@ export const OrganizationStep = () => {
   return (
     <StepWrapper
       title="Your Organization"
-      caption="Give it to your organization a name!"
-      identifier="organization-info"
+      caption="Give it a name to your new Carwash!"
+      identifier="carwash-info"
     >
       <TextInput
-        name="organization_name"
+        name="carwash_name"
         label="Organization Name"
         hint="You can change this later."
-        defaultValue={organization?.name || ""}
-        error={errors?.organization_name}
+        defaultValue={carwash?.name || ""}
+        error={errors?.carwash_name}
       />
     </StepWrapper>
   );

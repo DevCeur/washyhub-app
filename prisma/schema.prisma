@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Organization {
+model Carwash {
   id         String   @id @default(uuid())
   name       String   @db.VarChar(255)
   owner_id   String
@@ -43,7 +43,7 @@ model User {
   needs_onboarding      Boolean              @default(true)
   profile               Profile?
   password_reset_tokens PasswordResetToken[]
-  organizations         Organization[]
+  car_washes            Carwash[]
   updated_at            DateTime             @updatedAt
   created_at            DateTime             @default(now())
 }
