@@ -15,6 +15,7 @@ import { ROUTE } from "~/utils/enum";
 
 import { getAuthUserProfile } from "~/services/profile";
 
+import { Logo } from "~/components/logo";
 import { Button } from "~/components/button";
 import { SideNavlink } from "~/components/side-navlink";
 
@@ -39,7 +40,11 @@ export default function PrivateLayout() {
   return (
     <div className={styles.container}>
       <div className={styles.sidebar}>
-        <div className={styles.logo_container}>logo</div>
+        <div className={styles.logo_container}>
+          <Link to={ROUTE.HOME} className={styles.logo}>
+            <Logo />
+          </Link>
+        </div>
 
         <nav className={styles.links_container}>
           <div className={styles.main_links}>
@@ -65,7 +70,15 @@ export default function PrivateLayout() {
       </div>
 
       <div className={styles.content_container}>
-        <header className={styles.header}>header</header>
+        <header className={styles.header}>
+          <Button size="small" hierarchy="secondary">
+            Select Organization
+          </Button>
+
+          <Button size="small" hierarchy="secondary">
+            Create Order
+          </Button>
+        </header>
 
         <main className={styles.content_wrapper}>
           <div className={styles.content}>
