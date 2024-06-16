@@ -1,10 +1,12 @@
 import { cva } from "class-variance-authority";
 import { FiLoader } from "react-icons/fi";
+import { Link } from "@remix-run/react";
 
-import type { ButtonHTMLAttributes } from "react";
 import type { VariantProps } from "class-variance-authority";
+import type { IconType } from "react-icons";
 
 import styles from "./button.module.css";
+import clsx from "clsx";
 
 const buttonStyles = cva(styles.base_button, {
   variants: {
@@ -40,30 +42,50 @@ const buttonStyles = cva(styles.base_button, {
   },
 });
 
-interface ButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonStyles> {
-  children: React.ReactNode;
-  loading?: boolean;
-}
+type PolymorphicProps<E extends React.ElementType> = React.PropsWithChildren<
+  React.ComponentPropsWithoutRef<E> & {
+    as?: E;
+  }
+>;
 
-export const Button = ({
+type ButtonProps<T extends React.ElementType> = PolymorphicProps<T> &
+  VariantProps<typeof buttonStyles> & {
+    icon?: IconType;
+    children?: React.ReactNode;
+    loading?: boolean;
+  };
+
+export const Button = <T extends React.ElementType = "button">({
+  as,
+  icon: Icon,
   children,
+  loading,
+  size,
   variant,
   hierarchy,
-  size,
-  loading,
-  ...buttonProps
-}: ButtonProps) => {
-  return (
-    <button
-      disabled={loading}
-      className={buttonStyles({ variant, size, hierarchy })}
-      {...buttonProps}
-    >
-      {children}
+  href,
+  ...elementProps
+}: ButtonProps<T>) => {
+  const Component = as === "link" ? Link : "button";
 
-      {loading && <FiLoader className={styles.spinner} />}
-    </button>
+  return (
+    <>
+      <Component
+        to={href}
+        disabled={loading}
+        className={clsx(
+          buttonStyles({ variant, size, hierarchy }),
+          Icon && !children && styles.icon_button,
+          Icon && children && styles.with_icon
+        )}
+        {...elementProps}
+      >
+        {Icon && <Icon />}
+
+        {children}
+
+        {loading && <FiLoader className={styles.spinner} />}
+      </Component>
+    </>
   );
 };

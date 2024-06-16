@@ -3,9 +3,11 @@
   justify-content: center;
   align-items: center;
 
-  gap: 12px;
+  gap: 8px;
 
   font-weight: 500;
+
+  text-decoration: none;
 
   cursor: pointer;
   border: solid 1px transparent;
@@ -164,9 +166,19 @@
 
   padding: 0 12px;
 
-  font-size: smaller;
+  font-size: 12px;
 
   border-radius: 8px;
+}
+
+.button_small.with_icon {
+  padding-left: 8px;
+}
+
+.button_small.icon_button {
+  width: 32px;
+
+  padding: 0;
 }
 
 .button_medium {
@@ -179,6 +191,16 @@
   border-radius: 8px;
 }
 
+.button_medium.with_icon {
+  padding-left: 12px;
+}
+
+.button_medium.icon_button {
+  width: 40px;
+
+  padding: 0;
+}
+
 .button_large {
   height: 48px;
 
@@ -187,4 +209,14 @@
   font-size: medium;
 
   border-radius: 12px;
+}
+
+.button_large.with_icon {
+  padding-left: 16px;
+}
+
+.button_large.icon_button {
+  width: 48px;
+
+  padding: 0;
 }

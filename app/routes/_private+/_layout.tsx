@@ -1,6 +1,7 @@
 import { json } from "@remix-run/node";
 import { Form, Link, Outlet, useLoaderData } from "@remix-run/react";
 
+import { FiPlus } from "react-icons/fi";
 import { IoExitOutline } from "react-icons/io5";
 import { RxDashboard } from "react-icons/rx";
 import { LuTicket } from "react-icons/lu";
@@ -61,9 +62,7 @@ export default function PrivateLayout() {
             </Link>
 
             <Form action="/sign-out" method="post">
-              <Button type="submit" hierarchy="tertiary" size="small">
-                <IoExitOutline />
-              </Button>
+              <Button icon={IoExitOutline} type="submit" hierarchy="tertiary" />
             </Form>
           </div>
         </nav>
@@ -75,7 +74,13 @@ export default function PrivateLayout() {
             Select Organization
           </Button>
 
-          <Button size="small" hierarchy="secondary">
+          <Button
+            as="link"
+            href={ROUTE.CREATE_ORDER}
+            icon={FiPlus}
+            size="small"
+            hierarchy="secondary"
+          >
             Create Order
           </Button>
         </header>

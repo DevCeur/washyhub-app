@@ -13,6 +13,7 @@ export const ROUTE = {
   ORGANIZATIONS: "/organizations",
   INVOICES: "/invoices",
   ACCOUNT: "/account",
+  CREATE_ORDER: "/create-order",
 };
 
 export const ERROR_MESSAGE = {
