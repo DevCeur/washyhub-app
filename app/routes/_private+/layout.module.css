@@ -96,13 +96,15 @@
 }
 
 .extra_links_container {
+  flex: 1;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .account_link {
-  width: max-content;
+  width: 175px;
 
   padding: 8px 12px 8px 8px;
 
@@ -127,8 +129,10 @@
 }
 
 .account_initial {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
+
+  flex-shrink: 0;
 
   display: flex;
   justify-content: center;
@@ -148,7 +152,30 @@
   border-color: var(--border-hover);
 }
 
+.account_link_user_info {
+  width: auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .account_first_name {
-  font-size: small;
+  font-size: 14px;
   font-weight: 500;
+}
+
+.account_email {
+  width: 100%;
+  color: var(--fg-body-secondary);
+
+  font-size: 12px;
+
+  overflow: hidden;
+  white-space: nowrap;
+
+  text-overflow: ellipsis;
 }

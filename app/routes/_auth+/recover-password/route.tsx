@@ -17,9 +17,9 @@ import { saveToken } from "~/services/password-reset-token";
 
 import { Button } from "~/components/button";
 import { TextInput } from "~/components/text-input";
+import { SuccessMessage } from "~/components/success-message/success-message";
 
 import styles from "./route.module.css";
-import { SuccessMessage } from "~/components/success-message/success-message";
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = Object.fromEntries(await request.formData());
@@ -110,9 +110,7 @@ export default function RecoverPasswordRoute() {
 
           <Button loading={isLoading}>Recover Password</Button>
 
-          {errors?.server && (
-            <span className={styles.server_error}>{errors.server}</span>
-          )}
+          {errors?.server && <span className={styles.server_error}>{errors.server}</span>}
         </Form>
       )}
     </div>

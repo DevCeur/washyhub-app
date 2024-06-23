@@ -8,12 +8,13 @@ import { LuTicket } from "react-icons/lu";
 import { GoOrganization } from "react-icons/go";
 import { TbReceipt2 } from "react-icons/tb";
 
-import type { Profile } from "@prisma/client";
+import type { Profile, User } from "@prisma/client";
 import type { LoaderFunction } from "@remix-run/node";
 import type { IconType } from "react-icons";
 
 import { ROUTE } from "~/utils/enum";
 
+import { getAuthUser } from "~/services/user";
 import { getUserProfile } from "~/services/profile";
 
 import { Logo } from "~/components/logo";
@@ -30,13 +31,14 @@ const SIDE_MAIN_LINKS: { href: string; text: string; icon: IconType }[] = [
 ];
 
 export const loader: LoaderFunction = async ({ request }) => {
+  const { user } = await getAuthUser({ request });
   const { profile } = await getUserProfile({ request });
 
-  return json({ profile });
+  return json({ user, profile });
 };
 
 export default function PrivateLayout() {
-  const { profile } = useLoaderData<{ profile: Profile }>();
+  const { user, profile } = useLoaderData<{ profile: Profile; user: User }>();
 
   return (
     <div className={styles.container}>
@@ -58,7 +60,10 @@ export default function PrivateLayout() {
             <Link to={ROUTE.ACCOUNT} className={styles.account_link}>
               <div className={styles.account_initial}>{profile.first_name.charAt(0)}</div>
 
-              <span className={styles.account_first_name}>{profile.first_name}</span>
+              <div className={styles.account_link_user_info}>
+                <span className={styles.account_first_name}>{profile.first_name}</span>
+                <span className={styles.account_email}>{user.email}</span>
+              </div>
             </Link>
 
             <Form action="/sign-out" method="post">
