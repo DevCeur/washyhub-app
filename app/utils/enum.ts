@@ -10,7 +10,8 @@ export const ROUTE = {
 
   DASHBOARD: "/dashboard",
   ORDERS: "/orders",
-  ORGANIZATIONS: "/organizations",
+  CARWASHES: "/carwashes",
+  CUSTOMERS: "/customers",
   INVOICES: "/invoices",
   ACCOUNT: "/account",
   CREATE_ORDER: "/create-order",

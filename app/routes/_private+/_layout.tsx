@@ -1,12 +1,12 @@
 import { json } from "@remix-run/node";
-import { Form, Link, Outlet, useLoaderData } from "@remix-run/react";
+import { Link, Outlet, useLoaderData } from "@remix-run/react";
 
 import { FiPlus } from "react-icons/fi";
-import { IoExitOutline } from "react-icons/io5";
 import { RxDashboard } from "react-icons/rx";
 import { LuTicket } from "react-icons/lu";
 import { GoOrganization } from "react-icons/go";
 import { TbReceipt2 } from "react-icons/tb";
+import { HiOutlineUserGroup } from "react-icons/hi2";
 
 import type { Profile, User } from "@prisma/client";
 import type { LoaderFunction } from "@remix-run/node";
@@ -20,13 +20,15 @@ import { getUserProfile } from "~/services/profile";
 import { Logo } from "~/components/logo";
 import { Button } from "~/components/button";
 import { SideNavlink } from "~/components/side-navlink";
+import { AccountSettingsListbox } from "~/components/account-settings-listbox";
 
 import styles from "./layout.module.css";
 
 const SIDE_MAIN_LINKS: { href: string; text: string; icon: IconType }[] = [
   { href: ROUTE.DASHBOARD, text: "Dashboard", icon: RxDashboard },
+  { href: ROUTE.CARWASHES, text: "Carwashes", icon: GoOrganization },
   { href: ROUTE.ORDERS, text: "Orders", icon: LuTicket },
-  { href: ROUTE.ORGANIZATIONS, text: "Organizations", icon: GoOrganization },
+  { href: ROUTE.CUSTOMERS, text: "Customers", icon: HiOutlineUserGroup },
   { href: ROUTE.INVOICES, text: "Invoices", icon: TbReceipt2 },
 ];
 
@@ -57,18 +59,10 @@ export default function PrivateLayout() {
           </div>
 
           <div className={styles.extra_links_container}>
-            <Link to={ROUTE.ACCOUNT} className={styles.account_link}>
-              <div className={styles.account_initial}>{profile.first_name.charAt(0)}</div>
-
-              <div className={styles.account_link_user_info}>
-                <span className={styles.account_first_name}>{profile.first_name}</span>
-                <span className={styles.account_email}>{user.email}</span>
-              </div>
-            </Link>
-
-            <Form action="/sign-out" method="post">
-              <Button icon={IoExitOutline} type="submit" hierarchy="tertiary" />
-            </Form>
+            <AccountSettingsListbox
+              user={user as unknown as User}
+              profile={profile as unknown as Profile}
+            />
           </div>
         </nav>
       </div>

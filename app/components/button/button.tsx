@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { cva } from "class-variance-authority";
 import { FiLoader } from "react-icons/fi";
 import { Link } from "@remix-run/react";
+import { ListboxButton } from "@headlessui/react";
 
 import type { IconType } from "react-icons";
 import type { VariantProps } from "class-variance-authority";
@@ -45,7 +46,7 @@ const buttonStyles = cva(styles.base_button, {
 
 type PolymorphicProps<E extends React.ElementType> = React.PropsWithChildren<
   React.ComponentPropsWithoutRef<E> & {
-    as?: E;
+    as?: E | "listboxButton";
   }
 >;
 
@@ -68,7 +69,8 @@ export const Button = <T extends React.ElementType = "button">({
   className,
   ...elementProps
 }: ButtonProps<T>) => {
-  const Component = as === "link" ? Link : "button";
+  const Component =
+    as === "link" ? Link : as === "listboxButton" ? ListboxButton : "button";
 
   return (
     <>
