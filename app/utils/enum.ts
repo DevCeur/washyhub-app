@@ -9,12 +9,19 @@ export const ROUTE = {
   CHANGE_PASSWORD: "/change-password",
 
   DASHBOARD: "/dashboard",
+
   ORDERS: "/orders",
+  NEW_ORDER: "/orders/new",
+
   CARWASHES: "/carwashes",
+  NEW_CARWASH: "/carwashes/new",
+
   CUSTOMERS: "/customers",
+
   INVOICES: "/invoices",
+  NEW_INVOICE: "/invoices/new",
+
   ACCOUNT: "/account",
-  CREATE_ORDER: "/create-order",
 };
 
 export const ERROR_MESSAGE = {

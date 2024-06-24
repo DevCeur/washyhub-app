@@ -6,9 +6,15 @@ import type { ActionFunction } from "@remix-run/node";
 import { ERROR_MESSAGE, ROUTE } from "~/utils/enum";
 
 import { createCarwash, getCarwashById, updateCarwash } from "~/services/carwash";
+import {
+  commitSession,
+  getCurrentCarwashSession,
+} from "~/utils/sessions/current-carwash-session";
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = Object.fromEntries(await request.formData());
+
+  const { currentCarwashSession } = await getCurrentCarwashSession({ request });
 
   const formSchema = z.object({
     carwash_name: z.string().min(1, { message: ERROR_MESSAGE.REQUIRED_FIELD }),
@@ -42,9 +48,15 @@ export const action: ActionFunction = async ({ request }) => {
     });
   }
 
+  currentCarwashSession.set("carwashId", carwash?.id);
+
   if (!carwash) {
-    await createCarwash({ request, data: validatedFormData });
+    const { carwash } = await createCarwash({ request, data: validatedFormData });
+
+    currentCarwashSession.set("carwashId", carwash?.id);
   }
 
-  return redirect(`${ROUTE.ONBOARDING}?step=${currentStep + 1}`);
+  return redirect(`${ROUTE.ONBOARDING}?step=${currentStep + 1}`, {
+    headers: { "Set-Cookie": await commitSession(currentCarwashSession) },
+  });
 };

@@ -14,9 +14,15 @@ import type { IconType } from "react-icons";
 
 import { ROUTE } from "~/utils/enum";
 
+import {
+  commitSession,
+  getCurrentCarwashId,
+  getCurrentCarwashSession,
+} from "~/utils/sessions/current-carwash-session";
+
 import { getAuthUser } from "~/services/user";
 import { getUserProfile } from "~/services/profile";
-import { getAllUserCarwashes } from "~/services/carwash";
+import { getAllUserCarwashes, getCurrentCarwash } from "~/services/carwash";
 
 import { Logo } from "~/components/logo";
 import { Button } from "~/components/button";
@@ -37,19 +43,32 @@ const SIDE_MAIN_LINKS: { href: string; text: string; icon: IconType }[] = [
 interface Loader {
   user: User;
   profile: Profile;
+  currentCarwash: Carwash;
   carwashes: Carwash[];
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
+  const { currentCarwashSession } = await getCurrentCarwashSession({ request });
+
+  const { carwashId } = await getCurrentCarwashId({ request });
+
   const { user } = await getAuthUser({ request });
   const { profile } = await getUserProfile({ request });
   const { carwashes } = await getAllUserCarwashes({ request });
+  const { carwash } = await getCurrentCarwash({ request });
 
-  return json({ user, profile, carwashes });
+  if (!carwashId) {
+    currentCarwashSession.set("carwashId", carwashes[0].id);
+  }
+
+  return json(
+    { user, profile, carwashes, currentCarwash: carwash },
+    { headers: { "Set-Cookie": await commitSession(currentCarwashSession) } }
+  );
 };
 
 export default function PrivateLayout() {
-  const { user, profile, carwashes } = useLoaderData<Loader>();
+  const { user, profile, carwashes, currentCarwash } = useLoaderData<Loader>();
 
   return (
     <div className={styles.container}>
@@ -79,16 +98,11 @@ export default function PrivateLayout() {
       <div className={styles.content_container}>
         <header className={styles.header}>
           <CarwashSelectionListbox
+            currentCarwash={currentCarwash as unknown as Carwash}
             carwashes={carwashes as unknown as Carwash[]}
           />
 
-          <Button
-            as="link"
-            href={ROUTE.CREATE_ORDER}
-            icon={FiPlus}
-            size="small"
-            hierarchy="secondary"
-          >
+          <Button as="link" href={ROUTE.NEW_ORDER} icon={FiPlus} hierarchy="secondary">
             Create Order
           </Button>
         </header>

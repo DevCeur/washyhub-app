@@ -1,6 +1,7 @@
 import { prisma } from "~/lib/database/database";
 
 import { getAuthUser } from "./user";
+import { getCurrentCarwashId } from "~/utils/sessions/current-carwash-session";
 
 interface GetAllUserCarwashesOptions {
   request: Request;
@@ -36,6 +37,32 @@ export const getCarwashById = async ({ id, request }: GetCarwashByIdOptions) => 
     return { carwash };
   } catch (error) {
     throw new Error(`Error getting carwash by id: ${id}`);
+  }
+};
+
+interface GetCurrentCarwashOptions {
+  request: Request;
+}
+
+export const getCurrentCarwash = async ({ request }: GetCurrentCarwashOptions) => {
+  try {
+    const { carwashId } = await getCurrentCarwashId({ request });
+
+    const { user } = await getAuthUser({ request });
+
+    if (!carwashId) {
+      const { carwashes } = await getAllUserCarwashes({ request });
+
+      return { carwash: carwashes[0] };
+    }
+
+    const carwash = await prisma.carwash.findUnique({
+      where: { id: carwashId, owner_id: user?.id },
+    });
+
+    return { carwash };
+  } catch (error) {
+    throw new Error(`Error getting current carwash`);
   }
 };
 

@@ -1,12 +1,7 @@
 import clsx from "clsx";
 
 import { useState } from "react";
-import {
-  Listbox,
-  ListboxButton,
-  ListboxOption,
-  ListboxOptions,
-} from "@headlessui/react";
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate, useSubmit } from "@remix-run/react";
 
@@ -22,19 +17,21 @@ import styles from "./carwash-selection-listbox.module.css";
 
 interface CarwashSelectionListbox {
   carwashes: Carwash[];
+  currentCarwash: Carwash;
 }
 
 export const CarwashSelectionListbox = ({
   carwashes,
+  currentCarwash,
 }: CarwashSelectionListbox) => {
   const submit = useSubmit();
   const navigate = useNavigate();
 
-  const [selectedCarwash, setSelectedCarwash] = useState(carwashes[0]);
+  const [selectedCarwash, setSelectedCarwash] = useState(currentCarwash);
 
   const handleCarwashChange = (val: Carwash | "create-carwash") => {
     if (val === "create-carwash") {
-      navigate(ROUTE.CARWASHES);
+      navigate(ROUTE.NEW_CARWASH);
 
       setSelectedCarwash(selectedCarwash);
     } else {
@@ -87,9 +84,7 @@ export const CarwashSelectionListbox = ({
                     >
                       <FiCheck className={styles.option_selected_icon} />
 
-                      <span className={styles.option_label}>
-                        {carwash.name}
-                      </span>
+                      <span className={styles.option_label}>{carwash.name}</span>
                     </ListboxOption>
                   ))}
                 </div>
