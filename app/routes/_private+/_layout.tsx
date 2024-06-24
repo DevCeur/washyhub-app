@@ -8,7 +8,7 @@ import { GoOrganization } from "react-icons/go";
 import { TbReceipt2 } from "react-icons/tb";
 import { HiOutlineUserGroup } from "react-icons/hi2";
 
-import type { Profile, User } from "@prisma/client";
+import type { Carwash, Profile, User } from "@prisma/client";
 import type { LoaderFunction } from "@remix-run/node";
 import type { IconType } from "react-icons";
 
@@ -16,11 +16,13 @@ import { ROUTE } from "~/utils/enum";
 
 import { getAuthUser } from "~/services/user";
 import { getUserProfile } from "~/services/profile";
+import { getAllUserCarwashes } from "~/services/carwash";
 
 import { Logo } from "~/components/logo";
 import { Button } from "~/components/button";
 import { SideNavlink } from "~/components/side-navlink";
 import { AccountSettingsListbox } from "~/components/account-settings-listbox";
+import { CarwashSelectionListbox } from "~/components/carwash-selection-listbox";
 
 import styles from "./layout.module.css";
 
@@ -32,15 +34,22 @@ const SIDE_MAIN_LINKS: { href: string; text: string; icon: IconType }[] = [
   { href: ROUTE.INVOICES, text: "Invoices", icon: TbReceipt2 },
 ];
 
+interface Loader {
+  user: User;
+  profile: Profile;
+  carwashes: Carwash[];
+}
+
 export const loader: LoaderFunction = async ({ request }) => {
   const { user } = await getAuthUser({ request });
   const { profile } = await getUserProfile({ request });
+  const { carwashes } = await getAllUserCarwashes({ request });
 
-  return json({ user, profile });
+  return json({ user, profile, carwashes });
 };
 
 export default function PrivateLayout() {
-  const { user, profile } = useLoaderData<{ profile: Profile; user: User }>();
+  const { user, profile, carwashes } = useLoaderData<Loader>();
 
   return (
     <div className={styles.container}>
@@ -69,9 +78,9 @@ export default function PrivateLayout() {
 
       <div className={styles.content_container}>
         <header className={styles.header}>
-          <Button size="small" hierarchy="secondary">
-            Select Organization
-          </Button>
+          <CarwashSelectionListbox
+            carwashes={carwashes as unknown as Carwash[]}
+          />
 
           <Button
             as="link"

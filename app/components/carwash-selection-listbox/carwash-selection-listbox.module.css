@@ -1,11 +1,8 @@
-.listbox {
-  width: 100%;
-}
-
 .listbox_button_container {
-  width: 100%;
+  width: 325px;
+  height: 36px;
 
-  padding: 8px;
+  padding: 0 16px;
 
   background-color: transparent;
 
@@ -19,8 +16,9 @@
 
   gap: 12px;
 
-  border-radius: 8px;
-  border: none;
+  border: solid 1px var(--border-default);
+  border-radius: 12px;
+
   outline: none;
   appearance: none;
 
@@ -33,72 +31,24 @@
   background-color: var(--bg-primary-hover);
 }
 
-.user_info_container {
+.label_container {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+
+  font-size: 14px;
+  font-weight: 500;
 
   gap: 12px;
-}
-
-.user_initial {
-  width: 32px;
-  height: 32px;
-
-  flex-shrink: 0;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  font-size: x-small;
-  font-weight: 500;
-  text-transform: uppercase;
-
-  border-radius: 100%;
-  border: solid 1px var(--border-default);
-
-  transition: all 150ms ease-in-out;
 }
 
 .listbox_button_container:hover .user_initial {
   border-color: var(--border-hover);
 }
 
-.user_info {
-  width: 125px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.user_name {
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.user_email {
-  width: 100%;
-  color: var(--fg-body-secondary);
-
-  font-size: 12px;
-
-  overflow: hidden;
-  white-space: nowrap;
-
-  text-overflow: ellipsis;
-}
-
 .listbox_options_container {
   width: var(--button-width);
 
   padding: 8px;
-  margin-bottom: 24px;
 
   background-color: var(--bg-secondary-default);
 
@@ -129,15 +79,15 @@
   background-color: transparent;
   appearance: none;
 
+  border-radius: 8px;
   border: solid 1px transparent;
   outline: none;
 
   cursor: pointer;
 
-  gap: 8px;
+  gap: 12px;
 
   transition: all 150ms ease-in-out;
-  border-radius: 8px;
 }
 
 .option:hover {
@@ -150,4 +100,43 @@
   background-color: var(--error-overlay);
 
   border-color: var(--error-hover);
+}
+
+.option_selected_icon_container {
+  width: 24px;
+  height: 24px;
+
+  font-size: 14px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.option_selected_icon {
+  display: none;
+}
+
+.option[data-selected] .option_selected_icon {
+  display: inline-block;
+}
+
+.option[data-selected] {
+  background-color: var(--bg-primary-default);
+}
+
+.option[data-selected]:hover {
+  background-color: var(--bg-primary-hover);
+}
+
+.carwash_list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+
+  padding-bottom: 16px;
+  margin-bottom: 6px;
+
+  border-bottom: solid 1px var(--border-default);
 }

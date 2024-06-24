@@ -80,8 +80,6 @@
   display: flex;
   justify-content: center;
 
-  padding: 24px;
-
   position: relative;
 
   overflow-y: auto;
@@ -93,6 +91,8 @@
 
   width: 100%;
   max-width: 1024px;
+
+  padding: 32px;
 }
 
 .extra_links_container {
