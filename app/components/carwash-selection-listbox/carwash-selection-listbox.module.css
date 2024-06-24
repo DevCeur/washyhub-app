@@ -114,11 +114,11 @@
 }
 
 .option_selected_icon {
-  display: none;
+  opacity: 0;
 }
 
 .option[data-selected] .option_selected_icon {
-  display: inline-block;
+  opacity: 1;
 }
 
 .option[data-selected] {

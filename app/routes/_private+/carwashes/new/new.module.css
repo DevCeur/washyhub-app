@@ -1,0 +1,38 @@
+.container {
+  width: 100%;
+  max-width: 500px;
+
+  margin: 0 auto;
+
+  background-color: var(--bg-secondary-default);
+
+  border: solid 1px var(--border-default);
+  border-radius: 16px;
+}
+
+.heading,
+.form {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+}
+
+.heading {
+  gap: 12px;
+
+  border-bottom: solid 1px var(--border-default);
+}
+
+.heading h1 {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.heading p {
+  font-size: 14px;
+  color: var(--fg-secondary-default);
+}
+
+.form {
+  gap: 24px;
+}
