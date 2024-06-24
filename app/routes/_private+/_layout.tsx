@@ -102,7 +102,7 @@ export default function PrivateLayout() {
             carwashes={carwashes as unknown as Carwash[]}
           />
 
-          <Button as="link" href={ROUTE.NEW_ORDER} icon={FiPlus} hierarchy="secondary">
+          <Button as="link" href={ROUTE.NEW_ORDER} icon={FiPlus}>
             Create Order
           </Button>
         </header>

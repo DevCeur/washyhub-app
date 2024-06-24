@@ -1,5 +1,5 @@
 .listbox_button_container {
-  width: 300px;
+  width: 350px;
   height: 40px;
 
   padding: 0 16px;
@@ -17,7 +17,7 @@
   gap: 12px;
 
   border: solid 1px var(--border-default);
-  border-radius: 12px;
+  border-radius: 8px;
 
   outline: none;
   appearance: none;

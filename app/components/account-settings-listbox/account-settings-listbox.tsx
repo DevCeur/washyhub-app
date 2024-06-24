@@ -1,8 +1,9 @@
 import clsx from "clsx";
 
-import { Form, Link } from "@remix-run/react";
-import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
+import { useState } from "react";
+import { useNavigate, useSubmit } from "@remix-run/react";
 import { AnimatePresence, motion } from "framer-motion";
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 
 import { MdOutlineManageAccounts } from "react-icons/md";
 import { HiChevronUpDown, HiOutlineArrowRightStartOnRectangle } from "react-icons/hi2";
@@ -18,12 +19,35 @@ interface AccountSettingsListboxProps {
   profile: Profile;
 }
 
+type Action = null | "sign-out" | "go-to-account";
+
 export const AccountSettingsListbox = ({
   user,
   profile,
 }: AccountSettingsListboxProps) => {
+  const submit = useSubmit();
+  const navigate = useNavigate();
+
+  const [action, setAction] = useState<Action>();
+
+  const handleChange = (val: Action) => {
+    setAction(val);
+
+    switch (val) {
+      case "sign-out":
+        submit(
+          { success: true },
+          { action: "/sign-out", method: "post", navigate: false }
+        );
+        break;
+
+      case "go-to-account":
+        navigate(ROUTE.ACCOUNT);
+    }
+  };
+
   return (
-    <Listbox>
+    <Listbox value={action} onChange={handleChange}>
       {({ open }) => (
         <>
           <ListboxButton className={styles.listbox_button_container}>
@@ -53,27 +77,24 @@ export const AccountSettingsListbox = ({
                 transition={{ duration: 0.15 }}
                 className={styles.listbox_options_container}
               >
-                <ListboxOption key="account-link" value="account-link">
-                  <Link to={ROUTE.ACCOUNT} className={styles.option}>
-                    <MdOutlineManageAccounts className={styles.option_icon} />
+                <ListboxOption
+                  key="account-link"
+                  value="go-to-account"
+                  className={styles.option}
+                >
+                  <MdOutlineManageAccounts className={styles.option_icon} />
 
-                    <span className={styles.option_label}>My Account</span>
-                  </Link>
+                  <span className={styles.option_label}>My Account</span>
                 </ListboxOption>
 
-                <ListboxOption key="sign-out" value="sign-out">
-                  <Form action="/sign-out" method="post">
-                    <button
-                      type="submit"
-                      className={clsx(styles.option, styles.option_danger)}
-                    >
-                      <HiOutlineArrowRightStartOnRectangle
-                        className={styles.option_icon}
-                      />
+                <ListboxOption
+                  key="sign-out"
+                  value="sign-out"
+                  className={clsx(styles.option, styles.option_danger)}
+                >
+                  <HiOutlineArrowRightStartOnRectangle className={styles.option_icon} />
 
-                      <span>Sign Out</span>
-                    </button>
-                  </Form>
+                  <span>Sign Out</span>
                 </ListboxOption>
               </ListboxOptions>
             )}
