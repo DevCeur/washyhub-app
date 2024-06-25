@@ -1,6 +1,11 @@
+import clsx from "clsx";
+import React from "react";
+
 import { json } from "@remix-run/node";
 import { Link, Outlet, useLoaderData, useLocation } from "@remix-run/react";
 import { Tab as HTab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
+
+import { FiPlus } from "react-icons/fi";
 
 import type { LoaderFunction } from "@remix-run/node";
 import type { CarwashWithOwnerServicesAndPackages } from "~/utils/types";
@@ -9,11 +14,10 @@ import { ROUTE } from "~/utils/enum";
 
 import { getCarwashById } from "~/services/carwash";
 
+import { Button } from "~/components/button";
 import { MessageCard } from "~/components/message-card";
 
 import styles from "./layout.module.css";
-import clsx from "clsx";
-import React from "react";
 
 interface TabProps {
   to: string;
@@ -45,6 +49,9 @@ export default function CarwashRouteLayout() {
 
   const { carwash } = useLoaderData<{ carwash: CarwashWithOwnerServicesAndPackages }>();
 
+  const isInServices = location.pathname.includes("services");
+  const isInPackages = location.pathname.includes("packages");
+
   const needsSetup =
     carwash.services?.length === 0 &&
     location.pathname === `${ROUTE.CARWASHES}/${carwash.id}/general`;
@@ -52,7 +59,21 @@ export default function CarwashRouteLayout() {
   return (
     <TabGroup className={styles.container}>
       <div className={styles.header}>
-        <h1>{carwash.name} settings</h1>
+        <div className={styles.heading}>
+          <h1>{carwash.name} settings</h1>
+
+          {isInServices && (
+            <Button size="small" hierarchy="secondary" icon={FiPlus}>
+              Create Service
+            </Button>
+          )}
+
+          {isInPackages && (
+            <Button size="small" hierarchy="secondary" icon={FiPlus}>
+              Create Package
+            </Button>
+          )}
+        </div>
 
         <TabList className={styles.tabs_container}>
           <Tab to={`${ROUTE.CARWASHES}/${carwash.id}/general`}>General</Tab>
