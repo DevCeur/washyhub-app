@@ -1,9 +1,9 @@
 import clsx from "clsx";
 
 import { useNavigation } from "@remix-run/react";
+import { useEffect, useRef, useState } from "react";
 
 import styles from "./global-loading.module.css";
-import { useEffect, useRef, useState } from "react";
 
 export const GlobalLoading = () => {
   const navigation = useNavigation();
@@ -34,6 +34,7 @@ export const GlobalLoading = () => {
       className={styles.container}
     >
       <div
+        ref={ref}
         className={clsx(
           styles.progress_bar,
           idle && animationComplete && styles.progress_bar_idle,

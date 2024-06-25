@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate, useSubmit } from "@remix-run/react";
@@ -47,6 +47,10 @@ export const CarwashSelectionListbox = ({
       setSelectedCarwash(val);
     }
   };
+
+  useEffect(() => {
+    setSelectedCarwash(currentCarwash);
+  }, [currentCarwash]);
 
   return (
     <Listbox value={selectedCarwash} onChange={handleCarwashChange}>

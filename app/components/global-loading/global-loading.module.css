@@ -16,14 +16,14 @@
 
   background-color: var(--accent-default);
 
-  transition: all 500ms ease-in-out;
+  transition: all 250ms ease-in-out;
 }
 
 .progress_bar_idle {
   width: 0;
   opacity: 0;
 
-  transition: none;
+  transition: all 100ms ease-in-out;
 }
 
 .progress_bar_loading {

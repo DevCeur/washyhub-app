@@ -1,0 +1,35 @@
+.container {
+  width: 100%;
+
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+
+  display: flex;
+  justify-content: space-between;
+
+  border-bottom: solid 1px var(--border-default);
+}
+
+.container:last-child {
+  padding-bottom: 0;
+  margin-bottom: 0;
+
+  border: none;
+}
+
+.heading {
+  width: 100%;
+  max-width: 200px;
+}
+
+.title {
+  color: var(--fg-heading);
+
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.fields_container {
+  width: 100%;
+  max-width: 500px;
+}

@@ -1,6 +1,6 @@
 import { json } from "@remix-run/node";
 import { Link, Outlet, useLoaderData, useLocation } from "@remix-run/react";
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
+import { Tab as HTab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 
 import type { LoaderFunction } from "@remix-run/node";
 import type { CarwashWithOwnerServicesAndPackages } from "~/utils/types";
@@ -12,6 +12,25 @@ import { getCarwashById } from "~/services/carwash";
 import { MessageCard } from "~/components/message-card";
 
 import styles from "./layout.module.css";
+import clsx from "clsx";
+import React from "react";
+
+interface TabProps {
+  to: string;
+  children: React.ReactNode;
+}
+
+const Tab = ({ to, children }: TabProps) => {
+  const location = useLocation();
+
+  const isInTab = location.pathname === to;
+
+  return (
+    <HTab as={Link} to={to} className={clsx(styles.tab, isInTab && styles.in_tab)}>
+      {children}
+    </HTab>
+  );
+};
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const { id } = params;
@@ -36,34 +55,16 @@ export default function CarwashRouteLayout() {
         <h1>{carwash.name} settings</h1>
 
         <TabList className={styles.tabs_container}>
-          <Tab
-            as={Link}
-            to={`${ROUTE.CARWASHES}/${carwash.id}/general`}
-            className={styles.tab}
-          >
-            General
-          </Tab>
+          <Tab to={`${ROUTE.CARWASHES}/${carwash.id}/general`}>General</Tab>
 
-          <Tab
-            as={Link}
-            to={`${ROUTE.CARWASHES}/${carwash.id}/services`}
-            className={styles.tab}
-          >
-            Services
-          </Tab>
+          <Tab to={`${ROUTE.CARWASHES}/${carwash.id}/services`}>Services</Tab>
 
-          <Tab
-            as={Link}
-            to={`${ROUTE.CARWASHES}/${carwash.id}/packages`}
-            className={styles.tab}
-          >
-            Packages
-          </Tab>
+          <Tab to={`${ROUTE.CARWASHES}/${carwash.id}/packages`}>Packages</Tab>
         </TabList>
       </div>
 
       {needsSetup && (
-        <MessageCard type="warning" title="Carwash Needs Setup">
+        <MessageCard type="warning" title="Carwash needs ">
           <span>
             Looks like this Carwash needs some services to enable order creation and more,{" "}
             <Link to={`${ROUTE.CARWASHES}/${carwash.id}/services`}>

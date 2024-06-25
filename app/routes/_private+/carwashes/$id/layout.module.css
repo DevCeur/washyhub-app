@@ -43,11 +43,11 @@
 }
 
 .tab:hover,
-.tab[data-selected] {
+.in_tab {
   color: var(--fg-heading);
 }
 
-.tab[data-selected] {
+.in_tab {
   border-color: var(--fg-heading);
 }
 

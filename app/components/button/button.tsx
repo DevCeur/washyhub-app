@@ -76,11 +76,11 @@ export const Button = <T extends React.ElementType = "button">({
     <>
       <Component
         to={href}
-        disabled={loading}
         className={clsx(
           buttonStyles({ variant, size, hierarchy }),
           Icon && !children && styles.icon_button,
           Icon && children && styles.with_icon,
+          loading && styles.loading,
           className
         )}
         {...elementProps}
