@@ -24,7 +24,7 @@ export const CarwashInfo = () => {
       <TextInput
         name="carwash_name"
         label="Organization Name"
-        hint="You can change this later."
+        hint="You can rename your carwash later."
         defaultValue={carwash?.name || ""}
         error={errors?.carwash_name}
       />
