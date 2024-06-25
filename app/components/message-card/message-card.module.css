@@ -1,0 +1,57 @@
+.container {
+  width: 100%;
+
+  padding: 16px;
+
+  font-size: 14px;
+
+  display: flex;
+
+  gap: 12px;
+
+  border-radius: 16px;
+}
+
+.container svg {
+  font-size: 24px;
+}
+
+.container.success {
+  color: var(--green-default);
+  background-color: var(--green-overlay);
+  border: solid 1px var(--green-border);
+}
+
+.container.danger {
+  color: var(--error-default);
+  background-color: var(--error-overlay);
+  border: solid 1px var(--error-border);
+}
+
+.container.warning {
+  color: var(--amber-default);
+  background-color: var(--amber-overlay);
+  border: solid 1px var(--amber-border);
+}
+
+.title_message {
+  margin-bottom: 8px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.title {
+  display: inline-block;
+
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.message {
+  display: inline-block;
+
+  font-size: 14px;
+}

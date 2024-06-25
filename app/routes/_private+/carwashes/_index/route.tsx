@@ -3,8 +3,8 @@ import { useLoaderData } from "@remix-run/react";
 
 import { FiPlus } from "react-icons/fi";
 
-import type { Carwash } from "@prisma/client";
 import type { LoaderFunction } from "@remix-run/node";
+import type { CarwashWithOwnerServicesAndPackages } from "~/utils/types";
 
 import { ROUTE } from "~/utils/enum";
 
@@ -18,7 +18,7 @@ import { Button } from "~/components/button";
 import styles from "./route.module.css";
 
 interface LoaderData {
-  carwashes: Carwash[];
+  carwashes: CarwashWithOwnerServicesAndPackages[];
 }
 
 export const loader: LoaderFunction = (loaderArgs) =>
@@ -52,7 +52,10 @@ export default function CarwashesRoute() {
 
       <ul className={styles.carwashes_list}>
         {carwashes.map((carwash) => (
-          <CarwashCard key={carwash.id} carwash={carwash as unknown as Carwash} />
+          <CarwashCard
+            key={carwash.id}
+            carwash={carwash as unknown as CarwashWithOwnerServicesAndPackages}
+          />
         ))}
       </ul>
     </div>

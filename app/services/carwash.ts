@@ -13,6 +13,7 @@ export const getAllUserCarwashes = async ({ request }: GetAllUserCarwashesOption
 
     const carwashes = await prisma.carwash.findMany({
       where: { owner_id: user?.id },
+      include: { owner: { include: { profile: true } }, packages: true, services: true },
     });
 
     return { carwashes };
@@ -32,6 +33,7 @@ export const getCarwashById = async ({ id, request }: GetCarwashByIdOptions) => 
 
     const carwash = await prisma.carwash.findUnique({
       where: { id, owner_id: user?.id },
+      include: { services: true, packages: true },
     });
 
     return { carwash };

@@ -1,24 +1,28 @@
 import { Link } from "@remix-run/react";
 
-import { FiPackage } from "react-icons/fi";
 import { FaRegUserCircle } from "react-icons/fa";
 import { MdOutlineLocalCarWash } from "react-icons/md";
 import { HiChevronRight } from "react-icons/hi";
+import { TbAlertCircle } from "react-icons/tb";
 
-import type { Carwash } from "@prisma/client";
+import type { CarwashWithOwnerServicesAndPackages } from "~/utils/types";
 
 import { ROUTE } from "~/utils/enum";
 
 import styles from "./carwash-card.module.css";
 
 interface CarwashCardProps {
-  carwash: Carwash;
+  carwash: CarwashWithOwnerServicesAndPackages;
 }
 
 export const CarwashCard = ({ carwash }: CarwashCardProps) => {
+  const ownerName = `${carwash.owner.profile.first_name} ${carwash.owner.profile.last_name}`;
+
+  const needsSetup = carwash.services.length === 0;
+
   return (
     <li className={styles.item}>
-      <Link to={`${ROUTE.CARWASHES}/${carwash.id}`} className={styles.container}>
+      <Link to={`${ROUTE.CARWASHES}/${carwash.id}/general`} className={styles.container}>
         <div className={styles.header}>
           <span className={styles.carwash_name}>{carwash.name}</span>
 
@@ -28,17 +32,22 @@ export const CarwashCard = ({ carwash }: CarwashCardProps) => {
         <div className={styles.carwash_info}>
           <div className={styles.carwash_owner}>
             <FaRegUserCircle />
-            <span>Owner Name</span>
+
+            <span>{ownerName}</span>
           </div>
 
           <div className={styles.carwash_stats}>
-            <div className={styles.stat}>
-              <MdOutlineLocalCarWash /> <span>12</span>
-            </div>
+            {needsSetup ? (
+              <div className={styles.needs_setup_badge}>
+                <TbAlertCircle />
 
-            <div className={styles.stat}>
-              <FiPackage /> <span>12</span>
-            </div>
+                <span>Needs Setup</span>
+              </div>
+            ) : (
+              <div className={styles.stat}>
+                <MdOutlineLocalCarWash /> <span>12</span>
+              </div>
+            )}
           </div>
         </div>
       </Link>

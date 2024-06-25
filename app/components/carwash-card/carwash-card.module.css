@@ -34,6 +34,7 @@
 
 .carwash_info {
   display: flex;
+  justify-content: space-between;
   align-items: center;
 
   gap: 24px;
@@ -72,4 +73,25 @@
   gap: 4px;
 
   color: var(--fg-body-secondary);
+}
+
+.needs_setup_badge {
+  padding: 4px 8px;
+
+  color: var(--amber-default);
+  background-color: var(--amber-overlay);
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  border: solid 1px var(--amber-border);
+  border-radius: 16px;
+}
+
+.needs_setup_badge svg {
+  font-size: 14px;
 }

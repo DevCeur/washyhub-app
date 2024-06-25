@@ -40,7 +40,7 @@ export const action: ActionFunction = async ({ request }) => {
     request,
   });
 
-  return redirect(`${ROUTE.CARWASHES}/${carwash.id}`);
+  return redirect(`${ROUTE.CARWASHES}/${carwash.id}/general`);
 };
 
 export default function NewCarwashRoute() {

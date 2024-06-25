@@ -7,13 +7,40 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model CarwashPackage {
+  id          String           @id @default(uuid())
+  name        String           @db.VarChar(255)
+  description String?
+  cost        Decimal
+  carwash_id  String
+  carwash     Carwash          @relation(fields: [carwash_id], references: [id])
+  services    CarwashService[]
+  updated_at  DateTime         @updatedAt
+  created_at  DateTime         @default(now())
+}
+
+model CarwashService {
+  id          String          @id @default(uuid())
+  name        String          @db.VarChar(255)
+  description String?
+  cost        Decimal
+  carwash_id  String
+  carwash     Carwash         @relation(fields: [carwash_id], references: [id])
+  package_id  String?
+  package     CarwashPackage? @relation(fields: [package_id], references: [id])
+  updated_at  DateTime        @updatedAt
+  created_at  DateTime        @default(now())
+}
+
 model Carwash {
-  id         String   @id @default(uuid())
-  name       String   @db.VarChar(255)
+  id         String           @id @default(uuid())
+  name       String           @db.VarChar(255)
   owner_id   String
-  updated_at DateTime @updatedAt
-  created_at DateTime @default(now())
-  owner      User     @relation(fields: [owner_id], references: [id])
+  owner      User             @relation(fields: [owner_id], references: [id])
+  services   CarwashService[]
+  packages   CarwashPackage[]
+  updated_at DateTime         @updatedAt
+  created_at DateTime         @default(now())
 }
 
 model PasswordResetToken {
