@@ -113,3 +113,22 @@ export const updateCarwash = async ({ id, request, data }: UpdateCarwashOptions)
     throw new Error(`Error updating carwash with id: ${id}`);
   }
 };
+
+interface DeleteCarwashOptions {
+  id: string;
+  request: Request;
+}
+
+export const deleteCarwash = async ({ id, request }: DeleteCarwashOptions) => {
+  try {
+    const { user } = await getAuthUser({ request });
+
+    await prisma.carwash.delete({
+      where: { id, owner_id: user?.id },
+    });
+
+    return { success: true };
+  } catch (error) {
+    throw new Error(`Error deleting carwash with id: ${id}`);
+  }
+};

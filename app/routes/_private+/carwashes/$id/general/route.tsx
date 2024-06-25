@@ -1,20 +1,30 @@
 import { z } from "zod";
 import { json } from "@remix-run/node";
 import { useForm } from "react-hook-form";
-import { useFetcher, useLoaderData } from "@remix-run/react";
+import { Form, redirect, useFetcher, useLoaderData } from "@remix-run/react";
 
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import type { CarwashWithOwnerServicesAndPackages } from "~/utils/types";
 
-import { ERROR_MESSAGE } from "~/utils/enum";
+import { ERROR_MESSAGE, ROUTE } from "~/utils/enum";
 
 import { withAuthLoader } from "~/utils/with-auth-loader";
 
-import { getCarwashById, updateCarwash } from "~/services/carwash";
+import {
+  destroySession,
+  getCurrentCarwashId,
+  getCurrentCarwashSession,
+} from "~/utils/sessions/current-carwash-session";
 
+import { deleteCarwash, getCarwashById, updateCarwash } from "~/services/carwash";
+
+import { Button } from "~/components/button";
 import { TextInput } from "~/components/text-input";
 import { UpdateForm } from "~/components/update-form";
+import { MessageCard } from "~/components/message-card";
 import { UpdateFormSection } from "~/components/update-form-section";
+
+import styles from "./route.module.css";
 
 interface LoaderData {
   carwash: CarwashWithOwnerServicesAndPackages;
@@ -35,6 +45,9 @@ export const loader: LoaderFunction = (loaderArgs) =>
 export const action: ActionFunction = async ({ request, params }) => {
   const { id } = params;
 
+  const { currentCarwashSession } = await getCurrentCarwashSession({ request });
+  const { carwashId } = await getCurrentCarwashId({ request });
+
   const formData = Object.fromEntries(await request.formData());
 
   const formSchema = z.object({
@@ -47,17 +60,38 @@ export const action: ActionFunction = async ({ request, params }) => {
   const { data: validatedFormData, error: formValidationError } =
     formSchema.safeParse(formData);
 
-  if (formValidationError) {
-    return json({ errors: formValidationError.flatten().fieldErrors });
+  switch (request.method) {
+    case "POST":
+      if (formValidationError) {
+        return json({ errors: formValidationError.flatten().fieldErrors });
+      }
+
+      await updateCarwash({
+        id: id as string,
+        request,
+        data: validatedFormData,
+      });
+
+      return json({ success: true });
+
+    case "DELETE":
+      if (id === carwashId) {
+        await deleteCarwash({ id: id as string, request });
+
+        currentCarwashSession.unset("carwashId");
+
+        return redirect(ROUTE.CARWASHES, {
+          headers: { "Set-Cookie": await destroySession(currentCarwashSession) },
+        });
+      }
+
+      await deleteCarwash({ id: id as string, request });
+
+      return redirect(ROUTE.CARWASHES);
+
+    default:
+      return json({ success: true });
   }
-
-  await updateCarwash({
-    id: id as string,
-    request,
-    data: validatedFormData,
-  });
-
-  return json({ success: true });
 };
 
 export default function CarwashGeneralSettingsRoute() {
@@ -70,17 +104,38 @@ export default function CarwashGeneralSettingsRoute() {
   });
 
   const actionData = fetcher.data;
+  const isLoading = fetcher.state === "submitting";
 
   return (
-    <UpdateForm method="post" fetcher={fetcher} form={form}>
-      <UpdateFormSection title="Carwash Info">
-        <TextInput
-          label="Carwash Name"
-          defaultValue={carwash.name}
-          error={actionData?.errors?.carwash_name}
-          {...form.register("carwash_name")}
-        />
-      </UpdateFormSection>
-    </UpdateForm>
+    <div className={styles.container}>
+      <UpdateForm method="post" fetcher={fetcher} form={form}>
+        <UpdateFormSection title="Carwash Info">
+          <TextInput
+            label="Carwash Name"
+            defaultValue={carwash.name}
+            error={actionData?.errors?.carwash_name}
+            {...form.register("carwash_name")}
+          />
+        </UpdateFormSection>
+      </UpdateForm>
+
+      <MessageCard
+        type="danger"
+        title="Delete this Carwash"
+        message="Deleting this Carwash will also remove all services, packages and orders related."
+      >
+        <Form method="delete" className={styles.form}>
+          <Button
+            size="small"
+            loading={isLoading}
+            variant="error"
+            hierarchy="secondary"
+            overlay
+          >
+            Delete Carwash
+          </Button>
+        </Form>
+      </MessageCard>
+    </div>
   );
 }

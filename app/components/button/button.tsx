@@ -55,17 +55,19 @@ type ButtonProps<T extends React.ElementType> = PolymorphicProps<T> &
     icon?: IconType;
     children?: React.ReactNode;
     loading?: boolean;
+    overlay?: boolean;
   };
 
 export const Button = <T extends React.ElementType = "button">({
   as,
-  icon: Icon,
+  href,
+  hierarchy,
   children,
   loading,
   size,
   variant,
-  hierarchy,
-  href,
+  overlay,
+  icon: Icon,
   className,
   ...elementProps
 }: ButtonProps<T>) => {
@@ -80,6 +82,7 @@ export const Button = <T extends React.ElementType = "button">({
           buttonStyles({ variant, size, hierarchy }),
           Icon && !children && styles.icon_button,
           Icon && children && styles.with_icon,
+          overlay && styles.overlay,
           loading && styles.loading,
           className
         )}

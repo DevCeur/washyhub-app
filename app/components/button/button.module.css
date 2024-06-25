@@ -153,6 +153,10 @@
   background-color: var(--error-overlay);
 }
 
+.button_error.button_secondary.overlay:hover {
+  background-color: var(--error-overlay-hover);
+}
+
 .button_error.button_tertiary {
   color: var(--error-default);
   fill: var(--error-default);
