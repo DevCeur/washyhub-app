@@ -1,0 +1,47 @@
+import clsx from "clsx";
+
+import { useNavigation } from "@remix-run/react";
+
+import styles from "./global-loading.module.css";
+import { useEffect, useRef, useState } from "react";
+
+export const GlobalLoading = () => {
+  const navigation = useNavigation();
+
+  const active = navigation.state !== "idle";
+  const idle = navigation.state === "idle";
+  const loading = navigation.state === "submitting";
+  const loaded = navigation.state === "loading";
+
+  const ref = useRef<HTMLDivElement>(null);
+  const [animationComplete, setAnimationComplete] = useState(true);
+
+  useEffect(() => {
+    if (!ref.current) return;
+
+    if (active) setAnimationComplete(false);
+
+    Promise.allSettled(ref.current.getAnimations().map(({ finished }) => finished)).then(
+      () => !active && setAnimationComplete(true)
+    );
+  }, [active]);
+
+  return (
+    <div
+      role="progressbar"
+      aria-hidden={!active}
+      aria-valuetext={active ? "Loading" : undefined}
+      className={styles.container}
+    >
+      <div
+        className={clsx(
+          styles.progress_bar,
+          idle && animationComplete && styles.progress_bar_idle,
+          loading && styles.progress_bar_loading,
+          loaded && styles.progress_bar_loaded,
+          idle && !animationComplete && styles.progress_bar_done
+        )}
+      />
+    </div>
+  );
+};

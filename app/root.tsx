@@ -4,6 +4,8 @@ import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/reac
 
 import type { LinksFunction } from "@remix-run/node";
 
+import { GlobalLoading } from "./components/global-loading";
+
 import globalStyles from "~/styles/global.css?url";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: globalStyles }];
@@ -18,6 +20,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        <GlobalLoading />
         {children}
         <ScrollRestoration />
         <Scripts />
