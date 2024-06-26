@@ -52,6 +52,7 @@ export default function CarwashRouteLayout() {
   const isInServices = location.pathname.includes("services");
   const isInPackages = location.pathname.includes("packages");
 
+  const needsMoreServices = carwash.services.length < 2;
   const needsSetup =
     carwash.services?.length === 0 &&
     location.pathname === `${ROUTE.CARWASHES}/${carwash.id}/general`;
@@ -68,7 +69,7 @@ export default function CarwashRouteLayout() {
             </Button>
           )}
 
-          {isInPackages && (
+          {isInPackages && !needsMoreServices && (
             <Button size="small" hierarchy="secondary" icon={FiPlus}>
               Create Package
             </Button>
