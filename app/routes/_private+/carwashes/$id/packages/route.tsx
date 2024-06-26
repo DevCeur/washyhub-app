@@ -1,7 +1,7 @@
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import type { CarwashWithOwnerServicesAndPackages } from "~/utils/types";
 
 import { ROUTE } from "~/utils/enum";
@@ -31,6 +31,10 @@ export const loader: LoaderFunction = (loaderArgs) =>
     },
   });
 
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  return [{ title: `${data?.carwash?.name} - Packages` }];
+};
+
 export default function CarwashPackagesRoute() {
   const { carwash } = useLoaderData<LoaderData>();
 
@@ -56,7 +60,10 @@ export default function CarwashPackagesRoute() {
           </div>
 
           {needsServices ? (
-            <Button as="link" href={`${ROUTE.CARWASHES}/${carwash.id}/services`}>
+            <Button
+              as="link"
+              href={`${ROUTE.CARWASHES}/${carwash.id}/services`}
+            >
               Create Service
             </Button>
           ) : (

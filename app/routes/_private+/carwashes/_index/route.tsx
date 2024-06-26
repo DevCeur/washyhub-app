@@ -3,7 +3,7 @@ import { useLoaderData } from "@remix-run/react";
 
 import { FiPlus } from "react-icons/fi";
 
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import type { CarwashWithOwnerServicesAndPackages } from "~/utils/types";
 
 import { ROUTE } from "~/utils/enum";
@@ -30,6 +30,10 @@ export const loader: LoaderFunction = (loaderArgs) =>
       return json({ carwashes });
     },
   });
+
+export const meta: MetaFunction<typeof loader> = () => {
+  return [{ title: "Carwashes" }];
+};
 
 export default function CarwashesRoute() {
   const { carwashes } = useLoaderData<LoaderData>();

@@ -2,7 +2,11 @@ import { z } from "zod";
 import { redirect, useNavigation } from "react-router";
 import { Form, json, useActionData } from "@remix-run/react";
 
-import type { ActionFunction, LoaderFunction } from "@remix-run/node";
+import type {
+  ActionFunction,
+  LoaderFunction,
+  MetaFunction,
+} from "@remix-run/node";
 
 import { ERROR_MESSAGE, ROUTE } from "~/utils/enum";
 
@@ -12,11 +16,16 @@ import { createCarwash } from "~/services/carwash";
 
 import { Button } from "~/components/button";
 import { TextInput } from "~/components/text-input";
-
-import styles from "./route.module.css";
 import { PageForm } from "~/components/page-form";
 
-export const loader: LoaderFunction = (loaderArgs) => withAuthLoader({ loaderArgs });
+import styles from "./route.module.css";
+
+export const loader: LoaderFunction = (loaderArgs) =>
+  withAuthLoader({ loaderArgs });
+
+export const meta: MetaFunction<typeof loader> = () => {
+  return [{ title: "Create Carwash" }];
+};
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = Object.fromEntries(await request.formData());

@@ -3,7 +3,13 @@ import React from "react";
 
 import { json } from "@remix-run/node";
 import { Link, Outlet, useLoaderData, useLocation } from "@remix-run/react";
-import { Tab as HTab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
+import {
+  Tab as HTab,
+  TabGroup,
+  TabList,
+  TabPanel,
+  TabPanels,
+} from "@headlessui/react";
 
 import type { LoaderFunction } from "@remix-run/node";
 import type { CarwashWithOwnerServicesAndPackages } from "~/utils/types";
@@ -29,7 +35,11 @@ const Tab = ({ to, children }: TabProps) => {
   const isInTab = location.pathname === to;
 
   return (
-    <HTab as={Link} to={to} className={clsx(styles.tab, isInTab && styles.in_tab)}>
+    <HTab
+      as={Link}
+      to={to}
+      className={clsx(styles.tab, isInTab && styles.in_tab)}
+    >
       {children}
     </HTab>
   );
@@ -64,13 +74,20 @@ export default function CarwashRouteLayout() {
     <TabGroup className={styles.container}>
       <div className={styles.header}>
         <div className={styles.heading}>
-          <h1>{carwash.name} settings</h1>
+          <h1>
+            {carwash.name}{" "}
+            {isInServices ? "Services" : isInPackages ? "Packages" : "Settings"}
+          </h1>
 
           {isInServices && (
             <CreateServiceModal
               variant="secondary"
-              carwashes={carwashes as unknown as CarwashWithOwnerServicesAndPackages[]}
-              currentCarwash={carwash as unknown as CarwashWithOwnerServicesAndPackages}
+              carwashes={
+                carwashes as unknown as CarwashWithOwnerServicesAndPackages[]
+              }
+              currentCarwash={
+                carwash as unknown as CarwashWithOwnerServicesAndPackages
+              }
             />
           )}
 
@@ -91,7 +108,8 @@ export default function CarwashRouteLayout() {
       {needsSetup && (
         <MessageCard type="warning" title="Carwash needs ">
           <span>
-            Looks like this Carwash needs some services to enable order creation and more,{" "}
+            Looks like this Carwash needs some services to enable order creation
+            and more,{" "}
             <Link to={`${ROUTE.CARWASHES}/${carwash.id}/services`}>
               create your services now!
             </Link>

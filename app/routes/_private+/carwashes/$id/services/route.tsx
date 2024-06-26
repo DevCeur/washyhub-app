@@ -1,7 +1,11 @@
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
-import type { ActionFunction, LoaderFunction } from "@remix-run/node";
+import type {
+  ActionFunction,
+  LoaderFunction,
+  MetaFunction,
+} from "@remix-run/node";
 import type { CarwashWithOwnerServicesAndPackages } from "~/utils/types";
 
 import { withAuthLoader } from "~/utils/with-auth-loader";
@@ -30,6 +34,10 @@ export const loader: LoaderFunction = (loaderArgs) =>
     },
   });
 
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  return [{ title: `${data?.carwash?.name} - Services` }];
+};
+
 export const action: ActionFunction = async ({ request }) => {
   const formData = Object.fromEntries(await request.formData());
 
@@ -57,8 +65,12 @@ export default function CarwashServicesRoute() {
 
           <CreateServiceModal
             variant="primary"
-            carwashes={carwashes as unknown as CarwashWithOwnerServicesAndPackages[]}
-            currentCarwash={carwash as unknown as CarwashWithOwnerServicesAndPackages}
+            carwashes={
+              carwashes as unknown as CarwashWithOwnerServicesAndPackages[]
+            }
+            currentCarwash={
+              carwash as unknown as CarwashWithOwnerServicesAndPackages
+            }
           />
         </div>
       ) : (
