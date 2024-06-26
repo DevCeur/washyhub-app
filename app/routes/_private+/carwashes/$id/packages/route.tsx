@@ -55,7 +55,10 @@ export default function CarwashPackagesRoute() {
           </div>
 
           {needsServices ? (
-            <Button as="link" href={`${ROUTE.CARWASHES}/${carwash.id}/services`}>
+            <Button
+              as="link"
+              href={`${ROUTE.CARWASHES}/${carwash.id}/services`}
+            >
               Create Service
             </Button>
           ) : (

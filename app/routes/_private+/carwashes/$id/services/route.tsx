@@ -8,7 +8,7 @@ import { withAuthLoader } from "~/utils/with-auth-loader";
 
 import { getCarwashById } from "~/services/carwash";
 
-import { Button } from "~/components/button";
+import { CreateServiceModal } from "~/components/modals/create-service-modal";
 
 import styles from "./route.module.css";
 
@@ -44,7 +44,8 @@ export default function CarwashServicesRoute() {
             <h3>No services found</h3>
             <p>Create a new service to get started</p>
           </div>
-          <Button>Create Service</Button>
+
+          <CreateServiceModal variant="primary" />
         </div>
       ) : (
         <div>

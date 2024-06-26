@@ -3,9 +3,13 @@ import React from "react";
 
 import { json } from "@remix-run/node";
 import { Link, Outlet, useLoaderData, useLocation } from "@remix-run/react";
-import { Tab as HTab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
-
-import { FiPlus } from "react-icons/fi";
+import {
+  Tab as HTab,
+  TabGroup,
+  TabList,
+  TabPanel,
+  TabPanels,
+} from "@headlessui/react";
 
 import type { LoaderFunction } from "@remix-run/node";
 import type { CarwashWithOwnerServicesAndPackages } from "~/utils/types";
@@ -16,6 +20,7 @@ import { getCarwashById } from "~/services/carwash";
 
 import { Button } from "~/components/button";
 import { MessageCard } from "~/components/message-card";
+import { CreateServiceModal } from "~/components/modals/create-service-modal";
 
 import styles from "./layout.module.css";
 
@@ -30,7 +35,11 @@ const Tab = ({ to, children }: TabProps) => {
   const isInTab = location.pathname === to;
 
   return (
-    <HTab as={Link} to={to} className={clsx(styles.tab, isInTab && styles.in_tab)}>
+    <HTab
+      as={Link}
+      to={to}
+      className={clsx(styles.tab, isInTab && styles.in_tab)}
+    >
       {children}
     </HTab>
   );
@@ -47,7 +56,9 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 export default function CarwashRouteLayout() {
   const location = useLocation();
 
-  const { carwash } = useLoaderData<{ carwash: CarwashWithOwnerServicesAndPackages }>();
+  const { carwash } = useLoaderData<{
+    carwash: CarwashWithOwnerServicesAndPackages;
+  }>();
 
   const isInServices = location.pathname.includes("services");
   const isInPackages = location.pathname.includes("packages");
@@ -63,14 +74,10 @@ export default function CarwashRouteLayout() {
         <div className={styles.heading}>
           <h1>{carwash.name} settings</h1>
 
-          {isInServices && (
-            <Button size="small" hierarchy="secondary" icon={FiPlus}>
-              Create Service
-            </Button>
-          )}
+          {isInServices && <CreateServiceModal variant="secondary" />}
 
           {isInPackages && !needsMoreServices && (
-            <Button size="small" hierarchy="secondary" icon={FiPlus}>
+            <Button size="small" hierarchy="secondary">
               Create Package
             </Button>
           )}
@@ -88,7 +95,8 @@ export default function CarwashRouteLayout() {
       {needsSetup && (
         <MessageCard type="warning" title="Carwash needs ">
           <span>
-            Looks like this Carwash needs some services to enable order creation and more,{" "}
+            Looks like this Carwash needs some services to enable order creation
+            and more,{" "}
             <Link to={`${ROUTE.CARWASHES}/${carwash.id}/services`}>
               create your services now!
             </Link>
