@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState, forwardRef } from "react";
+
 import { Link } from "@remix-run/react";
 import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
 
@@ -15,7 +16,7 @@ interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   showForgotPassword?: boolean;
 }
 
-export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
+export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
   (
     { type, error, label, hint, showForgotPassword, ...inputProps }: TextInputProps,
     ref

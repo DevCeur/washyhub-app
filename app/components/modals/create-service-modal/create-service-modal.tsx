@@ -1,20 +1,37 @@
 import { useState } from "react";
-import { Form } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
 
 import { FiPlus } from "react-icons/fi";
+
+import type { CarwashWithOwnerServicesAndPackages } from "~/utils/types";
 
 import { Modal } from "~/components/modal";
 import { Button } from "~/components/button";
 import { TextInput } from "~/components/text-input";
+import { CurrencyInput } from "~/components/currency-input";
+import { TextareaInput } from "~/components/textarea-input";
+import { Select } from "~/components/select";
 
 import styles from "./create-service-modal.module.css";
 
 interface CreateServiceModalProps {
   variant: "primary" | "secondary";
+  currentCarwash: CarwashWithOwnerServicesAndPackages;
+  carwashes: CarwashWithOwnerServicesAndPackages[];
 }
 
-export const CreateServiceModal = ({ variant }: CreateServiceModalProps) => {
+export const CreateServiceModal = ({
+  variant,
+  currentCarwash,
+  carwashes,
+}: CreateServiceModalProps) => {
+  const fetcher = useFetcher();
+
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedCarwash, setSelectedCarwash] = useState({
+    id: currentCarwash?.id,
+    label: currentCarwash?.name,
+  });
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -22,6 +39,10 @@ export const CreateServiceModal = ({ variant }: CreateServiceModalProps) => {
 
   const handleClose = () => {
     setIsOpen(false);
+  };
+
+  const handleSetSelectedCarwash = (value: { id: string; label: string }) => {
+    setSelectedCarwash(value);
   };
 
   return (
@@ -42,7 +63,7 @@ export const CreateServiceModal = ({ variant }: CreateServiceModalProps) => {
         isOpen={isOpen}
         onClose={handleClose}
       >
-        <Form className={styles.form}>
+        <fetcher.Form method="POST" className={styles.form}>
           <fieldset className={styles.form_fields}>
             <TextInput
               name="service_name"
@@ -50,17 +71,47 @@ export const CreateServiceModal = ({ variant }: CreateServiceModalProps) => {
               placeholder="General Cleaning"
             />
 
-            <TextInput
+            <TextareaInput
               name="service_description"
               label="Service Description"
               placeholder="Simple exterior and interior Car cleaning"
             />
 
-            <TextInput name="service_cost" label="Service Cost" placeholder="$50.000" />
+            <CurrencyInput
+              label="Service Cost"
+              name="service_cost"
+              hint="This is used to calculate packages costs and more"
+              placeholder="$50"
+            />
 
-            <TextInput name="service_cost" label="Service Cost" placeholder="$50.000" />
+            <Select
+              label="Carwash"
+              hint="This service will be assigned to this carwash"
+              selectedOption={selectedCarwash}
+              onChange={handleSetSelectedCarwash as () => void}
+              options={carwashes.map((carwash) => ({
+                id: carwash?.id,
+                label: carwash?.name,
+              }))}
+            />
+
+            <input type="hidden" name="selected_carwash_id" value={selectedCarwash.id} />
           </fieldset>
-        </Form>
+
+          <div className={styles.buttons_container}>
+            <Button>Create Service</Button>
+
+            <Button
+              hierarchy="secondary"
+              onClick={(e) => {
+                e.preventDefault();
+                setIsOpen(false);
+              }}
+            >
+              Cancel
+            </Button>
+          </div>
+        </fetcher.Form>
       </Modal>
     </>
   );

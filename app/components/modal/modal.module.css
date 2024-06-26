@@ -41,6 +41,9 @@
   width: 100%;
   max-width: 550px;
 
+  display: flex;
+  flex-direction: column;
+
   background-color: var(--bg-primary-default);
 
   -moz-box-shadow: 15px 0px 35px -15px rgba(0, 0, 0, 0.5);
@@ -91,7 +94,7 @@
 }
 
 .content {
-  display: flex;
+  height: 100%;
 
-  padding: 24px;
+  display: flex;
 }

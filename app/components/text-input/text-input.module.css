@@ -99,6 +99,7 @@
 
 .input_container:has(.input:focus) {
   background-color: var(--bg-secondary-default);
+  border-color: var(--border-hover);
 }
 
 .show_password_button {

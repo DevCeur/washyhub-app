@@ -1,0 +1,70 @@
+.container {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+.label,
+.hint,
+.error {
+  font-size: 12px;
+}
+
+.label {
+  color: var(--fg-body-primary);
+}
+
+.recover_password_link:hover {
+  color: var(--accent-default);
+}
+
+.error {
+  color: var(--error-default);
+}
+
+.hint {
+  color: var(--fg-body-secondary);
+}
+
+.input {
+  width: 100%;
+  min-width: 0;
+
+  min-height: 100px;
+
+  padding: 16px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  display: flex;
+  align-items: center;
+
+  background-color: var(--bg-primary-default);
+
+  border: solid 1px var(--border-default);
+  border-radius: 8px;
+
+  outline: none;
+
+  transition: all 150ms ease-in-out;
+}
+
+.input:hover {
+  background-color: var(--bg-secondary-default);
+}
+
+.input:focus {
+  border-color: var(--border-hover);
+}
+
+.input[data-error="true"] {
+  border-color: var(--error-default);
+}
+
+.input::placeholder {
+  color: var(--fg-body-secondary);
+}

@@ -10,7 +10,7 @@ import type { CarwashWithOwnerServicesAndPackages } from "~/utils/types";
 
 import { ROUTE } from "~/utils/enum";
 
-import { getCarwashById } from "~/services/carwash";
+import { getAllUserCarwashes, getCarwashById } from "~/services/carwash";
 
 import { MessageCard } from "~/components/message-card";
 import { CreateServiceModal } from "~/components/modals/create-service-modal";
@@ -39,15 +39,17 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   const { id } = params;
 
   const { carwash } = await getCarwashById({ id: id as string, request });
+  const { carwashes } = await getAllUserCarwashes({ request });
 
-  return json({ carwash });
+  return json({ carwash, carwashes });
 };
 
 export default function CarwashRouteLayout() {
   const location = useLocation();
 
-  const { carwash } = useLoaderData<{
+  const { carwash, carwashes } = useLoaderData<{
     carwash: CarwashWithOwnerServicesAndPackages;
+    carwashes: CarwashWithOwnerServicesAndPackages[];
   }>();
 
   const isInServices = location.pathname.includes("services");
@@ -64,7 +66,13 @@ export default function CarwashRouteLayout() {
         <div className={styles.heading}>
           <h1>{carwash.name} settings</h1>
 
-          {isInServices && <CreateServiceModal variant="secondary" />}
+          {isInServices && (
+            <CreateServiceModal
+              variant="secondary"
+              carwashes={carwashes as unknown as CarwashWithOwnerServicesAndPackages[]}
+              currentCarwash={carwash as unknown as CarwashWithOwnerServicesAndPackages}
+            />
+          )}
 
           {isInPackages && !needsMoreServices && (
             <CreatePackageModal variant="secondary" />

@@ -13,6 +13,23 @@
 .form_fields {
   gap: 24px;
 
+  padding: 24px;
+
   border: none;
   outline: none;
+}
+
+.buttons_container {
+  width: 100%;
+
+  padding: 24px;
+
+  background-color: var(--bg-secondary-default);
+
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+
+  border-top: solid 1px var(--border-default);
 }

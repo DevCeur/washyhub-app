@@ -1,9 +1,4 @@
-import {
-  Description,
-  Dialog,
-  DialogPanel,
-  DialogTitle,
-} from "@headlessui/react";
+import { Description, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { IoClose } from "react-icons/io5";
@@ -44,12 +39,7 @@ export const Modal = ({
   return (
     <AnimatePresence mode="wait">
       {isOpen && (
-        <Dialog
-          static
-          open={isOpen}
-          onClose={handleClose}
-          className={styles.container}
-        >
+        <Dialog static open={isOpen} onClose={handleClose} className={styles.container}>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -77,9 +67,7 @@ export const Modal = ({
             >
               <div className={styles.panel_content_header}>
                 <div className={styles.panel_content_heading}>
-                  <DialogTitle className={styles.modal_title}>
-                    {title}
-                  </DialogTitle>
+                  <DialogTitle className={styles.modal_title}>{title}</DialogTitle>
 
                   {description && (
                     <Description className={styles.modal_description}>
@@ -89,11 +77,7 @@ export const Modal = ({
                 </div>
 
                 <div>
-                  <Button
-                    icon={IoClose}
-                    hierarchy="secondary"
-                    onClick={handleClose}
-                  />
+                  <Button icon={IoClose} hierarchy="secondary" onClick={handleClose} />
                 </div>
               </div>
 
