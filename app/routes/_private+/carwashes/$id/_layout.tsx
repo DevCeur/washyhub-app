@@ -3,13 +3,7 @@ import React from "react";
 
 import { json } from "@remix-run/node";
 import { Link, Outlet, useLoaderData, useLocation } from "@remix-run/react";
-import {
-  Tab as HTab,
-  TabGroup,
-  TabList,
-  TabPanel,
-  TabPanels,
-} from "@headlessui/react";
+import { Tab as HTab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 
 import type { LoaderFunction } from "@remix-run/node";
 import type { CarwashWithOwnerServicesAndPackages } from "~/utils/types";
@@ -18,9 +12,9 @@ import { ROUTE } from "~/utils/enum";
 
 import { getCarwashById } from "~/services/carwash";
 
-import { Button } from "~/components/button";
 import { MessageCard } from "~/components/message-card";
 import { CreateServiceModal } from "~/components/modals/create-service-modal";
+import { CreatePackageModal } from "~/components/modals/create-package-modal";
 
 import styles from "./layout.module.css";
 
@@ -35,11 +29,7 @@ const Tab = ({ to, children }: TabProps) => {
   const isInTab = location.pathname === to;
 
   return (
-    <HTab
-      as={Link}
-      to={to}
-      className={clsx(styles.tab, isInTab && styles.in_tab)}
-    >
+    <HTab as={Link} to={to} className={clsx(styles.tab, isInTab && styles.in_tab)}>
       {children}
     </HTab>
   );
@@ -77,9 +67,7 @@ export default function CarwashRouteLayout() {
           {isInServices && <CreateServiceModal variant="secondary" />}
 
           {isInPackages && !needsMoreServices && (
-            <Button size="small" hierarchy="secondary">
-              Create Package
-            </Button>
+            <CreatePackageModal variant="secondary" />
           )}
         </div>
 
@@ -95,8 +83,7 @@ export default function CarwashRouteLayout() {
       {needsSetup && (
         <MessageCard type="warning" title="Carwash needs ">
           <span>
-            Looks like this Carwash needs some services to enable order creation
-            and more,{" "}
+            Looks like this Carwash needs some services to enable order creation and more,{" "}
             <Link to={`${ROUTE.CARWASHES}/${carwash.id}/services`}>
               create your services now!
             </Link>

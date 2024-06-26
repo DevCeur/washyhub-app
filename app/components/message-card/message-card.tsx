@@ -49,7 +49,11 @@ export const MessageCard = ({
 
   return (
     <div className={messageCardStyles({ type })}>
-      {Icon && showDefaultIcon ? <Icon className={styles.icon} /> : <DefaultIcon />}
+      {Icon && showDefaultIcon ? (
+        <Icon className={styles.icon} />
+      ) : (
+        <DefaultIcon className={styles.icon} />
+      )}
 
       <div className={styles.content}>
         <div className={styles.title_message}>

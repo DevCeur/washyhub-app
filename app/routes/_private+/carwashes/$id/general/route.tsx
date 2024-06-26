@@ -1,7 +1,13 @@
 import { z } from "zod";
 import { json } from "@remix-run/node";
 import { useForm } from "react-hook-form";
-import { Form, redirect, useFetcher, useLoaderData } from "@remix-run/react";
+import {
+  Form,
+  redirect,
+  useFetcher,
+  useLoaderData,
+  useNavigation,
+} from "@remix-run/react";
 
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import type { CarwashWithOwnerServicesAndPackages } from "~/utils/types";
@@ -66,13 +72,14 @@ export const action: ActionFunction = async ({ request, params }) => {
         return json({ errors: formValidationError.flatten().fieldErrors });
       }
 
-      await updateCarwash({
+      // eslint-disable-next-line no-case-declarations
+      const { carwash } = await updateCarwash({
         id: id as string,
         request,
         data: validatedFormData,
       });
 
-      return json({ success: true });
+      return json({ carwash });
 
     case "DELETE":
       if (id === carwashId) {
@@ -96,23 +103,26 @@ export const action: ActionFunction = async ({ request, params }) => {
 
 export default function CarwashGeneralSettingsRoute() {
   const fetcher = useFetcher<typeof action>();
+  const navigation = useNavigation();
 
   const { carwash } = useLoaderData<LoaderData>();
+
+  const actionData = fetcher.data;
 
   const form = useForm({
     defaultValues: { carwash_name: carwash.name },
   });
 
-  const actionData = fetcher.data;
   const isLoading = fetcher.state === "submitting";
+  const isSavingLoading = isLoading && fetcher.formMethod === "POST";
+  const isDeletingLoading = navigation.state === "submitting";
 
   return (
     <div className={styles.container}>
-      <UpdateForm method="post" fetcher={fetcher} form={form}>
+      <UpdateForm isLoading={isSavingLoading} method="POST" fetcher={fetcher} form={form}>
         <UpdateFormSection title="Carwash Info">
           <TextInput
             label="Carwash Name"
-            defaultValue={carwash.name}
             error={actionData?.errors?.carwash_name}
             {...form.register("carwash_name")}
           />
@@ -124,13 +134,13 @@ export default function CarwashGeneralSettingsRoute() {
         title="Delete this Carwash"
         message="Deleting this Carwash will also remove all services, packages and orders related."
       >
-        <Form method="delete" className={styles.form}>
+        <Form method="DELETE" className={styles.form}>
           <Button
+            overlay
             size="small"
-            loading={isLoading}
             variant="error"
             hierarchy="secondary"
-            overlay
+            loading={isDeletingLoading}
           >
             Delete Carwash
           </Button>

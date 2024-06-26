@@ -1,9 +1,13 @@
 import { useState } from "react";
+import { Form } from "@remix-run/react";
 
 import { FiPlus } from "react-icons/fi";
 
 import { Modal } from "~/components/modal";
 import { Button } from "~/components/button";
+import { TextInput } from "~/components/text-input";
+
+import styles from "./create-service-modal.module.css";
 
 interface CreateServiceModalProps {
   variant: "primary" | "secondary";
@@ -38,7 +42,25 @@ export const CreateServiceModal = ({ variant }: CreateServiceModalProps) => {
         isOpen={isOpen}
         onClose={handleClose}
       >
-        <p>Hello</p>
+        <Form className={styles.form}>
+          <fieldset className={styles.form_fields}>
+            <TextInput
+              name="service_name"
+              label="Service Name"
+              placeholder="General Cleaning"
+            />
+
+            <TextInput
+              name="service_description"
+              label="Service Description"
+              placeholder="Simple exterior and interior Car cleaning"
+            />
+
+            <TextInput name="service_cost" label="Service Cost" placeholder="$50.000" />
+
+            <TextInput name="service_cost" label="Service Cost" placeholder="$50.000" />
+          </fieldset>
+        </Form>
       </Modal>
     </>
   );

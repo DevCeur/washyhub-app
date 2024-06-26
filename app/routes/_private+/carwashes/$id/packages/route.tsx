@@ -11,6 +11,7 @@ import { withAuthLoader } from "~/utils/with-auth-loader";
 import { getCarwashById } from "~/services/carwash";
 
 import { Button } from "~/components/button";
+import { CreatePackageModal } from "~/components/modals/create-package-modal";
 
 import styles from "./route.module.css";
 
@@ -55,14 +56,11 @@ export default function CarwashPackagesRoute() {
           </div>
 
           {needsServices ? (
-            <Button
-              as="link"
-              href={`${ROUTE.CARWASHES}/${carwash.id}/services`}
-            >
+            <Button as="link" href={`${ROUTE.CARWASHES}/${carwash.id}/services`}>
               Create Service
             </Button>
           ) : (
-            needsPackages && <Button>Create Package</Button>
+            needsPackages && <CreatePackageModal variant="primary" />
           )}
         </div>
       ) : (

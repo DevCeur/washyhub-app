@@ -12,7 +12,7 @@
   inset: 0;
 
   background-color: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(6px);
 }
 
 .panel {
@@ -42,6 +42,9 @@
   max-width: 550px;
 
   background-color: var(--bg-primary-default);
+
+  -moz-box-shadow: 15px 0px 35px -15px rgba(0, 0, 0, 0.5);
+  box-shadow: 15px 0px 35px -15px rgba(0, 0, 0, 0.5);
 }
 
 .panel_content[data-position="center"] {

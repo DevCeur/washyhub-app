@@ -8,21 +8,23 @@ import styles from "./update-form.module.css";
 
 interface UpdateFormProps<T, TFieldValues> extends FormProps {
   children: React.ReactNode;
+  isLoading?: boolean;
   fetcher: FetcherWithComponents<T>;
   form: UseFormReturn<TFieldValues & FieldValues>;
 }
 
 export const UpdateForm = <T, TFieldValues>({
+  form,
   fetcher,
   children,
-  form,
+  isLoading,
   ...formProps
 }: UpdateFormProps<T, TFieldValues>) => {
   const { Form, state } = fetcher;
-
-  const isLoading = state === "submitting";
-
   const { formState, reset } = form;
+
+  const loading = isLoading || state === "submitting";
+  const disabled = !formState.isDirty;
 
   const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -37,14 +39,14 @@ export const UpdateForm = <T, TFieldValues>({
       <div className={styles.actions_container}>
         <Button
           onClick={handleCancel}
-          disabled={!formState.isDirty}
+          disabled={disabled}
           size="small"
           hierarchy="secondary"
         >
           Cancel
         </Button>
 
-        <Button disabled={!formState.isDirty} size="small" loading={isLoading}>
+        <Button disabled={disabled} size="small" loading={loading}>
           Save
         </Button>
       </div>
