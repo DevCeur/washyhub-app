@@ -9,7 +9,7 @@
 }
 
 .description {
-  max-width: 350px;
+  width: 325px;
 
   text-align: left;
   text-overflow: ellipsis;
@@ -18,6 +18,9 @@
   overflow: hidden;
 }
 
-.created_cell {
-  text-align: right !important;
+.actions_cell {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
 }

@@ -161,12 +161,10 @@
   color: var(--error-default);
   fill: var(--error-default);
   stroke: var(--error-default);
-
-  border-color: var(--error-default);
 }
 
 .button_error.button_tertiary:hover {
-  background-color: var(--error-overlay);
+  background-color: var(--error-overlay-hover);
 }
 
 /* SIZES */
