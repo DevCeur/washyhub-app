@@ -1,6 +1,12 @@
+import dayjs from "dayjs";
+
 import { z } from "zod";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 import type {
   ActionFunction,
@@ -8,6 +14,7 @@ import type {
   MetaFunction,
 } from "@remix-run/node";
 import type { CarwashWithOwnerServicesAndPackages } from "~/utils/types";
+import type { CarwashService } from "@prisma/client";
 
 import { ERROR_MESSAGE } from "~/utils/enum";
 
@@ -18,6 +25,7 @@ import { createCarwashService } from "~/services/carwash-services";
 import { getAllUserCarwashes, getCarwashById } from "~/services/carwash";
 
 import { CreateServiceModal } from "~/components/modals/create-service-modal";
+import { CarwashServicesTable } from "~/components/carwash-services-table";
 
 import styles from "./route.module.css";
 
@@ -86,8 +94,8 @@ export default function CarwashServicesRoute() {
   const { carwash, carwashes } = useLoaderData<LoaderData>();
 
   return (
-    <div>
-      {carwash.services.length === 0 ? (
+    <>
+      {carwash && carwash.services.length === 0 ? (
         <div className={styles.empty_container}>
           <img
             className={styles.empty_icon}
@@ -111,14 +119,10 @@ export default function CarwashServicesRoute() {
           />
         </div>
       ) : (
-        <div>
-          <span>
-            {carwash.services.map(({ id, name }) => (
-              <div key={id}>{name}</div>
-            ))}
-          </span>
-        </div>
+        <CarwashServicesTable
+          services={carwash.services as unknown as CarwashService[]}
+        />
       )}
-    </div>
+    </>
   );
 }

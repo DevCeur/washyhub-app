@@ -7,13 +7,19 @@ interface GetAllUserCarwashesOptions {
   request: Request;
 }
 
-export const getAllUserCarwashes = async ({ request }: GetAllUserCarwashesOptions) => {
+export const getAllUserCarwashes = async ({
+  request,
+}: GetAllUserCarwashesOptions) => {
   try {
     const { user } = await getAuthUser({ request });
 
     const carwashes = await prisma.carwash.findMany({
       where: { owner_id: user?.id },
-      include: { owner: { include: { profile: true } }, packages: true, services: true },
+      include: {
+        owner: { include: { profile: true } },
+        packages: true,
+        services: { orderBy: { created_at: "desc" } },
+      },
       orderBy: { created_at: "desc" },
     });
 
@@ -28,13 +34,19 @@ interface GetCarwashByIdOptions {
   request: Request;
 }
 
-export const getCarwashById = async ({ id, request }: GetCarwashByIdOptions) => {
+export const getCarwashById = async ({
+  id,
+  request,
+}: GetCarwashByIdOptions) => {
   try {
     const { user } = await getAuthUser({ request });
 
     const carwash = await prisma.carwash.findUnique({
       where: { id, owner_id: user?.id },
-      include: { services: true, packages: true },
+      include: {
+        services: { orderBy: { created_at: "desc" } },
+        packages: true,
+      },
     });
 
     return { carwash };
@@ -47,7 +59,9 @@ interface GetCurrentCarwashOptions {
   request: Request;
 }
 
-export const getCurrentCarwash = async ({ request }: GetCurrentCarwashOptions) => {
+export const getCurrentCarwash = async ({
+  request,
+}: GetCurrentCarwashOptions) => {
   try {
     const { carwashId } = await getCurrentCarwashId({ request });
 
@@ -99,7 +113,11 @@ interface UpdateCarwashOptions {
   };
 }
 
-export const updateCarwash = async ({ id, request, data }: UpdateCarwashOptions) => {
+export const updateCarwash = async ({
+  id,
+  request,
+  data,
+}: UpdateCarwashOptions) => {
   try {
     const { user } = await getAuthUser({ request });
 
