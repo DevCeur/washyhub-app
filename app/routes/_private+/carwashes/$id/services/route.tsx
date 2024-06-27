@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
@@ -8,8 +9,12 @@ import type {
 } from "@remix-run/node";
 import type { CarwashWithOwnerServicesAndPackages } from "~/utils/types";
 
+import { ERROR_MESSAGE } from "~/utils/enum";
+
+import { convertCurrencyToNumber } from "~/utils/currency";
 import { withAuthLoader } from "~/utils/with-auth-loader";
 
+import { createCarwashService } from "~/services/carwash-services";
 import { getAllUserCarwashes, getCarwashById } from "~/services/carwash";
 
 import { CreateServiceModal } from "~/components/modals/create-service-modal";
@@ -41,9 +46,40 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export const action: ActionFunction = async ({ request }) => {
   const formData = Object.fromEntries(await request.formData());
 
-  console.log({ formData });
+  console.log(formData);
 
-  return json({ formData });
+  const formSchema = z.object({
+    service_name: z
+      .string()
+      .min(1, { message: ERROR_MESSAGE.REQUIRED_FIELD })
+      .max(75, { message: "This name is too long" }),
+    service_description: z.string(),
+    service_cost: z.string().min(1, { message: ERROR_MESSAGE.REQUIRED_FIELD }),
+    selected_carwash_id: z.string(),
+  });
+
+  const { data: validatedFormData, error: validationFormErrors } =
+    formSchema.safeParse(formData);
+
+  if (validationFormErrors) {
+    console.log(validationFormErrors);
+
+    return json({ errors: validationFormErrors.flatten().fieldErrors });
+  }
+
+  const { formattedCurrency: formattedServiceCost } = convertCurrencyToNumber({
+    currency: validatedFormData.service_cost,
+  });
+
+  const { service } = await createCarwashService({
+    data: {
+      ...validatedFormData,
+      service_cost: formattedServiceCost,
+      carwash_id: validatedFormData.selected_carwash_id,
+    },
+  });
+
+  return json({ service, success: true });
 };
 
 export default function CarwashServicesRoute() {
@@ -64,6 +100,7 @@ export default function CarwashServicesRoute() {
           </div>
 
           <CreateServiceModal
+            carwash={carwash as unknown as CarwashWithOwnerServicesAndPackages}
             variant="primary"
             carwashes={
               carwashes as unknown as CarwashWithOwnerServicesAndPackages[]
@@ -75,7 +112,11 @@ export default function CarwashServicesRoute() {
         </div>
       ) : (
         <div>
-          <span></span>
+          <span>
+            {carwash.services.map(({ id, name }) => (
+              <div key={id}>{name}</div>
+            ))}
+          </span>
         </div>
       )}
     </div>

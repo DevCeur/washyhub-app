@@ -81,6 +81,9 @@ export default function CarwashRouteLayout() {
 
           {isInServices && (
             <CreateServiceModal
+              carwash={
+                carwash as unknown as CarwashWithOwnerServicesAndPackages
+              }
               variant="secondary"
               carwashes={
                 carwashes as unknown as CarwashWithOwnerServicesAndPackages[]

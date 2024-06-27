@@ -1,31 +1,40 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFetcher } from "@remix-run/react";
 
 import { FiPlus } from "react-icons/fi";
 
 import type { CarwashWithOwnerServicesAndPackages } from "~/utils/types";
 
+import { ROUTE } from "~/utils/enum";
+
 import { Modal } from "~/components/modal";
 import { Button } from "~/components/button";
+import { Select } from "~/components/select";
 import { TextInput } from "~/components/text-input";
 import { CurrencyInput } from "~/components/currency-input";
 import { TextareaInput } from "~/components/textarea-input";
-import { Select } from "~/components/select";
+
+import { action } from "~/routes/_private+/carwashes/$id/services/route";
 
 import styles from "./create-service-modal.module.css";
 
 interface CreateServiceModalProps {
+  carwash: CarwashWithOwnerServicesAndPackages;
   variant: "primary" | "secondary";
   currentCarwash: CarwashWithOwnerServicesAndPackages;
   carwashes: CarwashWithOwnerServicesAndPackages[];
 }
 
 export const CreateServiceModal = ({
+  carwash,
   variant,
   currentCarwash,
   carwashes,
 }: CreateServiceModalProps) => {
-  const fetcher = useFetcher();
+  const fetcher = useFetcher<typeof action>();
+  const actionData = fetcher.data;
+
+  const errors = actionData?.errors;
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCarwash, setSelectedCarwash] = useState({
@@ -45,6 +54,12 @@ export const CreateServiceModal = ({
     setSelectedCarwash(value);
   };
 
+  useEffect(() => {
+    if (actionData?.success) {
+      setIsOpen(false);
+    }
+  }, [actionData?.success]);
+
   return (
     <>
       <Button
@@ -63,18 +78,24 @@ export const CreateServiceModal = ({
         isOpen={isOpen}
         onClose={handleClose}
       >
-        <fetcher.Form method="POST" className={styles.form}>
+        <fetcher.Form
+          method="POST"
+          action={`${ROUTE.CARWASHES}/${carwash?.id}/services`}
+          className={styles.form}
+        >
           <fieldset className={styles.form_fields}>
             <TextInput
               name="service_name"
               label="Service Name"
               placeholder="General Cleaning"
+              error={errors?.service_name}
             />
 
             <TextareaInput
               name="service_description"
               label="Service Description"
               placeholder="Simple exterior and interior Car cleaning"
+              error={errors?.service_description}
             />
 
             <CurrencyInput
@@ -82,6 +103,7 @@ export const CreateServiceModal = ({
               name="service_cost"
               hint="This is used to calculate packages costs and more"
               placeholder="$50"
+              error={errors?.service_cost}
             />
 
             <Select
@@ -95,7 +117,11 @@ export const CreateServiceModal = ({
               }))}
             />
 
-            <input type="hidden" name="selected_carwash_id" value={selectedCarwash.id} />
+            <input
+              type="hidden"
+              name="selected_carwash_id"
+              value={selectedCarwash.id}
+            />
           </fieldset>
 
           <div className={styles.buttons_container}>
