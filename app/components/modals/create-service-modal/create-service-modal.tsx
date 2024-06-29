@@ -14,7 +14,7 @@ import { TextInput } from "~/components/text-input";
 import { CurrencyInput } from "~/components/currency-input";
 import { TextareaInput } from "~/components/textarea-input";
 
-import { action } from "~/routes/_private+/carwashes/$id/services/route";
+import { action } from "~/routes/_private+/carwashes/$carwashId/services/_index/route";
 
 import styles from "./create-service-modal.module.css";
 
@@ -117,11 +117,7 @@ export const CreateServiceModal = ({
               }))}
             />
 
-            <input
-              type="hidden"
-              name="selected_carwash_id"
-              value={selectedCarwash.id}
-            />
+            <input type="hidden" name="selected_carwash_id" value={selectedCarwash.id} />
           </fieldset>
 
           <div className={styles.buttons_container}>

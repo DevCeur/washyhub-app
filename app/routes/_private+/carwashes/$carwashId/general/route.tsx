@@ -9,11 +9,7 @@ import {
   useNavigation,
 } from "@remix-run/react";
 
-import type {
-  ActionFunction,
-  LoaderFunction,
-  MetaFunction,
-} from "@remix-run/node";
+import type { ActionFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
 import type { CarwashWithOwnerServicesAndPackages } from "~/utils/types";
 
 import { ERROR_MESSAGE, ROUTE } from "~/utils/enum";
@@ -26,11 +22,7 @@ import {
   getCurrentCarwashSession,
 } from "~/utils/sessions/current-carwash-session";
 
-import {
-  deleteCarwash,
-  getCarwashById,
-  updateCarwash,
-} from "~/services/carwash";
+import { deleteCarwash, getCarwashById, updateCarwash } from "~/services/carwash";
 
 import { Button } from "~/components/button";
 import { TextInput } from "~/components/text-input";
@@ -48,9 +40,9 @@ export const loader: LoaderFunction = (loaderArgs) =>
   withAuthLoader({
     loaderArgs,
     callback: async ({ params, request }) => {
-      const { id } = params;
+      const { carwashId } = params;
 
-      const { carwash } = await getCarwashById({ id: id as string, request });
+      const { carwash } = await getCarwashById({ id: carwashId as string, request });
 
       return json({ carwash });
     },
@@ -61,7 +53,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 };
 
 export const action: ActionFunction = async ({ request, params }) => {
-  const { id } = params;
+  const { carwashId: id } = params;
 
   const { currentCarwashSession } = await getCurrentCarwashSession({ request });
   const { carwashId } = await getCurrentCarwashId({ request });
@@ -133,12 +125,7 @@ export default function CarwashGeneralSettingsRoute() {
 
   return (
     <div className={styles.container}>
-      <UpdateForm
-        isLoading={isSavingLoading}
-        method="POST"
-        fetcher={fetcher}
-        form={form}
-      >
+      <UpdateForm isLoading={isSavingLoading} method="POST" fetcher={fetcher} form={form}>
         <UpdateFormSection title="Carwash Info">
           <TextInput
             label="Carwash Name"

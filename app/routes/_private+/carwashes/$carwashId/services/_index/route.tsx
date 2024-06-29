@@ -8,11 +8,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime);
 
-import type {
-  ActionFunction,
-  LoaderFunction,
-  MetaFunction,
-} from "@remix-run/node";
+import type { ActionFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
 import type { CarwashWithOwnerServicesAndPackages } from "~/utils/types";
 import type { CarwashService } from "@prisma/client";
 
@@ -38,9 +34,9 @@ export const loader: LoaderFunction = (loaderArgs) =>
   withAuthLoader({
     loaderArgs,
     callback: async ({ params, request }) => {
-      const { id } = params;
+      const { carwashId } = params;
 
-      const { carwash } = await getCarwashById({ id: id as string, request });
+      const { carwash } = await getCarwashById({ id: carwashId as string, request });
       const { carwashes } = await getAllUserCarwashes({ request });
 
       return json({ carwash, carwashes });
@@ -53,8 +49,6 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = Object.fromEntries(await request.formData());
-
-  console.log(formData);
 
   const formSchema = z.object({
     service_name: z
@@ -70,8 +64,6 @@ export const action: ActionFunction = async ({ request }) => {
     formSchema.safeParse(formData);
 
   if (validationFormErrors) {
-    console.log(validationFormErrors);
-
     return json({ errors: validationFormErrors.flatten().fieldErrors });
   }
 
@@ -110,12 +102,8 @@ export default function CarwashServicesRoute() {
           <CreateServiceModal
             carwash={carwash as unknown as CarwashWithOwnerServicesAndPackages}
             variant="primary"
-            carwashes={
-              carwashes as unknown as CarwashWithOwnerServicesAndPackages[]
-            }
-            currentCarwash={
-              carwash as unknown as CarwashWithOwnerServicesAndPackages
-            }
+            carwashes={carwashes as unknown as CarwashWithOwnerServicesAndPackages[]}
+            currentCarwash={carwash as unknown as CarwashWithOwnerServicesAndPackages}
           />
         </div>
       ) : (

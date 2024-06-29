@@ -1,3 +1,5 @@
+import { Link, useLocation } from "@remix-run/react";
+
 import { FiEdit3 } from "react-icons/fi";
 import { FaRegTrashCan } from "react-icons/fa6";
 
@@ -16,9 +18,9 @@ interface CarwashServicesTableProps {
   services: CarwashService[];
 }
 
-export const CarwashServicesTable = ({
-  services,
-}: CarwashServicesTableProps) => {
+export const CarwashServicesTable = ({ services }: CarwashServicesTableProps) => {
+  const location = useLocation();
+
   return (
     <Table>
       <TableHeader>
@@ -43,7 +45,7 @@ export const CarwashServicesTable = ({
           return (
             <tr key={id}>
               <th scope="row" className={styles.name_cell}>
-                {name}
+                <Link to={`${location.pathname}/${id}`}>{name}</Link>
               </th>
               <td className={styles.description_cell}>
                 <div className={styles.description}>{description}</div>

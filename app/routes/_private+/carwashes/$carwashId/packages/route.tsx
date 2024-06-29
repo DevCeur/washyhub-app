@@ -23,9 +23,9 @@ export const loader: LoaderFunction = (loaderArgs) =>
   withAuthLoader({
     loaderArgs,
     callback: async ({ params, request }) => {
-      const { id } = params;
+      const { carwashId } = params;
 
-      const { carwash } = await getCarwashById({ id: id as string, request });
+      const { carwash } = await getCarwashById({ id: carwashId as string, request });
 
       return json({ carwash });
     },
@@ -60,10 +60,7 @@ export default function CarwashPackagesRoute() {
           </div>
 
           {needsServices ? (
-            <Button
-              as="link"
-              href={`${ROUTE.CARWASHES}/${carwash.id}/services`}
-            >
+            <Button as="link" href={`${ROUTE.CARWASHES}/${carwash.id}/services`}>
               Create Service
             </Button>
           ) : (
