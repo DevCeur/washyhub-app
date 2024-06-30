@@ -4,20 +4,23 @@ import { useLoaderData } from "@remix-run/react";
 import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import type { CarwashWithOwnerServicesAndPackages } from "~/utils/types";
 
-import { ROUTE } from "~/utils/enum";
-
 import { withAuthLoader } from "~/utils/with-auth-loader";
 
-import { getCarwashById } from "~/services/carwash";
+import {
+  getAllUserCarwashes,
+  getCarwashById,
+  getCurrentCarwash,
+} from "~/services/carwash";
 
 import { CreatePackageModal } from "~/components/modals/create-package-modal";
-
-import { Button } from "~/components/button";
+import { CreateServiceModal } from "~/components/modals/create-service-modal";
 
 import styles from "./route.module.css";
 
 interface LoaderData {
   carwash: CarwashWithOwnerServicesAndPackages;
+  currentCarwash: CarwashWithOwnerServicesAndPackages;
+  carwashes: CarwashWithOwnerServicesAndPackages[];
 }
 
 export const loader: LoaderFunction = (loaderArgs) =>
@@ -27,8 +30,10 @@ export const loader: LoaderFunction = (loaderArgs) =>
       const { carwashId } = params;
 
       const { carwash } = await getCarwashById({ id: carwashId as string, request });
+      const { carwash: currentCarwash } = await getCurrentCarwash({ request });
+      const { carwashes } = await getAllUserCarwashes({ request });
 
-      return json({ carwash });
+      return json({ carwash, currentCarwash, carwashes });
     },
   });
 
@@ -37,7 +42,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 };
 
 export default function CarwashPackagesRoute() {
-  const { carwash } = useLoaderData<LoaderData>();
+  const { carwash, carwashes, currentCarwash } = useLoaderData<LoaderData>();
 
   const emptyServices = carwash.services.length === 0;
   const emptyPackages = carwash.packages.length === 0;
@@ -67,9 +72,14 @@ export default function CarwashPackagesRoute() {
           </div>
 
           {emptyServices || servicesRequired > 0 ? (
-            <Button as="link" href={`${ROUTE.CARWASHES}/${carwash.id}/services`}>
-              Create Service
-            </Button>
+            <CreateServiceModal
+              variant="primary"
+              currentCarwash={
+                currentCarwash as unknown as CarwashWithOwnerServicesAndPackages
+              }
+              carwash={carwash as unknown as CarwashWithOwnerServicesAndPackages}
+              carwashes={carwashes as unknown as CarwashWithOwnerServicesAndPackages[]}
+            />
           ) : (
             emptyPackages && <CreatePackageModal variant="primary" />
           )}
