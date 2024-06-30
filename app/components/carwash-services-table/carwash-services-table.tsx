@@ -1,7 +1,6 @@
 import { Link, useLocation } from "@remix-run/react";
 
 import { FiEdit3 } from "react-icons/fi";
-import { FaRegTrashCan } from "react-icons/fa6";
 
 import type { CarwashService } from "@prisma/client";
 
@@ -13,6 +12,7 @@ import { TableBody } from "../table/table-body";
 import { TableHeader } from "../table/table-header";
 
 import styles from "./carwash-services-table.module.css";
+import { DeleteServiceModal } from "../modals/delete-service-modal";
 
 interface CarwashServicesTableProps {
   services: CarwashService[];
@@ -37,7 +37,9 @@ export const CarwashServicesTable = ({ services }: CarwashServicesTableProps) =>
       </TableHeader>
 
       <TableBody>
-        {services.map(({ id, name, description, cost }) => {
+        {services.map((service) => {
+          const { id, name, description, cost } = service;
+
           const { formattedCurrency: formattedCost } = formatCurrencyToString({
             currency: cost,
           });
@@ -52,12 +54,8 @@ export const CarwashServicesTable = ({ services }: CarwashServicesTableProps) =>
               </td>
               <td>{formattedCost}</td>
               <td className={styles.actions_cell}>
-                <Button
-                  icon={FaRegTrashCan}
-                  size="small"
-                  hierarchy="tertiary"
-                  variant="error"
-                />
+                <DeleteServiceModal variant="card" service={service} />
+
                 <Button icon={FiEdit3} size="small" hierarchy="tertiary" />
               </td>
             </tr>

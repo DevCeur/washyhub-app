@@ -77,7 +77,12 @@ export const Modal = ({
                 </div>
 
                 <div>
-                  <Button icon={IoClose} hierarchy="secondary" onClick={handleClose} />
+                  <Button
+                    icon={IoClose}
+                    hierarchy="tertiary"
+                    size="small"
+                    onClick={handleClose}
+                  />
                 </div>
               </div>
 

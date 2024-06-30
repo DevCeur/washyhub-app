@@ -39,7 +39,6 @@
 
 .panel_content {
   width: 100%;
-  max-width: 550px;
 
   display: flex;
   flex-direction: column;
@@ -51,15 +50,17 @@
 }
 
 .panel_content[data-position="center"] {
-  min-height: 400px;
-
   border: solid 1px var(--border-default);
   border-radius: 16px;
+
+  max-width: 400px;
 
   overflow: hidden;
 }
 
 .panel_content[data-position="right"] {
+  max-width: 550px;
+
   border-left: solid 1px var(--border-default);
 }
 
@@ -68,8 +69,9 @@
 
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
-  padding: 24px;
+  padding: 16px;
 
   border-bottom: solid 1px var(--border-default);
 }
@@ -84,7 +86,7 @@
 .modal_title {
   color: var(--fg-heading);
 
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
 }
 
