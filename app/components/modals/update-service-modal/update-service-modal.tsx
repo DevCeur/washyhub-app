@@ -26,7 +26,10 @@ interface UpdateServiceModalProps {
   carwashes: CarwashWithOwnerServicesAndPackages[];
 }
 
-export const UpdateServiceModal = ({ service, carwashes }: UpdateServiceModalProps) => {
+export const UpdateServiceModal = ({
+  service,
+  carwashes,
+}: UpdateServiceModalProps) => {
   const fetcher = useFetcher<typeof action>();
 
   const actionData = fetcher.data;
@@ -42,7 +45,9 @@ export const UpdateServiceModal = ({ service, carwashes }: UpdateServiceModalPro
 
   const formAction = `${ROUTE.CARWASHES}/${service.carwash?.id}/services`;
 
-  const isLoading = fetcher.state === "submitting" && fetcher.formAction === formAction;
+  const isLoading =
+    (fetcher.state === "submitting" || fetcher.state === "loading") &&
+    fetcher.formAction === formAction;
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -57,14 +62,19 @@ export const UpdateServiceModal = ({ service, carwashes }: UpdateServiceModalPro
   };
 
   useEffect(() => {
-    if (actionData?.success) {
+    if (actionData?.success && !isLoading) {
       setIsOpen(false);
     }
-  }, [actionData?.success]);
+  }, [actionData?.success, isLoading]);
 
   return (
     <>
-      <Button icon={FiEdit3} size="small" hierarchy="tertiary" onClick={handleOpen} />
+      <Button
+        icon={FiEdit3}
+        size="small"
+        hierarchy="tertiary"
+        onClick={handleOpen}
+      />
 
       <Modal
         position="right"
@@ -110,11 +120,22 @@ export const UpdateServiceModal = ({ service, carwashes }: UpdateServiceModalPro
               }))}
             />
 
-            <input type="hidden" name="selected_carwash_id" value={selectedCarwash.id} />
+            <input
+              type="hidden"
+              name="selected_carwash_id"
+              value={selectedCarwash.id}
+            />
           </fieldset>
 
           <div className={styles.buttons_container}>
-            <Button loading={isLoading}>Update Service</Button>
+            <Button
+              loading={isLoading}
+              type="submit"
+              name="service_id"
+              value={service.id}
+            >
+              Update Service
+            </Button>
 
             <Button
               hierarchy="secondary"

@@ -26,11 +26,50 @@ export const createCarwashService = async ({ data }: CreateCarwashService) => {
   }
 };
 
+interface UpdateCarwashService {
+  serviceId: string;
+  data: {
+    service_name: string;
+    service_cost: number;
+    service_description: string;
+    carwash_id: string;
+  };
+}
+
+export const updateCarwashService = async ({
+  serviceId,
+  data,
+}: UpdateCarwashService) => {
+  try {
+    const service = await prisma.carwashService.update({
+      where: { id: serviceId },
+      data: {
+        name: data.service_name,
+        cost: data.service_cost,
+        description: data.service_description,
+        carwash_id: data.carwash_id,
+      },
+    });
+
+    return { service };
+  } catch (error) {
+    console.log(error);
+
+    throw new Error("There was an error updating this carwash service");
+  }
+};
+
 interface DeleteCarwashService {
   service_id: string;
 }
 
-export const deleteCarwashService = async ({ service_id }: DeleteCarwashService) => {
+interface DeleteCarwashService {
+  service_id: string;
+}
+
+export const deleteCarwashService = async ({
+  service_id,
+}: DeleteCarwashService) => {
   try {
     await prisma.carwashService.delete({ where: { id: service_id } });
   } catch (error) {
