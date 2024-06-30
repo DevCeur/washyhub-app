@@ -25,13 +25,13 @@ const buttonStyles = cva(styles.base_button, {
 
       default: styles.button_default,
 
-      error: styles.button_error,
+      danger: styles.button_danger,
     },
 
     size: {
       small: styles.button_small,
 
-      default: styles.button_medium,
+      medium: styles.button_medium,
 
       large: styles.button_large,
     },
@@ -40,7 +40,7 @@ const buttonStyles = cva(styles.base_button, {
   defaultVariants: {
     hierarchy: "primary",
     variant: "default",
-    size: "default",
+    size: "small",
   },
 });
 

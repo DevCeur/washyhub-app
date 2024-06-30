@@ -17,7 +17,7 @@ import { saveToken } from "~/services/password-reset-token";
 
 import { Button } from "~/components/button";
 import { TextInput } from "~/components/text-input";
-import { SuccessMessage } from "~/components/success-message/success-message";
+import { SuccessMessage } from "~/components/success-message";
 
 import styles from "./route.module.css";
 
@@ -108,9 +108,13 @@ export default function RecoverPasswordRoute() {
             />
           </fieldset>
 
-          <Button loading={isLoading}>Recover Password</Button>
+          <Button size="medium" loading={isLoading}>
+            Recover Password
+          </Button>
 
-          {errors?.server && <span className={styles.server_error}>{errors.server}</span>}
+          {errors?.server && (
+            <span className={styles.server_error}>{errors.server}</span>
+          )}
         </Form>
       )}
     </div>

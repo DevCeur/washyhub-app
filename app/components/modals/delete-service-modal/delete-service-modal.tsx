@@ -19,7 +19,10 @@ interface DeleteServiceModalProps {
   service: CarwashService;
 }
 
-export const DeleteServiceModal = ({ variant, service }: DeleteServiceModalProps) => {
+export const DeleteServiceModal = ({
+  variant,
+  service,
+}: DeleteServiceModalProps) => {
   const fetcher = useFetcher<typeof action>();
   const actionData = fetcher.data;
 
@@ -27,7 +30,8 @@ export const DeleteServiceModal = ({ variant, service }: DeleteServiceModalProps
 
   const formAction = `${ROUTE.CARWASHES}/${service.carwash_id}/services`;
 
-  const isLoading = fetcher.state === "submitting" && fetcher.formAction === formAction;
+  const isLoading =
+    fetcher.state === "submitting" && fetcher.formAction === formAction;
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -47,7 +51,7 @@ export const DeleteServiceModal = ({ variant, service }: DeleteServiceModalProps
     <>
       <Button
         size="small"
-        variant="error"
+        variant="danger"
         hierarchy={variant === "card" ? "tertiary" : "secondary"}
         icon={FaRegTrashCan}
         onClick={handleOpen}
@@ -61,13 +65,17 @@ export const DeleteServiceModal = ({ variant, service }: DeleteServiceModalProps
       >
         <div className={styles.container}>
           <p className={styles.message}>
-            This action cannot be undone. This will permanently delete the {service.name}{" "}
-            service.
+            This action cannot be undone. This will permanently delete the{" "}
+            {service.name} service.
           </p>
 
-          <fetcher.Form method="DELETE" action={formAction} className={styles.form}>
+          <fetcher.Form
+            method="DELETE"
+            action={formAction}
+            className={styles.form}
+          >
             <Button
-              variant="error"
+              variant="danger"
               size="small"
               type="submit"
               name="service_id"

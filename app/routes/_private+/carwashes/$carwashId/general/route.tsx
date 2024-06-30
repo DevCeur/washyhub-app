@@ -9,7 +9,11 @@ import {
   useNavigation,
 } from "@remix-run/react";
 
-import type { ActionFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
+import type {
+  ActionFunction,
+  LoaderFunction,
+  MetaFunction,
+} from "@remix-run/node";
 import type { CarwashWithOwnerServicesAndPackages } from "~/utils/types";
 
 import { ERROR_MESSAGE, ROUTE } from "~/utils/enum";
@@ -22,7 +26,11 @@ import {
   getCurrentCarwashSession,
 } from "~/utils/sessions/current-carwash-session";
 
-import { deleteCarwash, getCarwashById, updateCarwash } from "~/services/carwash";
+import {
+  deleteCarwash,
+  getCarwashById,
+  updateCarwash,
+} from "~/services/carwash";
 
 import { Button } from "~/components/button";
 import { TextInput } from "~/components/text-input";
@@ -42,7 +50,10 @@ export const loader: LoaderFunction = (loaderArgs) =>
     callback: async ({ params, request }) => {
       const { carwashId } = params;
 
-      const { carwash } = await getCarwashById({ id: carwashId as string, request });
+      const { carwash } = await getCarwashById({
+        id: carwashId as string,
+        request,
+      });
 
       return json({ carwash });
     },
@@ -125,7 +136,12 @@ export default function CarwashGeneralSettingsRoute() {
 
   return (
     <div className={styles.container}>
-      <UpdateForm isLoading={isSavingLoading} method="POST" fetcher={fetcher} form={form}>
+      <UpdateForm
+        isLoading={isSavingLoading}
+        method="POST"
+        fetcher={fetcher}
+        form={form}
+      >
         <UpdateFormSection title="Carwash Info">
           <TextInput
             label="Carwash Name"
@@ -144,7 +160,7 @@ export default function CarwashGeneralSettingsRoute() {
           <Button
             overlay
             size="small"
-            variant="error"
+            variant="danger"
             hierarchy="secondary"
             loading={isDeletingLoading}
           >

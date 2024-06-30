@@ -8,16 +8,25 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime);
 
-import type { ActionFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
-import type { CarwashWithOwnerServicesAndPackages } from "~/utils/types";
-import type { CarwashService } from "@prisma/client";
+import type {
+  ActionFunction,
+  LoaderFunction,
+  MetaFunction,
+} from "@remix-run/node";
+import type {
+  CarwashServiceWithCarwash,
+  CarwashWithOwnerServicesAndPackages,
+} from "~/utils/types";
 
 import { ERROR_MESSAGE } from "~/utils/enum";
 
 import { convertCurrencyToNumber } from "~/utils/currency";
 import { withAuthLoader } from "~/utils/with-auth-loader";
 
-import { createCarwashService, deleteCarwashService } from "~/services/carwash-services";
+import {
+  createCarwashService,
+  deleteCarwashService,
+} from "~/services/carwash-services";
 import { getAllUserCarwashes, getCarwashById } from "~/services/carwash";
 
 import { CreateServiceModal } from "~/components/modals/create-service-modal";
@@ -36,7 +45,10 @@ export const loader: LoaderFunction = (loaderArgs) =>
     callback: async ({ params, request }) => {
       const { carwashId } = params;
 
-      const { carwash } = await getCarwashById({ id: carwashId as string, request });
+      const { carwash } = await getCarwashById({
+        id: carwashId as string,
+        request,
+      });
       const { carwashes } = await getAllUserCarwashes({ request });
 
       return json({ carwash, carwashes });
@@ -58,7 +70,9 @@ export const action: ActionFunction = async ({ request }) => {
           .min(1, { message: ERROR_MESSAGE.REQUIRED_FIELD })
           .max(75, { message: "This name is too long" }),
         service_description: z.string(),
-        service_cost: z.string().min(1, { message: ERROR_MESSAGE.REQUIRED_FIELD }),
+        service_cost: z
+          .string()
+          .min(1, { message: ERROR_MESSAGE.REQUIRED_FIELD }),
         selected_carwash_id: z.string(),
       });
 
@@ -69,9 +83,10 @@ export const action: ActionFunction = async ({ request }) => {
         return json({ errors: validationFormErrors.flatten().fieldErrors });
       }
 
-      const { formattedCurrency: formattedServiceCost } = convertCurrencyToNumber({
-        currency: validatedFormData.service_cost,
-      });
+      const { formattedCurrency: formattedServiceCost } =
+        convertCurrencyToNumber({
+          currency: validatedFormData.service_cost,
+        });
 
       const { service } = await createCarwashService({
         data: {
@@ -125,13 +140,17 @@ export default function CarwashServicesRoute() {
           <CreateServiceModal
             carwash={carwash as unknown as CarwashWithOwnerServicesAndPackages}
             variant="primary"
-            carwashes={carwashes as unknown as CarwashWithOwnerServicesAndPackages[]}
-            currentCarwash={carwash as unknown as CarwashWithOwnerServicesAndPackages}
+            carwashes={
+              carwashes as unknown as CarwashWithOwnerServicesAndPackages[]
+            }
+            currentCarwash={
+              carwash as unknown as CarwashWithOwnerServicesAndPackages
+            }
           />
         </div>
       ) : (
         <CarwashServicesTable
-          services={carwash.services as unknown as CarwashService[]}
+          services={carwash.services as unknown as CarwashServiceWithCarwash[]}
         />
       )}
     </>

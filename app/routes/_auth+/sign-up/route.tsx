@@ -90,7 +90,7 @@ export default function SignUpRoute() {
         />
       </fieldset>
 
-      <Button variant="brand" loading={isLoading}>
+      <Button size="medium" variant="brand" loading={isLoading}>
         Create Account
       </Button>
 

@@ -129,7 +129,7 @@
 
 /* ERROR BUTTON */
 
-.button_error.button_primary {
+.button_danger.button_primary {
   color: var(--fg-heading);
   fill: var(--fg-heading);
   stroke: var(--fg-heading);
@@ -137,11 +137,11 @@
   background-color: var(--error-default);
 }
 
-.button_error.button_primary:hover {
+.button_danger.button_primary:hover {
   background-color: var(--error-hover);
 }
 
-.button_error.button_secondary {
+.button_danger.button_secondary {
   color: var(--error-default);
   fill: var(--error-default);
   stroke: var(--error-default);
@@ -149,21 +149,21 @@
   border-color: var(--error-default);
 }
 
-.button_error.button_secondary:hover {
+.button_danger.button_secondary:hover {
   background-color: var(--error-overlay);
 }
 
-.button_error.button_secondary.overlay:hover {
+.button_danger.button_secondary.overlay:hover {
   background-color: var(--error-overlay-hover);
 }
 
-.button_error.button_tertiary {
+.button_danger.button_tertiary {
   color: var(--error-default);
   fill: var(--error-default);
   stroke: var(--error-default);
 }
 
-.button_error.button_tertiary:hover {
+.button_danger.button_tertiary:hover {
   background-color: var(--error-overlay-hover);
 }
 
