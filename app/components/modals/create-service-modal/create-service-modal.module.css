@@ -1,0 +1,33 @@
+.form,
+.form_fields {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.form {
+  justify-content: space-between;
+}
+
+.form_fields {
+  gap: 24px;
+
+  padding: 16px;
+
+  border: none;
+  outline: none;
+}
+
+.buttons_container {
+  width: 100%;
+
+  padding: 16px;
+
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+
+  border-top: solid 1px var(--border-default);
+}

@@ -1,0 +1,28 @@
+.table_body {
+  border-spacing: none;
+}
+
+.table_body td,
+.table_body th {
+  height: 64px;
+
+  padding: 0 17px;
+
+  color: var(--fg-body-primary);
+
+  font-size: 15px;
+
+  text-align: left;
+  text-overflow: ellipsis;
+
+  text-wrap: nowrap;
+  overflow: hidden;
+
+  border-bottom: solid 1px var(--border-default);
+}
+
+.table_body th {
+  color: var(--fg-heading);
+
+  font-weight: 500;
+}

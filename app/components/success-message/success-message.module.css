@@ -1,0 +1,29 @@
+.success_message {
+  width: 100%;
+
+  padding: 16px 20px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  background-color: var(--green-overlay);
+
+  border: solid 2px var(--green-default);
+
+  border-radius: 8px;
+}
+
+.success_message svg {
+  font-size: 20px;
+
+  fill: var(--green-default);
+  color: var(--green-default);
+}
+
+.success_message span {
+  color: var(--green-default);
+
+  font-size: 15px;
+}

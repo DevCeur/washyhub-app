@@ -1,10 +1,10 @@
 import { z } from "zod";
 import { json } from "@remix-run/node";
-import { Form, Link, useActionData, useNavigation } from "@remix-run/react";
+import { Form, useActionData, useNavigation } from "@remix-run/react";
 
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 
-import { ERROR_MESSAGE, ROUTE } from "~/utils/enum";
+import { ERROR_MESSAGE } from "~/utils/enum";
 
 import { createHash } from "~/utils/hash";
 import { withAuthLoader } from "~/utils/with-auth-loader";
@@ -17,7 +17,8 @@ import { TextInput } from "~/components/text-input";
 
 import styles from "./route.module.css";
 
-export const loader: LoaderFunction = (loaderArgs) => withAuthLoader({ loaderArgs });
+export const loader: LoaderFunction = (loaderArgs) =>
+  withAuthLoader({ loaderArgs });
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = Object.fromEntries(await request.formData());
@@ -41,7 +42,9 @@ export const action: ActionFunction = async ({ request }) => {
     return json({ errors: formValidationError.flatten().fieldErrors });
   }
 
-  const { hash: hashedPassword } = await createHash({ text: validatedFormData.password });
+  const { hash: hashedPassword } = await createHash({
+    text: validatedFormData.password,
+  });
 
   const { user, errors: creatingUserError } = await createNewUser({
     data: { email: validatedFormData.email, password: hashedPassword },
@@ -68,41 +71,32 @@ export default function SignUpRoute() {
   const isLoading = navigation.formAction === "/sign-up";
 
   return (
-    <div className={styles.container}>
-      <div className={styles.heading}>
-        <h1>Create Account</h1>
-        <span>Create an account and start managing your carwash</span>
-      </div>
+    <Form action="/sign-up" method="post" className={styles.form}>
+      <fieldset disabled={isLoading} className={styles.fields_container}>
+        <TextInput
+          label="Email"
+          type="email"
+          name="email"
+          placeholder="mariecurie@email.com"
+          error={errors?.email}
+        />
 
-      <Form action="/sign-up" method="post" className={styles.form}>
-        <fieldset disabled={isLoading} className={styles.fields_container}>
-          <TextInput label="Email" type="email" name="email" error={errors?.email} />
+        <TextInput
+          label="Password"
+          type="password"
+          name="password"
+          placeholder="+6 characters"
+          error={errors?.password}
+        />
+      </fieldset>
 
-          <TextInput
-            label="Password"
-            type="password"
-            name="password"
-            placeholder="+6 characters"
-            error={errors?.password}
-          />
-        </fieldset>
+      <Button size="medium" variant="brand" loading={isLoading}>
+        Create Account
+      </Button>
 
-        <span className={styles.account_agreement}>
-          Your information is kept safe and confidential. By proceeding, you agree to
-          Carwash <Link to={ROUTE.HOME}>Terms of Service</Link> and{" "}
-          <Link to={ROUTE.HOME}>Privacy Policy.</Link>
-        </span>
-
-        <Button colorScheme="brand" loading={isLoading}>
-          Create Account
-        </Button>
-
-        {errors?.server && <span className={styles.server_error}>{errors.server}</span>}
-      </Form>
-
-      <Link to={ROUTE.SIGN_IN} className={styles.sign_redirection_link}>
-        Already have an account? Sign in
-      </Link>
-    </div>
+      {errors?.server && (
+        <span className={styles.server_error}>{errors.server}</span>
+      )}
+    </Form>
   );
 }

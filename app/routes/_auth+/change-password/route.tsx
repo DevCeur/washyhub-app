@@ -1,8 +1,7 @@
 import { z } from "zod";
-import { Link, useFetcher, useLoaderData, useNavigate } from "@remix-run/react";
+import { Link, useFetcher, useLoaderData } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
-import { IoIosCheckmarkCircleOutline } from "react-icons/io";
-import { RiErrorWarningLine } from "react-icons/ri";
+import { HiArrowSmallLeft } from "react-icons/hi2";
 
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 
@@ -20,6 +19,7 @@ import { verifyToken } from "~/services/password-reset-token";
 
 import { Button } from "~/components/button";
 import { TextInput } from "~/components/text-input";
+import { SuccessMessage } from "~/components/success-message";
 
 import styles from "./route.module.css";
 
@@ -29,7 +29,9 @@ export const loader: LoaderFunction = async (loaderArgs) =>
     callback: async ({ request }) => {
       const url = new URL(request.url);
 
-      const { resetPasswordSession } = await getResetPasswordSession({ request });
+      const { resetPasswordSession } = await getResetPasswordSession({
+        request,
+      });
 
       const token = url.searchParams.get("token");
 
@@ -48,7 +50,11 @@ export const loader: LoaderFunction = async (loaderArgs) =>
       if (verificationErrors) {
         return json(
           { errors: verificationErrors },
-          { headers: { "Set-Cookie": await destroySession(resetPasswordSession) } }
+          {
+            headers: {
+              "Set-Cookie": await destroySession(resetPasswordSession),
+            },
+          }
         );
       }
 
@@ -115,8 +121,6 @@ export const action: ActionFunction = async ({ request }) => {
 export default function ChangePasswordRoute() {
   const fetcher = useFetcher<typeof action>();
 
-  const navigate = useNavigate();
-
   const loaderData = useLoaderData<typeof loader>();
 
   const actionDataErrors = fetcher.data?.errors;
@@ -124,34 +128,39 @@ export default function ChangePasswordRoute() {
   const isTokenValid = loaderData?.isValid;
   const isPasswordUpdated = fetcher.data?.success;
 
-  const isLoading = fetcher.formAction === "/change-password";
-
-  console.log({ loaderData, actionDataErrors });
+  const isLoading =
+    (fetcher.state === "submitting" || fetcher.state === "loading") &&
+    fetcher.formAction === "/change-password";
 
   return (
     <div className={styles.container}>
       {!isTokenValid && !isPasswordUpdated && (
-        <RiErrorWarningLine className={styles.error_icon} />
+        <div className={styles.invalid_token_container}>
+          <div className={styles.invalid_token_message}>
+            <span>
+              Your reset password token is not valid anymore, it could be expired or
+              already used. to generate a new token go back to{" "}
+              <Link to={ROUTE.RECOVER_PASSWORD}>recover your password</Link> and resend an
+              instruction email.
+            </span>
+          </div>
+
+          <Link to={ROUTE.SIGN_IN} className={styles.redirection_link}>
+            <HiArrowSmallLeft />
+            Return to Sign In
+          </Link>
+        </div>
       )}
 
       {isPasswordUpdated && (
-        <IoIosCheckmarkCircleOutline className={styles.success_icon} />
-      )}
+        <div className={styles.success_message_container}>
+          <SuccessMessage message="Your password has been updated successfully" />
 
-      <div className={styles.heading}>
-        {isTokenValid && !isPasswordUpdated && (
-          <h1>
-            {isTokenValid && !isPasswordUpdated
-              ? "Create New Password"
-              : "Your token is invalid"}
-          </h1>
-        )}
-
-        {isPasswordUpdated && <h1>Your Password Has Been Updated!</h1>}
-      </div>
-
-      {!isTokenValid && !isPasswordUpdated && (
-        <Link to={ROUTE.RECOVER_PASSWORD}>Return to Sign In</Link>
+          <Link to={ROUTE.SIGN_IN} className={styles.redirection_link}>
+            <HiArrowSmallLeft />
+            Return to Sign In
+          </Link>
+        </div>
       )}
 
       {isTokenValid && !isPasswordUpdated && (
@@ -172,7 +181,7 @@ export default function ChangePasswordRoute() {
             />
           </fieldset>
 
-          <Button colorScheme="brand" loading={isLoading}>
+          <Button loading={isLoading} size="medium">
             Reset Password
           </Button>
 
@@ -180,10 +189,6 @@ export default function ChangePasswordRoute() {
             <span className={styles.server_error}>{actionDataErrors.server}</span>
           )}
         </fetcher.Form>
-      )}
-
-      {isPasswordUpdated && (
-        <Button onClick={() => navigate(ROUTE.SIGN_IN)}>Return to Sign In</Button>
       )}
     </div>
   );

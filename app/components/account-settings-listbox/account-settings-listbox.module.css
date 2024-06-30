@@ -1,0 +1,153 @@
+.listbox {
+  width: 100%;
+}
+
+.listbox_button_container {
+  width: 100%;
+
+  padding: 8px;
+
+  background-color: transparent;
+
+  text-decoration: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  cursor: pointer;
+
+  gap: 12px;
+
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  appearance: none;
+
+  transition: all 150ms ease-in-out;
+}
+
+.listbox_button_container:hover {
+  color: var(--fg-heading);
+
+  background-color: var(--bg-primary-hover);
+}
+
+.user_info_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 12px;
+}
+
+.user_initial {
+  width: 32px;
+  height: 32px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: x-small;
+  font-weight: 500;
+  text-transform: uppercase;
+
+  border-radius: 100%;
+  border: solid 1px var(--border-default);
+
+  transition: all 150ms ease-in-out;
+}
+
+.listbox_button_container:hover .user_initial {
+  border-color: var(--border-hover);
+}
+
+.user_info {
+  width: 125px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.user_name {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.user_email {
+  width: 100%;
+  color: var(--fg-body-secondary);
+
+  font-size: 12px;
+
+  overflow: hidden;
+  white-space: nowrap;
+
+  text-overflow: ellipsis;
+}
+
+.listbox_options_container {
+  width: var(--button-width);
+
+  padding: 8px;
+  margin-bottom: 24px;
+
+  background-color: var(--bg-secondary-default);
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+
+  border: solid 1px var(--border-default);
+
+  border-radius: 12px;
+}
+
+.option {
+  width: 100%;
+  height: 36px;
+
+  padding: 0 12px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  text-decoration: none;
+
+  display: flex;
+  align-items: center;
+
+  background-color: transparent;
+  appearance: none;
+
+  border: solid 1px transparent;
+  outline: none;
+
+  cursor: pointer;
+
+  gap: 8px;
+
+  transition: all 150ms ease-in-out;
+  border-radius: 8px;
+}
+
+.option:hover {
+  color: var(--);
+  background-color: var(--bg-primary-hover);
+}
+
+.option_danger:hover {
+  color: var(--error-default);
+  background-color: var(--error-overlay);
+
+  border-color: var(--error-hover);
+}

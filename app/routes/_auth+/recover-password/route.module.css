@@ -12,71 +12,59 @@
   align-items: center;
 }
 
-.success_icon {
-  margin-bottom: 1rem;
-
-  font-size: 7rem;
-
-  text-align: center;
-
-  fill: var(--brand-default);
-}
-
-.heading {
-  text-align: center;
-
-  gap: 0.5rem;
-
-  margin-bottom: 1.5rem;
-}
-
-.heading span {
-  font-size: 0.85rem;
-}
-
 .form {
   width: 100%;
-  max-width: 350px;
-
-  margin-bottom: 1rem;
 
   display: flex;
   flex-direction: column;
 
-  gap: 1.5rem;
+  gap: 24px;
 }
 
 .fields_container {
-  gap: 0.75rem;
-
   border: none;
   outline: none;
 }
 
 .server_error {
-  font-size: 0.75rem;
+  font-size: 12px;
 
   text-align: center;
 
-  color: red;
+  color: var(--error-default);
 }
 
-.recover_password_link,
-.sign_redirection_link {
-  color: var(--text-light);
+.success_message_container {
+  width: 100%;
 
-  font-size: 0.75rem;
+  display: flex;
+  flex-direction: column;
+
+  gap: 24px;
+}
+
+.redirection_link,
+.redirection_link svg {
+  color: var(--fg-body-primary);
+  fill: var(--fg-body-primary);
+}
+
+.redirection_link {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  font-size: 14px;
+  font-weight: 500;
 
   text-decoration: none;
 
-  transition: all 200ms ease-in-out;
+  transition: all 150ms ease-in-out;
 }
 
-.sign_redirection_link:hover,
-.recover_password_link:hover {
-  color: var(--text-default);
-}
-
-.recover_password_link {
-  text-align: right;
+.redirection_link:hover,
+.redirection_link:hover svg {
+  color: var(--fg-heading);
+  fill: var(--fg-heading);
 }

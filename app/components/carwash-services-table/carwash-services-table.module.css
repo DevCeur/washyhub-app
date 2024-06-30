@@ -1,0 +1,26 @@
+.name_cell {
+  max-width: 150px;
+}
+
+.description_cell {
+  font-weight: 400;
+
+  color: var(--fg-body-secondary) !important;
+}
+
+.description {
+  width: 325px;
+
+  text-align: left;
+  text-overflow: ellipsis;
+
+  text-wrap: nowrap;
+  overflow: hidden;
+}
+
+.actions_cell {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+}

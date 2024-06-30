@@ -1,0 +1,46 @@
+:root {
+  /* ----- BACKGROUND COLORS ----- */
+
+  --bg-primary-default: #030712;
+  --bg-primary-hover: #111827;
+
+  --bg-secondary-default: #0c101a;
+
+  /* ----- TEXT COLORS ----- */
+
+  --fg-heading: #ffffff;
+
+  --fg-body-primary: #d1d5db;
+  --fg-body-secondary: #6b7280;
+
+  /* ----- BORDER COLORS ----- */
+
+  --border-default: #1f2937;
+  --border-hover: #4b5563;
+
+  /* ----- ACCENT COLORS ----- */
+
+  --accent-default: #3366ff;
+  --accent-hover: #254edb;
+  --accent-overlay: #0e1625;
+
+  /* ----- ERROR COLORS ----- */
+
+  --error-default: #ef4444;
+  --error-overlay: #140000;
+  --error-overlay-hover: #300606;
+  --error-border: #dc2626;
+  --error-hover: #dc2626;
+
+  /* ----- GREEN COLORS ----- */
+
+  --green-default: #39bf4d;
+  --green-overlay: #001004;
+  --green-border: #16a34a;
+
+  /* ----- AMBER COLORS ----- */
+
+  --amber-default: #f59e0b;
+  --amber-overlay: #451a03;
+  --amber-border: #ca8a04;
+}

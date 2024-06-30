@@ -1,20 +1,68 @@
-import type { InputHTMLAttributes } from "react";
+import { useState, forwardRef } from "react";
+
+import { Link } from "@remix-run/react";
+import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
+
+import type { MouseEvent, InputHTMLAttributes } from "react";
+
+import { ROUTE } from "~/utils/enum";
 
 import styles from "./text-input.module.css";
 
 interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label: string;
+  label?: string;
   error?: string;
+  hint?: string;
+  showForgotPassword?: boolean;
 }
 
-export const TextInput = ({ label, error, ...inputProps }: TextInputProps) => {
-  return (
-    <label className={styles.container}>
-      <span className={styles.label}>{label}</span>
+export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
+  (
+    { type, error, label, hint, showForgotPassword, ...inputProps }: TextInputProps,
+    ref
+  ) => {
+    const [showPassword, setShowPassword] = useState(type === "password");
 
-      <input className={styles.input} {...inputProps} />
+    const handleShowPassword = (e: MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
 
-      {error && <span className={styles.error}>{error}</span>}
-    </label>
-  );
-};
+      setShowPassword((prev) => !prev);
+    };
+
+    return (
+      <label className={styles.container}>
+        <div className={styles.labels_container}>
+          {label && <span className={styles.label}>{label}</span>}
+
+          {showForgotPassword && (
+            <Link to={ROUTE.RECOVER_PASSWORD} className={styles.recover_password_link}>
+              Forgot your password?
+            </Link>
+          )}
+        </div>
+
+        <div className={styles.input_container} data-error={!!error}>
+          <input
+            ref={ref}
+            type={type === "password" && showPassword ? "password" : "text" || type}
+            autoComplete="off"
+            className={styles.input}
+            {...inputProps}
+          />
+
+          {type === "password" && (
+            <button className={styles.show_password_button} onClick={handleShowPassword}>
+              {showPassword ? <HiOutlineEye /> : <HiOutlineEyeOff />}
+            </button>
+          )}
+        </div>
+
+        {error && <span className={styles.error}>{error}</span>}
+
+        {!error && hint && <span className={styles.hint}>{hint}</span>}
+      </label>
+    );
+  }
+);
+
+TextInput.displayName = "TextInput";

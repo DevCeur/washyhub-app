@@ -1,0 +1,35 @@
+.empty_container,
+.empty_heading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty_container {
+  width: 400px;
+  height: 300px;
+
+  margin: 0 auto;
+
+  gap: 24px;
+}
+
+.empty_icon {
+  width: 80px;
+}
+
+.empty_heading {
+  text-align: center;
+
+  gap: 4px;
+}
+
+.empty_heading h3 {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.empty_heading p {
+  font-size: 14px;
+}

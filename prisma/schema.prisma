@@ -7,14 +7,50 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model CarwashPackage {
+  id          String           @id @default(uuid())
+  name        String           @db.VarChar(255)
+  description String?
+  cost        Decimal
+  carwash_id  String
+  updated_at  DateTime         @updatedAt
+  created_at  DateTime         @default(now())
+  carwash     Carwash          @relation(fields: [carwash_id], references: [id], onDelete: Cascade)
+  services    CarwashService[]
+}
+
+model CarwashService {
+  id          String          @id @default(uuid())
+  name        String          @db.VarChar(255)
+  description String?
+  cost        Decimal
+  carwash_id  String
+  package_id  String?
+  updated_at  DateTime        @updatedAt
+  created_at  DateTime        @default(now())
+  carwash     Carwash         @relation(fields: [carwash_id], references: [id], onDelete: Cascade)
+  package     CarwashPackage? @relation(fields: [package_id], references: [id], onDelete: Cascade)
+}
+
+model Carwash {
+  id         String           @id @default(uuid())
+  name       String           @db.VarChar(255)
+  owner_id   String
+  updated_at DateTime         @updatedAt
+  created_at DateTime         @default(now())
+  owner      User             @relation(fields: [owner_id], references: [id], onDelete: Cascade)
+  packages   CarwashPackage[]
+  services   CarwashService[]
+}
+
 model PasswordResetToken {
   id          String   @id @default(uuid())
   token       String   @unique
   user_id     String
-  user        User     @relation(fields: [user_id], references: [id])
   expiry_date DateTime
   updated_at  DateTime @updatedAt
   created_at  DateTime @default(now())
+  user        User     @relation(fields: [user_id], references: [id])
 }
 
 model Profile {
@@ -22,18 +58,19 @@ model Profile {
   first_name String   @db.VarChar(255)
   last_name  String   @db.VarChar(255)
   user_id    String   @unique
-  user       User     @relation(fields: [user_id], references: [id])
   updated_at DateTime @updatedAt
   created_at DateTime @default(now())
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 model User {
   id                    String               @id @default(uuid())
   email                 String               @unique @db.VarChar(255)
   password              String               @db.VarChar(255)
-  needs_onboarding      Boolean              @default(true)
-  profile               Profile?
-  password_reset_tokens PasswordResetToken[]
   updated_at            DateTime             @updatedAt
   created_at            DateTime             @default(now())
+  needs_onboarding      Boolean              @default(true)
+  car_washes            Carwash[]
+  password_reset_tokens PasswordResetToken[]
+  profile               Profile?
 }

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { json, redirect } from "@remix-run/node";
-import { Form, Link, useActionData, useNavigation } from "@remix-run/react";
+import { Form, useActionData, useNavigation } from "@remix-run/react";
 
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 
@@ -70,40 +70,35 @@ export default function SignInRoute() {
 
   const errors = actionData?.errors;
 
-  const isLoading = navigation.formAction === "/sign-in";
+  const isLoading =
+    (navigation.state === "submitting" || navigation.state === "loading") &&
+    navigation.formAction === "/sign-in";
 
   return (
-    <div className={styles.container}>
-      <div className={styles.heading}>
-        <h1>Sign In</h1>
-      </div>
+    <Form action="/sign-in" method="post" className={styles.form}>
+      <fieldset disabled={isLoading} className={styles.fields_container}>
+        <TextInput
+          label="Email"
+          type="email"
+          name="email"
+          placeholder="mariecurie@email.com"
+          error={errors?.email}
+        />
 
-      <Form action="/sign-in" method="post" className={styles.form}>
-        <fieldset disabled={isLoading} className={styles.fields_container}>
-          <TextInput label="Email" type="email" name="email" error={errors?.email} />
+        <TextInput
+          label="Password"
+          type="password"
+          name="password"
+          showForgotPassword
+          error={errors?.password || errors?.credentials}
+        />
+      </fieldset>
 
-          <TextInput
-            label="Password"
-            type="password"
-            name="password"
-            error={errors?.password || errors?.credentials}
-          />
+      <Button variant="brand" size="medium" loading={isLoading}>
+        Continue
+      </Button>
 
-          <Link to={ROUTE.RECOVER_PASSWORD} className={styles.recover_password_link}>
-            Forgot my password
-          </Link>
-        </fieldset>
-
-        <Button colorScheme="brand" loading={isLoading}>
-          Sign In
-        </Button>
-
-        {errors?.server && <span className={styles.server_error}>{errors.server}</span>}
-      </Form>
-
-      <Link to={ROUTE.SIGN_UP} className={styles.sign_redirection_link}>
-        Don&apos; have an account? Create an account
-      </Link>
-    </div>
+      {errors?.server && <span className={styles.server_error}>{errors.server}</span>}
+    </Form>
   );
 }

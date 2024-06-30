@@ -8,10 +8,26 @@ import { ROUTE } from "./enum";
 
 import { getAuthSession, getUserId } from "./sessions/auth-session";
 
-const PRIVATE_ROUTES = [ROUTE.DASHBOARD];
+const PRIVATE_ROUTES = [
+  ROUTE.DASHBOARD,
+
+  ROUTE.ACCOUNT,
+
+  ROUTE.CUSTOMERS,
+
+  ROUTE.CARWASHES,
+  ROUTE.NEW_CARWASH,
+
+  ROUTE.INVOICES,
+  ROUTE.NEW_INVOICE,
+
+  ROUTE.ORDERS,
+  ROUTE.NEW_ORDER,
+];
+
 const PUBLIC_ROUTES = [
   ROUTE.HOME,
-  ROUTE.SIGN_UP,
+  ROUTE.SIGN_IN,
   ROUTE.SIGN_UP,
   ROUTE.RECOVER_PASSWORD,
   ROUTE.CHANGE_PASSWORD,
@@ -32,7 +48,7 @@ export const withAuthLoader = async ({ callback, loaderArgs }: WithAuthLoaderOpt
 
   const isAuth = authSession.has("userId");
 
-  if (isAuth) {
+  if (userId) {
     const { user, errors } = await getUserById({ id: userId });
 
     if (errors) {
@@ -40,12 +56,12 @@ export const withAuthLoader = async ({ callback, loaderArgs }: WithAuthLoaderOpt
     }
 
     if (user?.needs_onboarding && pathname !== ROUTE.ONBOARDING) {
-      throw redirect(ROUTE.ONBOARDING);
+      return redirect(ROUTE.ONBOARDING);
     }
+  }
 
-    if (PUBLIC_ROUTES.includes(pathname)) {
-      throw redirect(ROUTE.DASHBOARD);
-    }
+  if (isAuth && PUBLIC_ROUTES.includes(pathname)) {
+    return redirect(ROUTE.DASHBOARD);
   }
 
   if (!isAuth && PRIVATE_ROUTES.includes(pathname)) {

@@ -3,9 +3,11 @@
   justify-content: center;
   align-items: center;
 
-  gap: 0.5rem;
+  gap: 8px;
 
   font-weight: 500;
+
+  text-decoration: none;
 
   cursor: pointer;
   border: solid 1px transparent;
@@ -13,6 +15,16 @@
   background-color: transparent;
 
   transition: all 150ms ease-in-out;
+}
+
+.base_button:disabled {
+  opacity: 0.5;
+
+  pointer-events: none;
+}
+
+.base_button.loading {
+  pointer-events: none;
 }
 
 .base_button span,
@@ -39,70 +51,180 @@
 
 /* VARIANT AND COLOR_SCHEME COMBINATIONS */
 
+/* BRAND BUTTON */
+
 .button_brand.button_primary {
   color: white;
   fill: white;
   stroke: white;
-  background-color: var(--brand-default);
+
+  background-color: var(--accent-default);
 }
 
 .button_brand.button_primary:hover {
-  background-color: var(--brand-default-hover);
+  background-color: var(--accent-hover);
 }
 
 .button_brand.button_secondary {
-  color: var(--brand-default);
-  fill: var(--brand-default);
-  stroke: var(--brand-default);
+  color: var(--accent-default);
+  fill: var(--accent-default);
+  stroke: var(--accent-default);
 
-  border-color: var(--brand-default);
+  border-color: var(--accent-default);
 }
 
 .button_brand.button_secondary:hover {
-  background-color: var(--brand-lightest);
+  background-color: var(--accent-overlay);
 }
 
-.button_gray.button_primary {
-  color: white;
-  fill: white;
-  stroke: white;
+.button_brand.button_tertiaty {
+  color: var(--accent-default);
+  fill: var(--accent-default);
+  stroke: var(--accent-default);
 
-  background-color: var(--text-default);
+  border-color: transparent;
 }
 
-.button_gray.button_secondary {
-  color: var(--text-default);
-  fill: var(--text-default);
-  stroke: var(--text-default);
+.button_brand.button_tertiary:hover {
+  background-color: var(--accent-overlay);
+}
+
+/* DEFAULT BUTTON */
+
+.button_default.button_primary {
+  color: var(--bg-primary-default);
+  fill: var(--bg-primary-default);
+  stroke: var(--bg-primary-default);
+
+  background-color: var(--fg-heading);
+}
+
+.button_default.button_primary:hover {
+  background-color: var(--fg-body-primary);
+}
+
+.button_default.button_secondary {
+  color: var(--fg-body-primary);
+  fill: var(--fg-body-primary);
+  stroke: var(--fg-body-primary);
 
   border-color: var(--border-default);
+}
+
+.button_default.button_secondary:hover {
+  background-color: var(--bg-primary-hover);
+}
+
+.button_default.button_tertiary {
+  color: var(--fg-body-primary);
+  fill: var(--fg-body-primary);
+  stroke: var(--fg-body-primary);
+
+  border-color: transparent;
+}
+
+.button_default.button_tertiary:hover {
+  background-color: var(--bg-primary-hover);
+}
+
+/* ERROR BUTTON */
+
+.button_danger.button_primary {
+  color: var(--fg-heading);
+  fill: var(--fg-heading);
+  stroke: var(--fg-heading);
+
+  background-color: var(--error-default);
+}
+
+.button_danger.button_primary:hover {
+  background-color: var(--error-hover);
+}
+
+.button_danger.button_secondary {
+  color: var(--error-default);
+  fill: var(--error-default);
+  stroke: var(--error-default);
+
+  border-color: var(--error-default);
+}
+
+.button_danger.button_secondary:hover {
+  background-color: var(--error-overlay);
+}
+
+.button_danger.button_secondary.overlay:hover {
+  background-color: var(--error-overlay-hover);
+}
+
+.button_danger.button_tertiary {
+  color: var(--error-default);
+  fill: var(--error-default);
+  stroke: var(--error-default);
+}
+
+.button_danger.button_tertiary:hover {
+  background-color: var(--error-overlay-hover);
 }
 
 /* SIZES */
 
 .button_small {
-  height: 2.25rem;
+  height: 32px;
 
-  padding: 0 1rem;
+  padding: 0 12px;
 
-  font-size: 0.75rem;
-  border-radius: 0.5rem;
+  font-size: 12px !important;
+
+  border-radius: 8px;
+}
+
+.button_small.with_icon {
+  padding-left: 8px;
+}
+
+.button_small.icon_button {
+  width: 32px;
+
+  padding: 0;
 }
 
 .button_medium {
-  height: 2.875rem;
+  height: 40px;
 
-  padding: 0 1.25rem;
+  padding: 0 16px;
 
-  font-size: 0.85rem;
-  border-radius: 0.5rem;
+  font-size: 14px !important;
+
+  border-radius: 8px;
+}
+
+.button_medium.with_icon {
+  padding-left: 12px;
+}
+
+.button_medium.icon_button {
+  width: 40px;
+
+  padding: 0;
 }
 
 .button_large {
-  height: 3.25rem;
+  height: 48px;
 
-  padding: 0rem 1.25rem;
+  padding: 0rem 20px;
 
-  font-size: 1rem;
-  border-radius: 0.85rem;
+  font-size: 16px !important;
+
+  border-radius: 12px;
+}
+
+.button_large.with_icon {
+  padding-left: 16px;
+}
+
+.button_large.icon_button {
+  width: 48px;
+
+  padding: 0;
 }
