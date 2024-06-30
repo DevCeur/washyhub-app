@@ -1,0 +1,80 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.header_content {
+  display: flex;
+  flex-direction: column;
+
+  gap: 24px;
+}
+
+.go_back_button {
+  width: max-content;
+}
+
+.service_icon {
+  width: 80px;
+  height: 80px;
+
+  font-size: 32px;
+
+  background-color: var(--bg-secondary-default);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: solid 1px var(--border-default);
+  border-radius: 12px;
+}
+
+.heading {
+  display: flex;
+
+  gap: 24px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+}
+
+.service_info_container {
+  display: flex;
+  align-items: center;
+
+  gap: 24px;
+}
+
+.service_info {
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+.name {
+  color: var(--fg-heading);
+
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.description {
+  color: var(--fg-body-secondary);
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+
+  gap: 16px;
+}

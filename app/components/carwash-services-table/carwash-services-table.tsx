@@ -21,7 +21,9 @@ interface CarwashServicesTableProps {
   services: CarwashServiceWithCarwash[];
 }
 
-export const CarwashServicesTable = ({ services }: CarwashServicesTableProps) => {
+export const CarwashServicesTable = ({
+  services,
+}: CarwashServicesTableProps) => {
   const location = useLocation();
 
   const { carwashes } = useLoaderData<LoaderData>();
@@ -59,9 +61,14 @@ export const CarwashServicesTable = ({ services }: CarwashServicesTableProps) =>
               </td>
               <td>{formattedCost}</td>
               <td className={styles.actions_cell}>
-                <DeleteServiceModal variant="card" service={service} />
+                <DeleteServiceModal
+                  from="modal"
+                  variant="card"
+                  service={service}
+                />
 
                 <UpdateServiceModal
+                  variant="card"
                   service={service}
                   carwashes={
                     carwashes as unknown as CarwashWithOwnerServicesAndPackages[]

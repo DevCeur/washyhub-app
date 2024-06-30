@@ -1,5 +1,22 @@
 import { prisma } from "~/lib/database/database";
 
+interface GetServiceById {
+  id: string;
+}
+
+export const getServiceById = async ({ id }: GetServiceById) => {
+  try {
+    const service = await prisma.carwashService.findUnique({
+      where: { id },
+      include: { carwash: true },
+    });
+
+    return { service };
+  } catch (error) {
+    throw new Error("Error getting service by id");
+  }
+};
+
 interface CreateCarwashService {
   data: {
     service_name: string;

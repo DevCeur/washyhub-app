@@ -22,6 +22,7 @@ import { action } from "~/routes/_private+/carwashes/$carwashId/services/_index/
 import styles from "./update-service-modal.module.css";
 
 interface UpdateServiceModalProps {
+  variant: "card" | "page";
   service: CarwashServiceWithCarwash;
   carwashes: CarwashWithOwnerServicesAndPackages[];
 }
@@ -29,6 +30,7 @@ interface UpdateServiceModalProps {
 export const UpdateServiceModal = ({
   service,
   carwashes,
+  variant,
 }: UpdateServiceModalProps) => {
   const fetcher = useFetcher<typeof action>();
 
@@ -71,8 +73,8 @@ export const UpdateServiceModal = ({
     <>
       <Button
         icon={FiEdit3}
-        size="small"
-        hierarchy="tertiary"
+        size={variant === "card" ? "small" : "medium"}
+        hierarchy={variant === "card" ? "tertiary" : "secondary"}
         onClick={handleOpen}
       />
 

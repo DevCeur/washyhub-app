@@ -15,11 +15,16 @@ import { Button } from "~/components/button";
 import styles from "./delete-service-modal.module.css";
 
 interface DeleteServiceModalProps {
+  from: "page" | "modal";
   variant: "card" | "page";
   service: CarwashServiceWithCarwash;
 }
 
-export const DeleteServiceModal = ({ variant, service }: DeleteServiceModalProps) => {
+export const DeleteServiceModal = ({
+  variant,
+  service,
+  from,
+}: DeleteServiceModalProps) => {
   const fetcher = useFetcher<typeof action>();
 
   const actionData = fetcher.data;
@@ -49,11 +54,11 @@ export const DeleteServiceModal = ({ variant, service }: DeleteServiceModalProps
   return (
     <>
       <Button
-        size="small"
-        variant="danger"
-        hierarchy={variant === "card" ? "tertiary" : "secondary"}
         icon={FaRegTrashCan}
         onClick={handleOpen}
+        variant="danger"
+        size={variant === "card" ? "small" : "medium"}
+        hierarchy={variant === "card" ? "tertiary" : "secondary"}
       />
 
       <Modal
@@ -64,11 +69,18 @@ export const DeleteServiceModal = ({ variant, service }: DeleteServiceModalProps
       >
         <div className={styles.container}>
           <p className={styles.message}>
-            This action cannot be undone. This will permanently delete the {service.name}{" "}
-            service.
+            This action cannot be undone. This will permanently delete the{" "}
+            {service.name} service.
           </p>
 
-          <fetcher.Form method="DELETE" action={formAction} className={styles.form}>
+          <fetcher.Form
+            method="DELETE"
+            action={formAction}
+            className={styles.form}
+          >
+            <input type="hidden" name="from" value={from} />
+            <input type="hidden" name="carwash_id" value={service.carwash_id} />
+
             <Button
               variant="danger"
               size="small"

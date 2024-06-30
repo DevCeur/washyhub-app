@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 
 import { z } from "zod";
 import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { redirect, useLoaderData } from "@remix-run/react";
 
 import relativeTime from "dayjs/plugin/relativeTime";
 
@@ -18,7 +18,7 @@ import type {
   CarwashWithOwnerServicesAndPackages,
 } from "~/utils/types";
 
-import { ERROR_MESSAGE } from "~/utils/enum";
+import { ERROR_MESSAGE, ROUTE } from "~/utils/enum";
 
 import { convertCurrencyToNumber } from "~/utils/currency";
 import { withAuthLoader } from "~/utils/with-auth-loader";
@@ -145,7 +145,9 @@ export const action: ActionFunction = async ({ request }) => {
       const formData = Object.fromEntries(await request.formData());
 
       const formSchema = z.object({
+        carwash_id: z.string(),
         service_id: z.string(),
+        from: z.string(),
       });
 
       const { data: validatedFormData, error: validationFormErrors } =
@@ -156,6 +158,12 @@ export const action: ActionFunction = async ({ request }) => {
       }
 
       await deleteCarwashService({ service_id: validatedFormData.service_id });
+
+      if (validatedFormData.from === "page") {
+        return redirect(
+          `${ROUTE.CARWASHES}/${validatedFormData.carwash_id}/services`
+        );
+      }
 
       return json({ success: true });
     }
