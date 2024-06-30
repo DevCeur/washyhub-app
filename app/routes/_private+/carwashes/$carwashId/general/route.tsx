@@ -9,11 +9,7 @@ import {
   useNavigation,
 } from "@remix-run/react";
 
-import type {
-  ActionFunction,
-  LoaderFunction,
-  MetaFunction,
-} from "@remix-run/node";
+import type { ActionFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
 import type { CarwashWithOwnerServicesAndPackages } from "~/utils/types";
 
 import { ERROR_MESSAGE, ROUTE } from "~/utils/enum";
@@ -28,6 +24,7 @@ import {
 
 import {
   deleteCarwash,
+  getAllUserCarwashes,
   getCarwashById,
   updateCarwash,
 } from "~/services/carwash";
@@ -42,6 +39,7 @@ import styles from "./route.module.css";
 
 interface LoaderData {
   carwash: CarwashWithOwnerServicesAndPackages;
+  carwashes: CarwashWithOwnerServicesAndPackages[];
 }
 
 export const loader: LoaderFunction = (loaderArgs) =>
@@ -55,7 +53,9 @@ export const loader: LoaderFunction = (loaderArgs) =>
         request,
       });
 
-      return json({ carwash });
+      const { carwashes } = await getAllUserCarwashes({ request });
+
+      return json({ carwash, carwashes });
     },
   });
 
@@ -119,10 +119,12 @@ export const action: ActionFunction = async ({ request, params }) => {
 };
 
 export default function CarwashGeneralSettingsRoute() {
-  const fetcher = useFetcher<typeof action>();
   const navigation = useNavigation();
+  const fetcher = useFetcher<typeof action>();
 
-  const { carwash } = useLoaderData<LoaderData>();
+  const { carwash, carwashes } = useLoaderData<LoaderData>();
+
+  const disableDelete = carwashes.length === 1;
 
   const actionData = fetcher.data;
 
@@ -130,18 +132,17 @@ export default function CarwashGeneralSettingsRoute() {
     defaultValues: { carwash_name: carwash.name },
   });
 
-  const isLoading = fetcher.state === "submitting";
-  const isSavingLoading = isLoading && fetcher.formMethod === "POST";
-  const isDeletingLoading = navigation.state === "submitting";
+  const isSavingLoading =
+    (fetcher.state === "submitting" || fetcher.state === "loading") &&
+    fetcher.formMethod === "POST";
+
+  const isDeletingLoading =
+    (navigation.state === "submitting" || navigation.state === "loading") &&
+    navigation.formMethod === "DELETE";
 
   return (
     <div className={styles.container}>
-      <UpdateForm
-        isLoading={isSavingLoading}
-        method="POST"
-        fetcher={fetcher}
-        form={form}
-      >
+      <UpdateForm isLoading={isSavingLoading} method="POST" fetcher={fetcher} form={form}>
         <UpdateFormSection title="Carwash Info">
           <TextInput
             label="Carwash Name"
@@ -154,7 +155,11 @@ export default function CarwashGeneralSettingsRoute() {
       <MessageCard
         type="danger"
         title="Delete this Carwash"
-        message="Deleting this Carwash will also remove all services, packages and orders related."
+        message={
+          disableDelete
+            ? "You must have at least 1 Carwash, you'll not be able to delete this carwash"
+            : "Deleting this Carwash will also remove all services, packages and orders related."
+        }
       >
         <Form method="DELETE" className={styles.form}>
           <Button
@@ -163,6 +168,7 @@ export default function CarwashGeneralSettingsRoute() {
             variant="danger"
             hierarchy="secondary"
             loading={isDeletingLoading}
+            disabled={disableDelete}
           >
             Delete Carwash
           </Button>

@@ -2,11 +2,7 @@ import { z } from "zod";
 import { redirect, useNavigation } from "react-router";
 import { Form, json, useActionData } from "@remix-run/react";
 
-import type {
-  ActionFunction,
-  LoaderFunction,
-  MetaFunction,
-} from "@remix-run/node";
+import type { ActionFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
 
 import { ERROR_MESSAGE, ROUTE } from "~/utils/enum";
 
@@ -20,8 +16,7 @@ import { PageForm } from "~/components/page-form";
 
 import styles from "./route.module.css";
 
-export const loader: LoaderFunction = (loaderArgs) =>
-  withAuthLoader({ loaderArgs });
+export const loader: LoaderFunction = (loaderArgs) => withAuthLoader({ loaderArgs });
 
 export const meta: MetaFunction<typeof loader> = () => {
   return [{ title: "Create Carwash" }];
@@ -56,7 +51,9 @@ export default function NewCarwashRoute() {
   const navigation = useNavigation();
   const actionData = useActionData<typeof action>();
 
-  const isLoading = navigation.formAction === "/carwashes/new";
+  const isLoading =
+    (navigation.state === "submitting" || navigation.state === "loading") &&
+    navigation.formAction === "/carwashes/new";
 
   const errors = actionData?.errors;
 
@@ -75,7 +72,9 @@ export default function NewCarwashRoute() {
           error={errors?.carwashName}
         />
 
-        <Button loading={isLoading}>Create Carwash</Button>
+        <Button loading={isLoading} size="medium">
+          Create Carwash
+        </Button>
       </Form>
     </PageForm>
   );

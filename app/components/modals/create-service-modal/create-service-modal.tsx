@@ -45,7 +45,9 @@ export const CreateServiceModal = ({
 
   const formAction = `${ROUTE.CARWASHES}/${carwash?.id}/services`;
 
-  const isLoading = fetcher.state === "submitting" && fetcher.formAction === formAction;
+  const isLoading =
+    (fetcher.state === "submitting" || fetcher.state === "loading") &&
+    fetcher.formAction === formAction;
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -60,27 +62,27 @@ export const CreateServiceModal = ({
   };
 
   useEffect(() => {
-    if (actionData?.success) {
+    if (actionData?.success && !isLoading) {
       setIsOpen(false);
     }
-  }, [actionData?.success]);
+  }, [actionData?.success, isLoading]);
 
   return (
     <>
       <Button
         icon={FiPlus}
         hierarchy={variant}
-        size={variant === "primary" ? "default" : "small"}
+        size={variant === "primary" ? "medium" : "small"}
         onClick={handleOpen}
       >
         Create Service
       </Button>
 
       <Modal
+        isOpen={isOpen}
         position="right"
         title="Create new service"
         description="Use this service in your orders or add it to a package"
-        isOpen={isOpen}
         onClose={handleClose}
       >
         <fetcher.Form method="POST" action={formAction} className={styles.form}>

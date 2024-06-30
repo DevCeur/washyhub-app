@@ -83,7 +83,10 @@ export default function RecoverPasswordRoute() {
 
   const isEmailSent = actionData?.success;
   const userEmail = actionData?.userEmail;
-  const isLoading = navigation.formAction === "/recover-password";
+
+  const isLoading =
+    (navigation.state === "submitting" || navigation.state === "loading") &&
+    navigation.formAction === "/recover-password";
 
   return (
     <div className={styles.container}>
@@ -112,9 +115,7 @@ export default function RecoverPasswordRoute() {
             Recover Password
           </Button>
 
-          {errors?.server && (
-            <span className={styles.server_error}>{errors.server}</span>
-          )}
+          {errors?.server && <span className={styles.server_error}>{errors.server}</span>}
         </Form>
       )}
     </div>

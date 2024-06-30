@@ -10,8 +10,9 @@ import { withAuthLoader } from "~/utils/with-auth-loader";
 
 import { getCarwashById } from "~/services/carwash";
 
-import { Button } from "~/components/button";
 import { CreatePackageModal } from "~/components/modals/create-package-modal";
+
+import { Button } from "~/components/button";
 
 import styles from "./route.module.css";
 
@@ -38,33 +39,39 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export default function CarwashPackagesRoute() {
   const { carwash } = useLoaderData<LoaderData>();
 
-  const needsServices = carwash.packages.length < 2;
-  const needsPackages = needsServices && carwash.packages.length === 0;
+  const emptyServices = carwash.services.length === 0;
+  const emptyPackages = carwash.packages.length === 0;
+
+  const servicesRequired = 2 - carwash.services.length;
 
   return (
     <div>
-      {carwash.services.length === 0 ? (
+      {emptyServices || emptyPackages ? (
         <div className={styles.empty_container}>
           <img
             className={styles.empty_icon}
             alt="No Services"
             src="/images/no-packages-icon.svg"
           />
+
           <div className={styles.empty_heading}>
             <h3>No packages found</h3>
-            {needsServices ? (
-              <p>Create at least 2 services to create a Package</p>
+            {servicesRequired > 0 ? (
+              <p>
+                Create {servicesRequired} more service{servicesRequired > 1 ? "s" : ""} to
+                create a Package
+              </p>
             ) : (
-              needsPackages && <p>Create a new Package to get started</p>
+              emptyPackages && <p>Create a new package to get started</p>
             )}
           </div>
 
-          {needsServices ? (
+          {emptyServices || servicesRequired > 0 ? (
             <Button as="link" href={`${ROUTE.CARWASHES}/${carwash.id}/services`}>
               Create Service
             </Button>
           ) : (
-            needsPackages && <CreatePackageModal variant="primary" />
+            emptyPackages && <CreatePackageModal variant="primary" />
           )}
         </div>
       ) : (

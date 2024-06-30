@@ -27,7 +27,7 @@ export const CreatePackageModal = ({ variant }: CreatePackageModalProps) => {
       <Button
         icon={FiPlus}
         hierarchy={variant}
-        size={variant === "primary" ? "default" : "small"}
+        size={variant === "primary" ? "medium" : "small"}
         onClick={handleOpen}
       >
         Create Package

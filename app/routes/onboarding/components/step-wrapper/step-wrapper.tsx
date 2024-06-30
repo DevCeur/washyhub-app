@@ -35,13 +35,17 @@ export const StepWrapper = ({
   const isFirstStep = current_step == 0;
   const isLastStep = current_step === ONBOARDING_STEPS.length - 1;
 
+  const formAction = `${ROUTE.ONBOARDING}/api/${identifier}`;
+
   const handleGoBack = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     navigate(`${ROUTE.ONBOARDING}?step=${current_step}`);
   };
 
-  const isLoading = fetcher.state === "submitting";
+  const isLoading =
+    (fetcher.state === "submitting" || fetcher.state === "loading") &&
+    fetcher.formAction === formAction;
 
   return (
     <div className={styles.container}>
@@ -52,11 +56,7 @@ export const StepWrapper = ({
         <p>{caption}</p>
       </div>
 
-      <fetcher.Form
-        method="post"
-        action={`${ROUTE.ONBOARDING}/api/${identifier}`}
-        className={styles.form}
-      >
+      <fetcher.Form method="post" action={formAction} className={styles.form}>
         <div className={styles.fields_container}>{children}</div>
 
         <input type="hidden" name="current_step" value={current_step + 1} />
@@ -64,6 +64,7 @@ export const StepWrapper = ({
 
         <div className={styles.buttons_container}>
           <Button
+            size="medium"
             type="submit"
             data-fullwidth={isFirstStep || isLastStep}
             variant={isLastStep ? "brand" : "default"}

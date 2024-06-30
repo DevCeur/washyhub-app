@@ -16,8 +16,7 @@ import { TextInput } from "~/components/text-input";
 
 import styles from "./route.module.css";
 
-export const loader: LoaderFunction = (loaderArgs) =>
-  withAuthLoader({ loaderArgs });
+export const loader: LoaderFunction = (loaderArgs) => withAuthLoader({ loaderArgs });
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = Object.fromEntries(await request.formData());
@@ -71,7 +70,9 @@ export default function SignInRoute() {
 
   const errors = actionData?.errors;
 
-  const isLoading = navigation.formAction === "/sign-in";
+  const isLoading =
+    (navigation.state === "submitting" || navigation.state === "loading") &&
+    navigation.formAction === "/sign-in";
 
   return (
     <Form action="/sign-in" method="post" className={styles.form}>
@@ -97,9 +98,7 @@ export default function SignInRoute() {
         Continue
       </Button>
 
-      {errors?.server && (
-        <span className={styles.server_error}>{errors.server}</span>
-      )}
+      {errors?.server && <span className={styles.server_error}>{errors.server}</span>}
     </Form>
   );
 }

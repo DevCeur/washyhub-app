@@ -23,7 +23,7 @@ export const UpdateForm = <T, TFieldValues>({
   const { Form, state } = fetcher;
   const { formState, reset } = form;
 
-  const loading = isLoading || state === "submitting";
+  const loading = isLoading || state === "submitting" || state === "loading";
   const disabled = !formState.isDirty;
 
   const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {

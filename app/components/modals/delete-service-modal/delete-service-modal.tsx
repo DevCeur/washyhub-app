@@ -3,7 +3,7 @@ import { useFetcher } from "@remix-run/react";
 
 import { FaRegTrashCan } from "react-icons/fa6";
 
-import type { CarwashService } from "@prisma/client";
+import type { CarwashServiceWithCarwash } from "~/utils/types";
 
 import { ROUTE } from "~/utils/enum";
 
@@ -16,22 +16,21 @@ import styles from "./delete-service-modal.module.css";
 
 interface DeleteServiceModalProps {
   variant: "card" | "page";
-  service: CarwashService;
+  service: CarwashServiceWithCarwash;
 }
 
-export const DeleteServiceModal = ({
-  variant,
-  service,
-}: DeleteServiceModalProps) => {
+export const DeleteServiceModal = ({ variant, service }: DeleteServiceModalProps) => {
   const fetcher = useFetcher<typeof action>();
+
   const actionData = fetcher.data;
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const formAction = `${ROUTE.CARWASHES}/${service.carwash_id}/services`;
+  const formAction = `${ROUTE.CARWASHES}/${service.carwash.id}/services`;
 
   const isLoading =
-    fetcher.state === "submitting" && fetcher.formAction === formAction;
+    (fetcher.state === "submitting" || fetcher.state === "loading") &&
+    fetcher.formAction === formAction;
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -42,10 +41,10 @@ export const DeleteServiceModal = ({
   };
 
   useEffect(() => {
-    if (actionData?.success) {
+    if (actionData?.success && !isLoading) {
       setIsOpen(false);
     }
-  }, [actionData?.success]);
+  }, [actionData?.success, isLoading]);
 
   return (
     <>
@@ -65,15 +64,11 @@ export const DeleteServiceModal = ({
       >
         <div className={styles.container}>
           <p className={styles.message}>
-            This action cannot be undone. This will permanently delete the{" "}
-            {service.name} service.
+            This action cannot be undone. This will permanently delete the {service.name}{" "}
+            service.
           </p>
 
-          <fetcher.Form
-            method="DELETE"
-            action={formAction}
-            className={styles.form}
-          >
+          <fetcher.Form method="DELETE" action={formAction} className={styles.form}>
             <Button
               variant="danger"
               size="small"
