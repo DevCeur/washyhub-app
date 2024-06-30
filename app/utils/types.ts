@@ -15,6 +15,10 @@ export interface CarwashWithOwner extends Carwash {
 }
 
 export interface CarwashWithOwnerServicesAndPackages extends CarwashWithOwner {
-  services: CarwashService[];
   packages: CarwashPackage[];
+  services: CarwashServiceWithCarwash[];
+}
+
+export interface CarwashServiceWithCarwash extends CarwashService {
+  carwash: Carwash;
 }

@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import React from "react";
 
 import { json } from "@remix-run/node";
 import { Link, Outlet, useLoaderData, useLocation } from "@remix-run/react";
@@ -35,6 +34,11 @@ const Tab = ({ to, children }: TabProps) => {
   );
 };
 
+export interface LoaderData {
+  carwash: CarwashWithOwnerServicesAndPackages;
+  carwashes: CarwashWithOwnerServicesAndPackages[];
+}
+
 export const loader: LoaderFunction = async ({ request, params }) => {
   const { carwashId } = params;
 
@@ -47,10 +51,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 export default function CarwashRouteLayout() {
   const location = useLocation();
 
-  const { carwash, carwashes } = useLoaderData<{
-    carwash: CarwashWithOwnerServicesAndPackages;
-    carwashes: CarwashWithOwnerServicesAndPackages[];
-  }>();
+  const { carwash, carwashes } = useLoaderData<LoaderData>();
 
   const isInServices = location.pathname.includes("services");
   const isInPackages = location.pathname.includes("packages");
@@ -104,7 +105,7 @@ export default function CarwashRouteLayout() {
           </div>
 
           {needsSetup && (
-            <MessageCard type="warning" title="Carwash needs ">
+            <MessageCard type="warning" title="Carwash needs services">
               <span>
                 Looks like this Carwash needs some services to enable order creation and
                 more,{" "}

@@ -1,25 +1,30 @@
-import { Link, useLocation } from "@remix-run/react";
+import { Link, useLoaderData, useLocation } from "@remix-run/react";
 
-import { FiEdit3 } from "react-icons/fi";
-
-import type { CarwashService } from "@prisma/client";
+import type {
+  CarwashServiceWithCarwash,
+  CarwashWithOwnerServicesAndPackages,
+} from "~/utils/types";
+import type { LoaderData } from "~/routes/_private+/carwashes/$carwashId/_layout";
 
 import { formatCurrencyToString } from "~/utils/currency";
 
 import { Table } from "../table";
-import { Button } from "../button";
 import { TableBody } from "../table/table-body";
 import { TableHeader } from "../table/table-header";
 
-import styles from "./carwash-services-table.module.css";
 import { DeleteServiceModal } from "../modals/delete-service-modal";
+import { UpdateServiceModal } from "../modals/update-service-modal";
+
+import styles from "./carwash-services-table.module.css";
 
 interface CarwashServicesTableProps {
-  services: CarwashService[];
+  services: CarwashServiceWithCarwash[];
 }
 
 export const CarwashServicesTable = ({ services }: CarwashServicesTableProps) => {
   const location = useLocation();
+
+  const { carwashes } = useLoaderData<LoaderData>();
 
   return (
     <Table>
@@ -56,7 +61,12 @@ export const CarwashServicesTable = ({ services }: CarwashServicesTableProps) =>
               <td className={styles.actions_cell}>
                 <DeleteServiceModal variant="card" service={service} />
 
-                <Button icon={FiEdit3} size="small" hierarchy="tertiary" />
+                <UpdateServiceModal
+                  service={service}
+                  carwashes={
+                    carwashes as unknown as CarwashWithOwnerServicesAndPackages[]
+                  }
+                />
               </td>
             </tr>
           );

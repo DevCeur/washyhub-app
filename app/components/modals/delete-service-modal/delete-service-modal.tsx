@@ -1,9 +1,13 @@
-import { useState } from "react";
-import { Form } from "@remix-run/react";
+import { useEffect, useState } from "react";
+import { useFetcher } from "@remix-run/react";
 
 import { FaRegTrashCan } from "react-icons/fa6";
 
 import type { CarwashService } from "@prisma/client";
+
+import { ROUTE } from "~/utils/enum";
+
+import { action } from "~/routes/_private+/carwashes/$carwashId/services/_index/route";
 
 import { Modal } from "~/components/modal";
 import { Button } from "~/components/button";
@@ -16,7 +20,14 @@ interface DeleteServiceModalProps {
 }
 
 export const DeleteServiceModal = ({ variant, service }: DeleteServiceModalProps) => {
+  const fetcher = useFetcher<typeof action>();
+  const actionData = fetcher.data;
+
   const [isOpen, setIsOpen] = useState(false);
+
+  const formAction = `${ROUTE.CARWASHES}/${service.carwash_id}/services`;
+
+  const isLoading = fetcher.state === "submitting" && fetcher.formAction === formAction;
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -25,6 +36,12 @@ export const DeleteServiceModal = ({ variant, service }: DeleteServiceModalProps
   const handleClose = () => {
     setIsOpen(false);
   };
+
+  useEffect(() => {
+    if (actionData?.success) {
+      setIsOpen(false);
+    }
+  }, [actionData?.success]);
 
   return (
     <>
@@ -48,15 +65,14 @@ export const DeleteServiceModal = ({ variant, service }: DeleteServiceModalProps
             service.
           </p>
 
-          <Form method="delete" navigate={false} className={styles.form}>
-            <input type="hidden" name="serviceId" value={service.id} />
-
+          <fetcher.Form method="DELETE" action={formAction} className={styles.form}>
             <Button
               variant="error"
               size="small"
               type="submit"
-              name="intent"
-              value="delete"
+              name="service_id"
+              value={service.id}
+              loading={isLoading}
             >
               I understand, delete service
             </Button>
@@ -71,7 +87,7 @@ export const DeleteServiceModal = ({ variant, service }: DeleteServiceModalProps
             >
               Cancel
             </Button>
-          </Form>
+          </fetcher.Form>
         </div>
       </Modal>
     </>

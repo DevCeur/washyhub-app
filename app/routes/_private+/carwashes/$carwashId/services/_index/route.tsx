@@ -17,7 +17,7 @@ import { ERROR_MESSAGE } from "~/utils/enum";
 import { convertCurrencyToNumber } from "~/utils/currency";
 import { withAuthLoader } from "~/utils/with-auth-loader";
 
-import { createCarwashService } from "~/services/carwash-services";
+import { createCarwashService, deleteCarwashService } from "~/services/carwash-services";
 import { getAllUserCarwashes, getCarwashById } from "~/services/carwash";
 
 import { CreateServiceModal } from "~/components/modals/create-service-modal";
@@ -48,38 +48,61 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 };
 
 export const action: ActionFunction = async ({ request }) => {
-  const formData = Object.fromEntries(await request.formData());
+  switch (request.method) {
+    case "POST": {
+      const formData = Object.fromEntries(await request.formData());
 
-  const formSchema = z.object({
-    service_name: z
-      .string()
-      .min(1, { message: ERROR_MESSAGE.REQUIRED_FIELD })
-      .max(75, { message: "This name is too long" }),
-    service_description: z.string(),
-    service_cost: z.string().min(1, { message: ERROR_MESSAGE.REQUIRED_FIELD }),
-    selected_carwash_id: z.string(),
-  });
+      const formSchema = z.object({
+        service_name: z
+          .string()
+          .min(1, { message: ERROR_MESSAGE.REQUIRED_FIELD })
+          .max(75, { message: "This name is too long" }),
+        service_description: z.string(),
+        service_cost: z.string().min(1, { message: ERROR_MESSAGE.REQUIRED_FIELD }),
+        selected_carwash_id: z.string(),
+      });
 
-  const { data: validatedFormData, error: validationFormErrors } =
-    formSchema.safeParse(formData);
+      const { data: validatedFormData, error: validationFormErrors } =
+        formSchema.safeParse(formData);
 
-  if (validationFormErrors) {
-    return json({ errors: validationFormErrors.flatten().fieldErrors });
+      if (validationFormErrors) {
+        return json({ errors: validationFormErrors.flatten().fieldErrors });
+      }
+
+      const { formattedCurrency: formattedServiceCost } = convertCurrencyToNumber({
+        currency: validatedFormData.service_cost,
+      });
+
+      const { service } = await createCarwashService({
+        data: {
+          ...validatedFormData,
+          service_cost: formattedServiceCost,
+          carwash_id: validatedFormData.selected_carwash_id,
+        },
+      });
+
+      return json({ service, success: true });
+    }
+
+    case "DELETE": {
+      const formData = Object.fromEntries(await request.formData());
+
+      const formSchema = z.object({
+        service_id: z.string(),
+      });
+
+      const { data: validatedFormData, error: validationFormErrors } =
+        formSchema.safeParse(formData);
+
+      if (validationFormErrors) {
+        return json({ errors: validationFormErrors.flatten().fieldErrors });
+      }
+
+      await deleteCarwashService({ service_id: validatedFormData.service_id });
+
+      return json({ succeess: true });
+    }
   }
-
-  const { formattedCurrency: formattedServiceCost } = convertCurrencyToNumber({
-    currency: validatedFormData.service_cost,
-  });
-
-  const { service } = await createCarwashService({
-    data: {
-      ...validatedFormData,
-      service_cost: formattedServiceCost,
-      carwash_id: validatedFormData.selected_carwash_id,
-    },
-  });
-
-  return json({ service, success: true });
 };
 
 export default function CarwashServicesRoute() {

@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { useFetcher } from "@remix-run/react";
 
-import { FiPlus } from "react-icons/fi";
+import { FiEdit3 } from "react-icons/fi";
 
-import type { CarwashWithOwnerServicesAndPackages } from "~/utils/types";
+import type {
+  CarwashServiceWithCarwash,
+  CarwashWithOwnerServicesAndPackages,
+} from "~/utils/types";
 
 import { ROUTE } from "~/utils/enum";
 
@@ -16,21 +19,14 @@ import { TextareaInput } from "~/components/textarea-input";
 
 import { action } from "~/routes/_private+/carwashes/$carwashId/services/_index/route";
 
-import styles from "./create-service-modal.module.css";
+import styles from "./update-service-modal.module.css";
 
-interface CreateServiceModalProps {
-  carwash: CarwashWithOwnerServicesAndPackages;
-  variant: "primary" | "secondary";
-  currentCarwash: CarwashWithOwnerServicesAndPackages;
+interface UpdateServiceModalProps {
+  service: CarwashServiceWithCarwash;
   carwashes: CarwashWithOwnerServicesAndPackages[];
 }
 
-export const CreateServiceModal = ({
-  carwash,
-  variant,
-  currentCarwash,
-  carwashes,
-}: CreateServiceModalProps) => {
+export const UpdateServiceModal = ({ service, carwashes }: UpdateServiceModalProps) => {
   const fetcher = useFetcher<typeof action>();
 
   const actionData = fetcher.data;
@@ -38,12 +34,13 @@ export const CreateServiceModal = ({
   const errors = actionData?.errors;
 
   const [isOpen, setIsOpen] = useState(false);
+
   const [selectedCarwash, setSelectedCarwash] = useState({
-    id: currentCarwash?.id,
-    label: currentCarwash?.name,
+    id: service.carwash.id,
+    label: service.carwash.name,
   });
 
-  const formAction = `${ROUTE.CARWASHES}/${carwash?.id}/services`;
+  const formAction = `${ROUTE.CARWASHES}/${service.carwash?.id}/services`;
 
   const isLoading = fetcher.state === "submitting" && fetcher.formAction === formAction;
 
@@ -67,28 +64,22 @@ export const CreateServiceModal = ({
 
   return (
     <>
-      <Button
-        icon={FiPlus}
-        hierarchy={variant}
-        size={variant === "primary" ? "default" : "small"}
-        onClick={handleOpen}
-      >
-        Create Service
-      </Button>
+      <Button icon={FiEdit3} size="small" hierarchy="tertiary" onClick={handleOpen} />
 
       <Modal
         position="right"
-        title="Create new service"
-        description="Use this service in your orders or add it to a package"
+        title={`Update new service: ${service.name}`}
+        description="Update service information"
         isOpen={isOpen}
         onClose={handleClose}
       >
-        <fetcher.Form method="POST" action={formAction} className={styles.form}>
+        <fetcher.Form method="PUT" action={formAction} className={styles.form}>
           <fieldset className={styles.form_fields}>
             <TextInput
               name="service_name"
               label="Service Name"
               placeholder="General Cleaning"
+              defaultValue={service.name}
               error={errors?.service_name}
             />
 
@@ -96,6 +87,7 @@ export const CreateServiceModal = ({
               name="service_description"
               label="Service Description"
               placeholder="Simple exterior and interior Car cleaning"
+              defaultValue={service.description || ""}
               error={errors?.service_description}
             />
 
@@ -104,6 +96,7 @@ export const CreateServiceModal = ({
               name="service_cost"
               hint="This is used to calculate packages costs and more"
               placeholder="$50"
+              defaultValue={service.cost.toString()}
               error={errors?.service_cost}
             />
 
@@ -122,7 +115,7 @@ export const CreateServiceModal = ({
           </fieldset>
 
           <div className={styles.buttons_container}>
-            <Button loading={isLoading}>Create Service</Button>
+            <Button loading={isLoading}>Update Service</Button>
 
             <Button
               hierarchy="secondary"
