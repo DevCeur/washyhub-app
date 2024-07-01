@@ -68,7 +68,7 @@ export const DeleteCarwashModal = ({
         <div className={styles.container}>
           <p className={styles.message}>
             This action <strong>cannot be undone.</strong> This will permanently delete
-            the <strong>{carwash.name}</strong> carwash remove all of its services,
+            the <strong>{carwash.name}</strong> carwash and remove all of its services,
             packages and orders.
           </p>
 
@@ -100,7 +100,7 @@ export const DeleteCarwashModal = ({
                 loading={isLoading}
                 disabled={watchCarwashName !== carwash.name}
               >
-                I understand, delete service
+                I understand, delete carwash
               </Button>
 
               <Button

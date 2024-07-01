@@ -8,11 +8,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime);
 
-import type {
-  ActionFunction,
-  LoaderFunction,
-  MetaFunction,
-} from "@remix-run/node";
+import type { ActionFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
 import type {
   CarwashServiceWithCarwash,
   CarwashWithOwnerServicesAndPackages,
@@ -72,9 +68,7 @@ export const action: ActionFunction = async ({ request }) => {
           .min(1, { message: ERROR_MESSAGE.REQUIRED_FIELD })
           .max(75, { message: "This name is too long" }),
         service_description: z.string(),
-        service_cost: z
-          .string()
-          .min(1, { message: ERROR_MESSAGE.REQUIRED_FIELD }),
+        service_cost: z.string().min(1, { message: ERROR_MESSAGE.REQUIRED_FIELD }),
         selected_carwash_id: z.string(),
       });
 
@@ -85,12 +79,11 @@ export const action: ActionFunction = async ({ request }) => {
         return json({ errors: validationFormErrors.flatten().fieldErrors });
       }
 
-      const { formattedCurrency: formattedServiceCost } =
-        convertCurrencyToNumber({
-          currency: validatedFormData.service_cost,
-        });
+      const { formattedCurrency: formattedServiceCost } = convertCurrencyToNumber({
+        currency: validatedFormData.service_cost,
+      });
 
-      const { service } = await createCarwashService({
+      await createCarwashService({
         data: {
           ...validatedFormData,
           service_cost: formattedServiceCost,
@@ -98,7 +91,7 @@ export const action: ActionFunction = async ({ request }) => {
         },
       });
 
-      return json({ service, success: true });
+      return json({ success: true });
     }
 
     case "PUT": {
@@ -110,9 +103,7 @@ export const action: ActionFunction = async ({ request }) => {
           .min(1, { message: ERROR_MESSAGE.REQUIRED_FIELD })
           .max(75, { message: "This name is too long" }),
         service_description: z.string(),
-        service_cost: z
-          .string()
-          .min(1, { message: ERROR_MESSAGE.REQUIRED_FIELD }),
+        service_cost: z.string().min(1, { message: ERROR_MESSAGE.REQUIRED_FIELD }),
         selected_carwash_id: z.string(),
         service_id: z.string(),
       });
@@ -124,10 +115,9 @@ export const action: ActionFunction = async ({ request }) => {
         return json({ errors: validationFormErrors.flatten().fieldErrors });
       }
 
-      const { formattedCurrency: formattedServiceCost } =
-        convertCurrencyToNumber({
-          currency: validatedFormData.service_cost,
-        });
+      const { formattedCurrency: formattedServiceCost } = convertCurrencyToNumber({
+        currency: validatedFormData.service_cost,
+      });
 
       const { service } = await updateCarwashService({
         serviceId: validatedFormData.service_id,
@@ -160,9 +150,7 @@ export const action: ActionFunction = async ({ request }) => {
       await deleteCarwashService({ service_id: validatedFormData.service_id });
 
       if (validatedFormData.from === "page") {
-        return redirect(
-          `${ROUTE.CARWASHES}/${validatedFormData.carwash_id}/services`
-        );
+        return redirect(`${ROUTE.CARWASHES}/${validatedFormData.carwash_id}/services`);
       }
 
       return json({ success: true });
@@ -192,12 +180,8 @@ export default function CarwashServicesRoute() {
           <CreateServiceModal
             carwash={carwash as unknown as CarwashWithOwnerServicesAndPackages}
             variant="primary"
-            carwashes={
-              carwashes as unknown as CarwashWithOwnerServicesAndPackages[]
-            }
-            currentCarwash={
-              carwash as unknown as CarwashWithOwnerServicesAndPackages
-            }
+            carwashes={carwashes as unknown as CarwashWithOwnerServicesAndPackages[]}
+            currentCarwash={carwash as unknown as CarwashWithOwnerServicesAndPackages}
           />
         </div>
       ) : (
