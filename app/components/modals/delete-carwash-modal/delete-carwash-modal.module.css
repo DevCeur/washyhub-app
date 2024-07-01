@@ -1,0 +1,37 @@
+.message,
+.form_buttons,
+.form_fields {
+  padding: 16px;
+}
+
+.message {
+  padding: 16px;
+
+  color: var(--fg-body-secondary);
+
+  font-size: 14px;
+
+  line-height: 1.5;
+}
+
+.message strong {
+  color: var(--fg-heading);
+
+  font-weight: 500;
+}
+
+.form_fields {
+  appearance: none;
+  border: none;
+  outline: none;
+
+  border-top: solid 1px var(--border-default);
+  border-bottom: solid 1px var(--border-default);
+}
+
+.form_buttons {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  align-items: center;
+}

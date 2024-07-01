@@ -1,13 +1,7 @@
 import { z } from "zod";
 import { json } from "@remix-run/node";
 import { useForm } from "react-hook-form";
-import {
-  Form,
-  redirect,
-  useFetcher,
-  useLoaderData,
-  useNavigation,
-} from "@remix-run/react";
+import { redirect, useFetcher, useLoaderData } from "@remix-run/react";
 
 import type { ActionFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
 import type { CarwashWithOwnerServicesAndPackages } from "~/utils/types";
@@ -29,13 +23,13 @@ import {
   updateCarwash,
 } from "~/services/carwash";
 
-import { Button } from "~/components/button";
 import { TextInput } from "~/components/text-input";
 import { UpdateForm } from "~/components/update-form";
 import { MessageCard } from "~/components/message-card";
 import { UpdateFormSection } from "~/components/update-form-section";
 
 import styles from "./route.module.css";
+import { DeleteCarwashModal } from "~/components/modals/delete-carwash-modal";
 
 interface LoaderData {
   carwash: CarwashWithOwnerServicesAndPackages;
@@ -119,7 +113,6 @@ export const action: ActionFunction = async ({ request, params }) => {
 };
 
 export default function CarwashGeneralSettingsRoute() {
-  const navigation = useNavigation();
   const fetcher = useFetcher<typeof action>();
 
   const { carwash, carwashes } = useLoaderData<LoaderData>();
@@ -135,10 +128,6 @@ export default function CarwashGeneralSettingsRoute() {
   const isSavingLoading =
     (fetcher.state === "submitting" || fetcher.state === "loading") &&
     fetcher.formMethod === "POST";
-
-  const isDeletingLoading =
-    (navigation.state === "submitting" || navigation.state === "loading") &&
-    navigation.formMethod === "DELETE";
 
   return (
     <div className={styles.container}>
@@ -161,18 +150,12 @@ export default function CarwashGeneralSettingsRoute() {
             : "Deleting this Carwash will also remove all services, packages and orders related."
         }
       >
-        <Form method="DELETE" className={styles.form}>
-          <Button
-            overlay
-            size="small"
-            variant="danger"
-            hierarchy="secondary"
-            loading={isDeletingLoading}
-            disabled={disableDelete}
-          >
-            Delete Carwash
-          </Button>
-        </Form>
+        <div style={{ paddingTop: 8 }}>
+          <DeleteCarwashModal
+            carwash={carwash as unknown as CarwashWithOwnerServicesAndPackages}
+            disableDelete={disableDelete}
+          />
+        </div>
       </MessageCard>
     </div>
   );
