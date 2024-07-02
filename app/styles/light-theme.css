@@ -1,7 +1,7 @@
-:root {
+html.light {
   /* ----- BACKGROUND COLORS ----- */
 
-  --bg-primary-default: #030712;
+  --bg-primary-default: #fff;
   --bg-primary-hover: #111827;
 
   --bg-secondary-default: #0c101a;

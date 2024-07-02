@@ -27,6 +27,7 @@ import { getAllUserCarwashes, getCurrentCarwash } from "~/services/carwash";
 import { Logo } from "~/components/logo";
 import { Button } from "~/components/button";
 import { SideNavlink } from "~/components/side-navlink";
+import { ThemeSwitch } from "~/components/theme-switch";
 import { AccountSettingsListbox } from "~/components/account-settings-listbox";
 import { CarwashSelectionListbox } from "~/components/carwash-selection-listbox";
 
@@ -77,6 +78,8 @@ export default function PrivateLayout() {
           <Link to={ROUTE.HOME} className={styles.logo}>
             <Logo />
           </Link>
+
+          <ThemeSwitch />
         </div>
 
         <nav className={styles.links_container}>
