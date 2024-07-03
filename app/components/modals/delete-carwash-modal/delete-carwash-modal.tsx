@@ -23,7 +23,7 @@ export const DeleteCarwashModal = ({
 }: DeleteCarwashModalProps) => {
   const navigation = useNavigation();
 
-  const { register, watch } = useForm<{ carwash_name: string }>({
+  const { register, watch, resetField } = useForm<{ carwash_name: string }>({
     mode: "onBlur",
   });
 
@@ -31,10 +31,12 @@ export const DeleteCarwashModal = ({
 
   const handleOpen = () => {
     setIsOpen(true);
+    resetField("carwash_name");
   };
 
   const handleClose = () => {
     setIsOpen(false);
+    resetField("carwash_name");
   };
 
   const formAction = `${ROUTE.CARWASHES}/${carwash.id}/general`;

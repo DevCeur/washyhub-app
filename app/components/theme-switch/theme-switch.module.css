@@ -1,0 +1,38 @@
+.switch,
+.handler {
+  display: flex;
+  align-items: center;
+}
+
+.switch {
+  width: 54px;
+
+  padding: 4px;
+
+  background-color: var(--bg-secondary-default);
+
+  cursor: pointer;
+
+  outline: none;
+  border: solid 1px var(--border-default);
+  border-radius: 100px;
+}
+
+.switch[data-isOn="true"] {
+  justify-content: flex-end;
+}
+
+.handler {
+  width: 24px;
+  height: 24px;
+
+  color: var(--fg-heading);
+
+  justify-content: center;
+
+  font-size: 12px;
+
+  background-color: var(--fg-body-secondary);
+
+  border-radius: 100px;
+}

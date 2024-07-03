@@ -16,13 +16,21 @@
   border-right: solid 1px var(--border-default);
 }
 
-.logo_container,
+.sidebar_header,
 .header {
   height: 68px;
 
   display: flex;
 
   border-bottom: solid 1px var(--border-default);
+}
+
+.sidebar_header {
+  padding: 0 18px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .links_container,

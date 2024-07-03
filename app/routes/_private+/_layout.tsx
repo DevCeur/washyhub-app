@@ -74,7 +74,7 @@ export default function PrivateLayout() {
   return (
     <div className={styles.container}>
       <div className={styles.sidebar}>
-        <div className={styles.logo_container}>
+        <div className={styles.sidebar_header}>
           <Link to={ROUTE.HOME} className={styles.logo}>
             <Logo />
           </Link>
