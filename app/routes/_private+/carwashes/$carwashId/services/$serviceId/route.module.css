@@ -1,12 +1,14 @@
 .header {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  flex-direction: column;
+
+  gap: 16px;
 }
 
 .header_content {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 
   gap: 24px;
 }
@@ -21,7 +23,7 @@
 
   font-size: 32px;
 
-  background-color: var(--bg-secondary-default);
+  background-color: var(--bg-primary-hover);
 
   display: flex;
   align-items: center;
@@ -69,7 +71,6 @@
   color: var(--fg-body-secondary);
 
   font-size: 14px;
-  font-weight: 500;
 }
 
 .actions {

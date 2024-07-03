@@ -1,6 +1,6 @@
 .listbox_button_container {
-  width: 350px;
-  height: 40px;
+  width: 325px;
+  height: 36px;
 
   padding: 0 16px;
 
@@ -50,7 +50,7 @@
 
   padding: 8px;
 
-  background-color: var(--bg-secondary-default);
+  background-color: var(--bg-primary-default);
 
   display: flex;
   flex-direction: column;
@@ -59,7 +59,7 @@
 
   border: solid 1px var(--border-default);
 
-  border-radius: 12px;
+  border-radius: 8px;
 }
 
 .option {

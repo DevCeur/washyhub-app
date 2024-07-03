@@ -6,7 +6,7 @@
   width: 100%;
   height: 150px;
 
-  padding: 24px;
+  padding: 16px;
 
   text-decoration: none;
 
@@ -15,13 +15,13 @@
   justify-content: space-between;
 
   border: solid 1px var(--border-default);
-  border-radius: 16px;
+  border-radius: 12px;
 
   transition: all 150ms ease-in-out;
 }
 
 .container:hover {
-  background-color: var(--bg-secondary-default);
+  background-color: var(--bg-primary-hover);
 }
 
 .header {

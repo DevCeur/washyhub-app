@@ -18,7 +18,7 @@
 
 .sidebar_header,
 .header {
-  height: 68px;
+  height: 60px;
 
   display: flex;
 
@@ -26,7 +26,7 @@
 }
 
 .sidebar_header {
-  padding: 0 18px;
+  padding: 0 12px 0 18px;
 
   display: flex;
   justify-content: space-between;
@@ -70,10 +70,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-.logo_container {
-  padding: 0 20px;
 }
 
 .logo {

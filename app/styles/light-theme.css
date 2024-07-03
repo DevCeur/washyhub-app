@@ -2,45 +2,69 @@ html.light {
   /* ----- BACKGROUND COLORS ----- */
 
   --bg-primary-default: #fff;
-  --bg-primary-hover: #111827;
+  --bg-primary-hover: #f3f4f6;
 
-  --bg-secondary-default: #0c101a;
+  --bg-secondary-default: #e5e7eb;
 
   /* ----- TEXT COLORS ----- */
 
-  --fg-heading: #ffffff;
+  --fg-heading: #030712;
 
-  --fg-body-primary: #d1d5db;
-  --fg-body-secondary: #6b7280;
+  --fg-body-primary: #374151;
+  --fg-body-secondary: #9ca3af;
 
   /* ----- BORDER COLORS ----- */
 
-  --border-default: #1f2937;
-  --border-hover: #4b5563;
+  --border-default: #d1d5db;
+  --border-hover: #9ca3af;
 
   /* ----- ACCENT COLORS ----- */
 
   --accent-default: #3366ff;
-  --accent-hover: #254edb;
-  --accent-overlay: #0e1625;
+  --accent-default-hover: #254edb;
 
-  /* ----- ERROR COLORS ----- */
+  --accent-overlay: #f1f6ff;
+  --accent-overlay-hover: #d6e4ff;
 
-  --error-default: #ef4444;
-  --error-overlay: #140000;
-  --error-overlay-hover: #300606;
-  --error-border: #450a0a;
-  --error-hover: #dc2626;
+  --accent-border: #3366ff;
+
+  /* ----- GRAY COLORS ----- */
+
+  --gray-default: #6b7280;
+  --gray-default-hover: #d1d5db;
+
+  --gray-overlay: #f9fafb;
+  --gray-overlay-hover: #d1d5db;
+
+  --gray-border: #d1d5db;
+
+  /* ----- RED COLORS ----- */
+
+  --red-default: #ff352b;
+  --red-default-hover: #db1f26;
+
+  --red-overlay: #fff5ef;
+  --red-overlay-hover: #ffe4d4;
+
+  --red-border: #ff352b;
 
   /* ----- GREEN COLORS ----- */
 
-  --green-default: #39bf4d;
-  --green-overlay: #001004;
-  --green-border: #16a34a;
+  --green-default: #84d82b;
+  --green-default-hover: #67b91f;
+
+  --green-overlay: #faffee;
+  --green-overlay-hover: #f1fdd4;
+
+  --green-border: #84d82b;
 
   /* ----- AMBER COLORS ----- */
 
-  --amber-default: #f59e0b;
-  --amber-overlay: #451a03;
-  --amber-border: #ca8a04;
+  --amber-default: #d97706;
+  --amber-default-hover: #d97706;
+
+  --amber-overlay: #fffbeb;
+  --amber-overlay-hover: #fef3c7;
+
+  --amber-border: #d97706;
 }

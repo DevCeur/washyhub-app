@@ -55,10 +55,10 @@ export const Select = ({
                   static
                   as={motion.div}
                   anchor="bottom"
-                  initial={{ opacity: 0, translateY: 16 }}
-                  animate={{ opacity: 1, translateY: 24 }}
-                  exit={{ opacity: 0, translateY: 16 }}
-                  transition={{ duration: 0.15 }}
+                  initial={{ opacity: 0, translateY: 8 }}
+                  animate={{ opacity: 1, translateY: 12 }}
+                  exit={{ opacity: 0, translateY: 8 }}
+                  transition={{ duration: 0.125 }}
                   className={styles.listbox_options_container}
                 >
                   <div className={styles.options_list}>

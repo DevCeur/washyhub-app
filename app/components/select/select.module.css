@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
 
-  gap: 12px;
+  gap: 8px;
 }
 .label,
 .hint,
@@ -80,7 +80,7 @@
 
   padding: 8px;
 
-  background-color: var(--bg-secondary-default);
+  background-color: var(--bg-primary-default);
 
   display: flex;
   flex-direction: column;
@@ -89,7 +89,7 @@
 
   border: solid 1px var(--border-default);
 
-  border-radius: 12px;
+  border-radius: 8px;
 }
 
 .option {

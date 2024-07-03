@@ -147,7 +147,7 @@ export default function CarwashGeneralSettingsRoute() {
         message={
           disableDelete
             ? "You must have at least 1 Carwash, you'll not be able to delete this carwash"
-            : "Deleting this Carwash will also remove all services, packages and orders related."
+            : "Deleting this Carwash will also remove all services, packages, customers and orders related. Be careful."
         }
       >
         <div style={{ paddingTop: 8 }}>

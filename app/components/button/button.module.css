@@ -49,11 +49,9 @@
   animation: loadingAnimation 1s linear infinite;
 }
 
-/* VARIANT AND COLOR_SCHEME COMBINATIONS */
+/* ACCENT BUTTON */
 
-/* BRAND BUTTON */
-
-.button_brand.button_primary {
+.button_accent.button_primary {
   color: white;
   fill: white;
   stroke: white;
@@ -61,23 +59,23 @@
   background-color: var(--accent-default);
 }
 
-.button_brand.button_primary:hover {
-  background-color: var(--accent-hover);
+.button_accent.button_primary:hover {
+  background-color: var(--accent-default-hover);
 }
 
-.button_brand.button_secondary {
+.button_accent.button_secondary {
   color: var(--accent-default);
   fill: var(--accent-default);
   stroke: var(--accent-default);
 
-  border-color: var(--accent-default);
+  border-color: var(--accent-border);
 }
 
-.button_brand.button_secondary:hover {
+.button_accent.button_secondary:hover {
   background-color: var(--accent-overlay);
 }
 
-.button_brand.button_tertiaty {
+.button_accent.button_tertiary {
   color: var(--accent-default);
   fill: var(--accent-default);
   stroke: var(--accent-default);
@@ -85,7 +83,7 @@
   border-color: transparent;
 }
 
-.button_brand.button_tertiary:hover {
+.button_accent.button_tertiary:hover {
   background-color: var(--accent-overlay);
 }
 
@@ -112,9 +110,11 @@
 }
 
 .button_default.button_secondary:hover {
-  background-color: var(--bg-primary-hover);
+  color: var(--fg-heading);
+  fill: var(--fg-heading);
+  stroke: var(--fg-heading);
 
-  border-color: var(--border-hover);
+  background-color: var(--bg-primary-hover);
 }
 
 .button_default.button_tertiary {
@@ -132,51 +132,51 @@
 /* DANGER BUTTON */
 
 .button_danger.button_primary {
-  color: var(--fg-heading);
-  fill: var(--fg-heading);
-  stroke: var(--fg-heading);
+  color: white;
+  fill: white;
+  stroke: white;
 
-  background-color: var(--error-default);
+  background-color: var(--red-default);
 }
 
 .button_danger.button_primary:hover {
-  background-color: var(--error-hover);
+  background-color: var(--red-default-hover);
 }
 
 .button_danger.button_secondary {
-  color: var(--error-default);
-  fill: var(--error-default);
-  stroke: var(--error-default);
+  color: var(--red-default);
+  fill: var(--red-default);
+  stroke: var(--red-default);
 
-  border-color: var(--error-border);
+  border-color: var(--red-border);
 }
 
 .button_danger.button_secondary:hover {
-  background-color: var(--error-overlay);
+  background-color: var(--red-overlay);
 
-  border-color: var(--error-hover);
+  border-color: var(--red-hover);
 }
 
 .button_danger.button_secondary.overlay:hover {
-  background-color: var(--error-overlay-hover);
+  background-color: var(--red-overlay-hover);
 }
 
 .button_danger.button_tertiary {
-  color: var(--error-default);
-  fill: var(--error-default);
-  stroke: var(--error-default);
+  color: var(--red-default);
+  fill: var(--red-default);
+  stroke: var(--red-default);
 }
 
 .button_danger.button_tertiary:hover {
-  background-color: var(--error-overlay-hover);
+  background-color: var(--red-overlay);
 }
 
 /* SIZES */
 
 .button_small {
-  height: 32px;
+  height: 36px;
 
-  padding: 0 12px;
+  padding: 0 16px;
 
   font-size: 12px !important;
 
@@ -184,11 +184,11 @@
 }
 
 .button_small.with_icon {
-  padding-left: 8px;
+  padding-left: 12px;
 }
 
 .button_small.icon_button {
-  width: 32px;
+  width: 36px;
 
   padding: 0;
 }
@@ -218,7 +218,7 @@
 
   padding: 0rem 20px;
 
-  font-size: 16px !important;
+  font-size: 15px !important;
 
   border-radius: 12px;
 }

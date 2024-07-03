@@ -5,11 +5,11 @@
 }
 
 .switch {
-  width: 54px;
+  width: 48px;
 
-  padding: 4px;
+  padding: 3px;
 
-  background-color: var(--bg-secondary-default);
+  background-color: var(--bg-primary-default);
 
   cursor: pointer;
 
@@ -32,7 +32,7 @@
 
   font-size: 12px;
 
-  background-color: var(--fg-body-secondary);
+  background-color: var(--bg-secondary-default);
 
   border-radius: 100px;
 }

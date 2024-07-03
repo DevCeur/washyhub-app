@@ -21,11 +21,15 @@
   transition: all 150ms ease-in-out;
 }
 
-.link:hover,
-.link_active {
+.link:hover {
+  background-color: var(--bg-primary-hover);
+}
+
+.link_active,
+.link_active:hover {
   color: var(--fg-heading);
   fill: var(--fg-heading);
   stroke: var(--fg-heading);
 
-  background-color: var(--bg-primary-hover);
+  background-color: var(--bg-secondary-default);
 }

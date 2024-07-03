@@ -17,8 +17,7 @@ import { TextInput } from "~/components/text-input";
 
 import styles from "./route.module.css";
 
-export const loader: LoaderFunction = (loaderArgs) =>
-  withAuthLoader({ loaderArgs });
+export const loader: LoaderFunction = (loaderArgs) => withAuthLoader({ loaderArgs });
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = Object.fromEntries(await request.formData());
@@ -90,13 +89,11 @@ export default function SignUpRoute() {
         />
       </fieldset>
 
-      <Button size="medium" variant="brand" loading={isLoading}>
+      <Button size="medium" variant="accent" loading={isLoading}>
         Create Account
       </Button>
 
-      {errors?.server && (
-        <span className={styles.server_error}>{errors.server}</span>
-      )}
+      {errors?.server && <span className={styles.server_error}>{errors.server}</span>}
     </Form>
   );
 }

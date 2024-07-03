@@ -3,7 +3,7 @@
   flex-direction: column;
 
   border: solid 1px var(--border-default);
-  border-radius: 16px;
+  border-radius: 12px;
 
   overflow: hidden;
 }
@@ -11,15 +11,13 @@
 .content {
   width: 100%;
 
-  padding: 24px;
+  padding: 16px;
 }
 
 .actions_container {
   width: 100%;
 
-  background-color: var(--bg-secondary-default);
-
-  padding: 16px 24px;
+  padding: 16px;
 
   display: flex;
   justify-content: flex-end;

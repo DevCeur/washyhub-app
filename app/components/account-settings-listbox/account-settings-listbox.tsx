@@ -3,18 +3,10 @@ import clsx from "clsx";
 import { useState } from "react";
 import { useNavigate, useSubmit } from "@remix-run/react";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  Listbox,
-  ListboxButton,
-  ListboxOption,
-  ListboxOptions,
-} from "@headlessui/react";
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 
 import { MdOutlineManageAccounts } from "react-icons/md";
-import {
-  HiChevronUpDown,
-  HiOutlineArrowRightStartOnRectangle,
-} from "react-icons/hi2";
+import { HiChevronUpDown, HiOutlineArrowRightStartOnRectangle } from "react-icons/hi2";
 
 import type { Profile, User } from "@prisma/client";
 
@@ -60,12 +52,10 @@ export const AccountSettingsListbox = ({
         <>
           <ListboxButton className={styles.listbox_button_container}>
             <div className={styles.user_info_container}>
-              <div className={styles.user_initial}>
-                {profile.first_name.charAt(0)}
-              </div>
+              <div className={styles.user_initial}>{profile.first_name.charAt(0)}</div>
 
               <div className={styles.user_info}>
-                <span className={styles.user_first_name}>
+                <span className={styles.user_name}>
                   {profile.first_name} {profile.last_name}
                 </span>
                 <span className={styles.user_email}>{user.email}</span>
@@ -104,9 +94,7 @@ export const AccountSettingsListbox = ({
                   value="sign-out"
                   className={clsx(styles.option, styles.option_danger)}
                 >
-                  <HiOutlineArrowRightStartOnRectangle
-                    className={styles.option_icon}
-                  />
+                  <HiOutlineArrowRightStartOnRectangle className={styles.option_icon} />
 
                   <span>Sign Out</span>
                 </ListboxOption>

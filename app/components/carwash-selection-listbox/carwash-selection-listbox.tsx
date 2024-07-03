@@ -74,9 +74,9 @@ export const CarwashSelectionListbox = ({
                 as={motion.div}
                 anchor="bottom"
                 initial={{ opacity: 0, translateY: 16 }}
-                animate={{ opacity: 1, translateY: 24 }}
+                animate={{ opacity: 1, translateY: 20 }}
                 exit={{ opacity: 0, translateY: 16 }}
-                transition={{ duration: 0.15 }}
+                transition={{ duration: 0.125 }}
                 className={styles.listbox_options_container}
               >
                 <div className={styles.carwash_list}>

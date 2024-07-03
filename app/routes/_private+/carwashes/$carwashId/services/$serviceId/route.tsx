@@ -14,10 +14,10 @@ import { withAuthLoader } from "~/utils/with-auth-loader";
 import { getAllUserCarwashes } from "~/services/carwash";
 import { getServiceById } from "~/services/carwash-services";
 
-import { Button } from "~/components/button";
-
 import { DeleteServiceModal } from "~/components/modals/delete-service-modal";
 import { UpdateServiceModal } from "~/components/modals/update-service-modal";
+
+import { Button } from "~/components/button";
 
 import styles from "./route.module.css";
 
@@ -47,17 +47,17 @@ export default function ServiceRoute() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <div className={styles.header_content}>
-          <Button
-            size="small"
-            hierarchy="tertiary"
-            onClick={() => navigate(-1)}
-            icon={FaChevronLeft}
-            className={styles.go_back_button}
-          >
-            Go Back
-          </Button>
+        <Button
+          size="small"
+          hierarchy="tertiary"
+          onClick={() => navigate(-1)}
+          icon={FaChevronLeft}
+          className={styles.go_back_button}
+        >
+          Go Back
+        </Button>
 
+        <div className={styles.header_content}>
           <div className={styles.service_info_container}>
             <div className={styles.service_icon}>
               <MdLocalCarWash />
@@ -71,22 +71,20 @@ export default function ServiceRoute() {
               )}
             </div>
           </div>
-        </div>
 
-        <div className={styles.actions}>
-          <DeleteServiceModal
-            from="page"
-            variant="page"
-            service={service as unknown as CarwashServiceWithCarwash}
-          />
+          <div className={styles.actions}>
+            <DeleteServiceModal
+              from="page"
+              variant="page"
+              service={service as unknown as CarwashServiceWithCarwash}
+            />
 
-          <UpdateServiceModal
-            variant="page"
-            service={service as unknown as CarwashServiceWithCarwash}
-            carwashes={
-              carwashes as unknown as CarwashWithOwnerServicesAndPackages[]
-            }
-          />
+            <UpdateServiceModal
+              variant="page"
+              service={service as unknown as CarwashServiceWithCarwash}
+              carwashes={carwashes as unknown as CarwashWithOwnerServicesAndPackages[]}
+            />
+          </div>
         </div>
       </div>
     </div>

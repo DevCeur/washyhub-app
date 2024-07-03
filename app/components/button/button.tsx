@@ -1,9 +1,10 @@
 import clsx from "clsx";
 
 import { cva } from "class-variance-authority";
+import { ListboxButton } from "@headlessui/react";
+
 import { FiLoader } from "react-icons/fi";
 import { Link } from "@remix-run/react";
-import { ListboxButton } from "@headlessui/react";
 
 import type { IconType } from "react-icons";
 import type { VariantProps } from "class-variance-authority";
@@ -21,7 +22,7 @@ const buttonStyles = cva(styles.base_button, {
     },
 
     variant: {
-      brand: styles.button_brand,
+      accent: styles.button_accent,
 
       default: styles.button_default,
 

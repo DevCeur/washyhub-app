@@ -4,13 +4,13 @@
 
 .table_body td,
 .table_body th {
-  height: 64px;
+  height: 60px;
 
   padding: 0 17px;
 
   color: var(--fg-body-primary);
 
-  font-size: 15px;
+  font-size: 14px;
 
   text-align: left;
   text-overflow: ellipsis;

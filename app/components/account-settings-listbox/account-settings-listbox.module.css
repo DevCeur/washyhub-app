@@ -38,7 +38,7 @@
   justify-content: space-between;
   align-items: center;
 
-  gap: 12px;
+  gap: 8px;
 }
 
 .user_initial {
@@ -51,8 +51,7 @@
   justify-content: center;
   align-items: center;
 
-  font-size: x-small;
-  font-weight: 500;
+  font-size: 14px;
   text-transform: uppercase;
 
   border-radius: 100%;
@@ -71,14 +70,19 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 4px;
+
+  gap: 2px;
 
   overflow: hidden;
   white-space: nowrap;
 }
 
+.user_name,
+.user_email {
+  font-size: 12px;
+}
+
 .user_name {
-  font-size: 14px;
   font-weight: 500;
 }
 
@@ -100,7 +104,7 @@
   padding: 8px;
   margin-bottom: 24px;
 
-  background-color: var(--bg-secondary-default);
+  background-color: var(--bg-primary-default);
 
   display: flex;
   flex-direction: column;
@@ -146,8 +150,8 @@
 }
 
 .option_danger:hover {
-  color: var(--error-default);
-  background-color: var(--error-overlay);
+  color: var(--red-default);
+  background-color: var(--red-overlay);
 
-  border-color: var(--error-hover);
+  border-color: var(--red-border);
 }

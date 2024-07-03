@@ -9,7 +9,7 @@
 
   gap: 12px;
 
-  border-radius: 16px;
+  border-radius: 12px;
 }
 
 .icon {
@@ -23,9 +23,9 @@
 }
 
 .container.danger {
-  color: var(--error-default);
-  background-color: var(--error-overlay);
-  border: solid 1px var(--error-border);
+  color: var(--red-default);
+  background-color: var(--red-overlay);
+  border: solid 1px var(--red-border);
 }
 
 .container.warning {

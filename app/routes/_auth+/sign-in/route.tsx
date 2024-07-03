@@ -94,7 +94,7 @@ export default function SignInRoute() {
         />
       </fieldset>
 
-      <Button variant="brand" size="medium" loading={isLoading}>
+      <Button variant="accent" size="medium" loading={isLoading}>
         Continue
       </Button>
 
