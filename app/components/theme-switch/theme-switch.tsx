@@ -15,7 +15,7 @@ export const ThemeSwitch = () => {
 
   return (
     <button
-      data-isOn={theme === Theme.LIGHT}
+      data-is-on={theme === Theme.LIGHT}
       className={styles.switch}
       onClick={handleToggleTheme}
     >

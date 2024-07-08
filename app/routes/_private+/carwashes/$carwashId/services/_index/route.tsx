@@ -151,9 +151,9 @@ export const action: ActionFunction = async ({ request }) => {
 
       if (validatedFormData.from === "page") {
         return redirect(`${ROUTE.CARWASHES}/${validatedFormData.carwash_id}/services`);
+      } else {
+        return json({ success: true });
       }
-
-      return json({ success: true });
     }
   }
 };

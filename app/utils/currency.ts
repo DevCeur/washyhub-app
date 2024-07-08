@@ -7,9 +7,9 @@ export const convertCurrencyToNumber = ({ currency }: { currency: string }) => {
 };
 
 export const formatCurrencyToString = ({ currency }: { currency: number | Decimal }) => {
-  const formatCurrency = new Intl.NumberFormat("en-US", {
+  const formatCurrency = new Intl.NumberFormat("co-CO", {
     style: "currency",
-    currency: "USD",
+    currency: "COP",
   });
 
   return { formattedCurrency: formatCurrency.format(currency as number) };

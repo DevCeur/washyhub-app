@@ -69,15 +69,11 @@ export const DeleteServiceModal = ({
       >
         <div className={styles.container}>
           <p className={styles.message}>
-            This action cannot be undone. This will permanently delete the{" "}
-            {service.name} service.
+            This action cannot be undone. This will permanently delete the {service.name}{" "}
+            service.
           </p>
 
-          <fetcher.Form
-            method="DELETE"
-            action={formAction}
-            className={styles.form}
-          >
+          <fetcher.Form method="DELETE" action={formAction} className={styles.form}>
             <input type="hidden" name="from" value={from} />
             <input type="hidden" name="carwash_id" value={service.carwash_id} />
 
